@@ -1,0 +1,303 @@
+[
+ {
+  "antipattern": "broken-image",
+  "name": "Broken or placeholder image",
+  "description": "<img> tags with empty src, missing src, or placeholder values ship as broken-image boxes. Use real images, generated assets, or remove the tag.",
+  "severity": "warning",
+  "category": "quality",
+  "file": "/workspace/clg-codex/accounts/index.html",
+  "line": 0,
+  "snippet": "<img> with no src attribute"
+ },
+ {
+  "antipattern": "broken-image",
+  "name": "Broken or placeholder image",
+  "description": "<img> tags with empty src, missing src, or placeholder values ship as broken-image boxes. Use real images, generated assets, or remove the tag.",
+  "severity": "warning",
+  "category": "quality",
+  "file": "/workspace/clg-codex/accounts/index.html",
+  "line": 0,
+  "snippet": "<img> with no src attribute"
+ },
+ {
+  "antipattern": "broken-image",
+  "name": "Broken or placeholder image",
+  "description": "<img> tags with empty src, missing src, or placeholder values ship as broken-image boxes. Use real images, generated assets, or remove the tag.",
+  "severity": "warning",
+  "category": "quality",
+  "file": "/workspace/clg-codex/accounts/index.html",
+  "line": 0,
+  "snippet": "<img> with no src attribute"
+ },
+ {
+  "antipattern": "broken-image",
+  "name": "Broken or placeholder image",
+  "description": "<img> tags with empty src, missing src, or placeholder values ship as broken-image boxes. Use real images, generated assets, or remove the tag.",
+  "severity": "warning",
+  "category": "quality",
+  "file": "/workspace/clg-codex/accounts/index.html",
+  "line": 0,
+  "snippet": "<img> with no src attribute"
+ },
+ {
+  "antipattern": "cream-palette",
+  "name": "Cream / beige palette",
+  "description": "A warm cream or beige page background has become the default \"tasteful\" AI surface, reached for by reflex. Choose a background that comes from a deliberate palette, not the safe warm off-white.",
+  "severity": "warning",
+  "category": "slop",
+  "file": "/workspace/clg-codex/accounts/index.html",
+  "line": 0,
+  "snippet": "cream/beige page background rgb(250, 242, 223)"
+ },
+ {
+  "antipattern": "side-tab",
+  "name": "Side-tab accent border",
+  "description": "Thick colored border on one side of a card \u2014 the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.",
+  "severity": "warning",
+  "category": "slop",
+  "file": "/workspace/clg-codex/accounts/portal.css",
+  "line": 2,
+  "snippet": "border-left:4px solid var(--accent)"
+ },
+ {
+  "antipattern": "bounce-easing",
+  "name": "Bounce or elastic easing",
+  "description": "Bounce and elastic easing feel dated and tacky. Real objects decelerate smoothly \u2014 use exponential easing (ease-out-quart/quint/expo) instead.",
+  "severity": "advisory",
+  "category": "slop",
+  "file": "/workspace/clg-codex/grown-ups/grown-ups.css",
+  "line": 11,
+  "snippet": "cubic-bezier(.34, 1.45, .64, 1)",
+  "advisory": true
+ },
+ {
+  "antipattern": "cramped-padding",
+  "name": "Cramped padding",
+  "description": "Text is too close to the edge of its container. Two shapes: (1) an element with its own text where the space between the rendered text and the border box is too small for the font size, and (2) a wrapper whose children's text lands flush against a visible boundary (border, outline, or non-transparent background) with nothing to inset it. Add at least 8px (ideally 12\u201316px) of space inside bordered, outlined, or colored containers.",
+  "severity": "warning",
+  "category": "quality",
+  "file": "/workspace/clg-codex/grown-ups/index.html",
+  "line": 0,
+  "snippet": "<ol>: children flush against border-top on top (no inset)"
+ },
+ {
+  "antipattern": "cream-palette",
+  "name": "Cream / beige palette",
+  "description": "A warm cream or beige page background has become the default \"tasteful\" AI surface, reached for by reflex. Choose a background that comes from a deliberate palette, not the safe warm off-white.",
+  "severity": "warning",
+  "category": "slop",
+  "file": "/workspace/clg-codex/grown-ups/index.html",
+  "line": 0,
+  "snippet": "cream/beige page background rgb(250, 242, 223)"
+ },
+ {
+  "antipattern": "hard-offset-shadow",
+  "name": "Hard offset shadow",
+  "description": "A visible, unblurred shadow displaced by at least 4px can belong to an intentional neobrutalist direction. Check whether it fits the intended design; this is a review prompt, not evidence of AI authorship or a request to remove it automatically. Waive intentional uses with data-impeccable-ignore=\"hard-offset-shadow\".",
+  "severity": "advisory",
+  "category": "quality",
+  "file": "/workspace/clg-codex/index.html",
+  "line": 0,
+  "snippet": "box-shadow: 0 8px 0#253f65: hard offset with no blur; check whether this belongs to the intended visual direction",
+  "advisory": true
+ },
+ {
+  "antipattern": "kicker-above-heading",
+  "name": "Kicker / eyebrow label above heading",
+  "description": "A tiny tracked uppercase or small-caps label sitting as its own block directly above a heading is banned outright, repeated or not. Generated kickers never earn their place: the heading carries its own weight. Delete the label and let the heading speak; if the words matter, work them into the heading or the body.",
+  "severity": "warning",
+  "category": "slop",
+  "file": "/workspace/clg-codex/index.html",
+  "line": 0,
+  "snippet": "kicker \"Your sound adventure\" above h1 \"Where shall we play?\""
+ },
+ {
+  "antipattern": "cream-palette",
+  "name": "Cream / beige palette",
+  "description": "A warm cream or beige page background has become the default \"tasteful\" AI surface, reached for by reflex. Choose a background that comes from a deliberate palette, not the safe warm off-white.",
+  "severity": "warning",
+  "category": "slop",
+  "file": "/workspace/clg-codex/index.html",
+  "line": 0,
+  "snippet": "cream/beige page background rgb(250, 242, 223)"
+ },
+ {
+  "antipattern": "side-tab",
+  "name": "Side-tab accent border",
+  "description": "Thick colored border on one side of a card \u2014 the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.",
+  "severity": "warning",
+  "category": "slop",
+  "file": "/workspace/clg-codex/v1-letter-post/base.css",
+  "line": 2,
+  "snippet": "border-right:2px solid var(--line)"
+ },
+ {
+  "antipattern": "bounce-easing",
+  "name": "Bounce or elastic easing",
+  "description": "Bounce and elastic easing feel dated and tacky. Real objects decelerate smoothly \u2014 use exponential easing (ease-out-quart/quint/expo) instead.",
+  "severity": "advisory",
+  "category": "slop",
+  "file": "/workspace/clg-codex/v1-letter-post/base.css",
+  "line": 2,
+  "snippet": "cubic-bezier(.2, .8, .3, 1.3)",
+  "advisory": true
+ },
+ {
+  "antipattern": "bounce-easing",
+  "name": "Bounce or elastic easing",
+  "description": "Bounce and elastic easing feel dated and tacky. Real objects decelerate smoothly \u2014 use exponential easing (ease-out-quart/quint/expo) instead.",
+  "severity": "advisory",
+  "category": "slop",
+  "file": "/workspace/clg-codex/v1-letter-post/fun.css",
+  "line": 50,
+  "snippet": "cubic-bezier(.34, 1.45, .64, 1)",
+  "advisory": true
+ },
+ {
+  "antipattern": "cream-palette",
+  "name": "Cream / beige palette",
+  "description": "A warm cream or beige page background has become the default \"tasteful\" AI surface, reached for by reflex. Choose a background that comes from a deliberate palette, not the safe warm off-white.",
+  "severity": "warning",
+  "category": "slop",
+  "file": "/workspace/clg-codex/v1-letter-post/index.html",
+  "line": 0,
+  "snippet": "cream/beige page background rgb(250, 242, 223)"
+ },
+ {
+  "antipattern": "organic-clip-path",
+  "name": "Organic contour drawn as clip-path",
+  "description": "A clip-path polygon with many arbitrary vertices, or a curved clip-path path(), is CSS approximating a torn edge, blob, or silhouette. It reads as the cheap version of the effect and is usually a produced or photographic material replaced with code. Derive an alpha matte from the real image, or ship the shape as a cut-out raster; keep clip-path for geometry (cut corners, diagonals, hexagons).",
+  "severity": "warning",
+  "category": "quality",
+  "file": "/workspace/clg-codex/v1-letter-post/index.html",
+  "line": 0,
+  "snippet": "clip-path: polygon() with 10 vertices approximating an organic contour"
+ },
+ {
+  "antipattern": "repeating-stripes-gradient",
+  "name": "Repeating-gradient stripes",
+  "description": "Repeating-gradient stripes used as surface decoration are a recurring generated-UI signature. Reach for a deliberate texture or leave the surface plain.",
+  "severity": "advisory",
+  "category": "slop",
+  "file": "/workspace/clg-codex/v1-letter-post/index.html",
+  "line": 0,
+  "snippet": "repeating-gradient decorative stripes",
+  "advisory": true
+ },
+ {
+  "antipattern": "border-accent-on-rounded",
+  "name": "Border accent on rounded element",
+  "description": "Thick accent border on a rounded card \u2014 the border clashes with the rounded corners. Remove the border or the border-radius.",
+  "severity": "warning",
+  "category": "slop",
+  "file": "/workspace/clg-codex/v1-letter-post/style.css",
+  "line": 4,
+  "snippet": "border-top:3px solid"
+ },
+ {
+  "antipattern": "bounce-easing",
+  "name": "Bounce or elastic easing",
+  "description": "Bounce and elastic easing feel dated and tacky. Real objects decelerate smoothly \u2014 use exponential easing (ease-out-quart/quint/expo) instead.",
+  "severity": "advisory",
+  "category": "slop",
+  "file": "/workspace/clg-codex/v1-letter-post/style.css",
+  "line": 4,
+  "snippet": "cubic-bezier(.2, .8, .3, 1.3)",
+  "advisory": true
+ },
+ {
+  "antipattern": "side-tab",
+  "name": "Side-tab accent border",
+  "description": "Thick colored border on one side of a card \u2014 the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.",
+  "severity": "warning",
+  "category": "slop",
+  "file": "/workspace/clg-codex/v3-moonboat/base.css",
+  "line": 2,
+  "snippet": "border-right:2px solid var(--line)"
+ },
+ {
+  "antipattern": "bounce-easing",
+  "name": "Bounce or elastic easing",
+  "description": "Bounce and elastic easing feel dated and tacky. Real objects decelerate smoothly \u2014 use exponential easing (ease-out-quart/quint/expo) instead.",
+  "severity": "advisory",
+  "category": "slop",
+  "file": "/workspace/clg-codex/v3-moonboat/base.css",
+  "line": 2,
+  "snippet": "cubic-bezier(.2, .8, .3, 1.3)",
+  "advisory": true
+ },
+ {
+  "antipattern": "bounce-easing",
+  "name": "Bounce or elastic easing",
+  "description": "Bounce and elastic easing feel dated and tacky. Real objects decelerate smoothly \u2014 use exponential easing (ease-out-quart/quint/expo) instead.",
+  "severity": "advisory",
+  "category": "slop",
+  "file": "/workspace/clg-codex/v3-moonboat/fun.css",
+  "line": 50,
+  "snippet": "cubic-bezier(.34, 1.45, .64, 1)",
+  "advisory": true
+ },
+ {
+  "antipattern": "organic-clip-path",
+  "name": "Organic contour drawn as clip-path",
+  "description": "A clip-path polygon with many arbitrary vertices, or a curved clip-path path(), is CSS approximating a torn edge, blob, or silhouette. It reads as the cheap version of the effect and is usually a produced or photographic material replaced with code. Derive an alpha matte from the real image, or ship the shape as a cut-out raster; keep clip-path for geometry (cut corners, diagonals, hexagons).",
+  "severity": "warning",
+  "category": "quality",
+  "file": "/workspace/clg-codex/v3-moonboat/index.html",
+  "line": 0,
+  "snippet": "clip-path: polygon() with 10 vertices approximating an organic contour"
+ },
+ {
+  "antipattern": "repeating-stripes-gradient",
+  "name": "Repeating-gradient stripes",
+  "description": "Repeating-gradient stripes used as surface decoration are a recurring generated-UI signature. Reach for a deliberate texture or leave the surface plain.",
+  "severity": "advisory",
+  "category": "slop",
+  "file": "/workspace/clg-codex/v3-moonboat/index.html",
+  "line": 0,
+  "snippet": "repeating-gradient decorative stripes",
+  "advisory": true
+ },
+ {
+  "antipattern": "border-accent-on-rounded",
+  "name": "Border accent on rounded element",
+  "description": "Thick accent border on a rounded card \u2014 the border clashes with the rounded corners. Remove the border or the border-radius.",
+  "severity": "warning",
+  "category": "slop",
+  "file": "/workspace/clg-codex/v3-moonboat/style.css",
+  "line": 4,
+  "snippet": "border-top:6px solid"
+ },
+ {
+  "antipattern": "bounce-easing",
+  "name": "Bounce or elastic easing",
+  "description": "Bounce and elastic easing feel dated and tacky. Real objects decelerate smoothly \u2014 use exponential easing (ease-out-quart/quint/expo) instead.",
+  "severity": "advisory",
+  "category": "slop",
+  "file": "/workspace/clg-codex/v3-moonboat/style.css",
+  "line": 4,
+  "snippet": "cubic-bezier(.2, .8, .3, 1.3)",
+  "advisory": true
+ },
+ {
+  "antipattern": "organic-clip-path",
+  "name": "Organic contour drawn as clip-path",
+  "description": "A clip-path polygon with many arbitrary vertices, or a curved clip-path path(), is CSS approximating a torn edge, blob, or silhouette. It reads as the cheap version of the effect and is usually a produced or photographic material replaced with code. Derive an alpha matte from the real image, or ship the shape as a cut-out raster; keep clip-path for geometry (cut corners, diagonals, hexagons).",
+  "severity": "warning",
+  "category": "quality",
+  "file": "/workspace/clg-codex/v4-silk-thread/index.html",
+  "line": 0,
+  "snippet": "clip-path: polygon() with 10 vertices approximating an organic contour"
+ },
+ {
+  "antipattern": "repeating-stripes-gradient",
+  "name": "Repeating-gradient stripes",
+  "description": "Repeating-gradient stripes used as surface decoration are a recurring generated-UI signature. Reach for a deliberate texture or leave the surface plain.",
+  "severity": "advisory",
+  "category": "slop",
+  "file": "/workspace/clg-codex/v4-silk-thread/index.html",
+  "line": 0,
+  "snippet": "repeating-gradient decorative stripes",
+  "advisory": true
+ }
+]
