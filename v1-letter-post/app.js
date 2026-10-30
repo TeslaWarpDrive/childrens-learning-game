@@ -72,8 +72,8 @@ function layoutPages(){
  if(!wide.matches){shelf.dataset.pages='one';list.removeAttribute('style');cards.forEach(b=>{b.hidden=false;});shelf.querySelector('.page-label').textContent='';perPage=pool.length;pages=1;page=0;settle();return;}
  // As few pages as fit at the smallest card size, then the biggest cards that fill them.
  // Bigger on whiteboards; the gaps leave room for the done badge on each corner.
- const grow=Math.min(1.35,Math.max(1,Math.min(innerWidth,innerHeight)/800)),badge=parseFloat(getComputedStyle(list).getPropertyValue('--badge'))||36;
- const min=post?{w:104*grow,h:76*grow,gap:Math.round(badge*.45)+12,maxW:220,ratio:1.4}:{w:92*grow,h:92*grow,gap:Math.round(badge*.45)+8,maxW:180,ratio:1};
+ const grow=Math.min(1.35,Math.max(1,Math.min(innerWidth,innerHeight)/800)),badge=parseFloat(getComputedStyle(list).getPropertyValue('--badge'))||36,cap=parseFloat(getComputedStyle(list).getPropertyValue('--card-max'));
+ const min=post?{w:104*grow,h:76*grow,gap:Math.round(badge*.45)+12,maxW:cap||220,ratio:1.4}:{w:92*grow,h:92*grow,gap:Math.round(badge*.45)+8,maxW:cap||180,ratio:1};
  const fit=()=>{const W=stage.clientWidth,H=stage.clientHeight,most=Math.max(1,Math.min(6,Math.floor((W+min.gap)/(min.w+min.gap))))*Math.max(1,Math.min(5,Math.floor((H+min.gap)/(min.h+min.gap)))),per=Math.ceil(pool.length/Math.ceil(pool.length/most));let best=null;for(let cols=1;cols<=6;cols++)for(let rows=1;rows<=5;rows++){if(cols*rows<per)continue;const w=Math.min(min.maxW,(W-min.gap*(cols-1))/cols,(H-min.gap*(rows-1))/rows*min.ratio);if(!best||w>best.w+0.5||(Math.abs(w-best.w)<=0.5&&cols*rows<best.cols*best.rows))best={W,H,cols,rows,w};}return best;};
  shelf.dataset.pages='one';let f=fit();
  if(f.cols*f.rows<pool.length){shelf.dataset.pages='many';f=fit();}

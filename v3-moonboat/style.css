@@ -52,3 +52,51 @@ body.space[data-theme="2"]{--bg:#30223e;--surface:#443052;--ink:#fff0df;--muted:
 /* Constellation strip and pop-up: each word sits whole on one line under its own star, clear of its neighbours. */
 body.space .constellation .collection-slots{grid-auto-columns:84px}body.space .collection-slot.collected>b+span{font-size:16px;line-height:1.2;white-space:nowrap;overflow-wrap:normal}
 @media(max-width:700px){body.space .constellation .collection-slots{grid-auto-columns:70px}body.space .collection-slot.collected>b+span{font-size:14px}}
+
+/* Big screens (whiteboards, 1080p and up): the home, the letter page and the picture page
+   grow with the screen (sizes from base.css). Pictures keep their place in the round pills. */
+@media(min-width:1600px) and (min-height:950px){
+.space .letter-list{--card-max:250px}
+.space-home{gap:clamp(60px,4vw,100px)}
+.captain-panel .eyebrow{font-size:13px}
+.captain-panel h1{font-size:clamp(74px,4.4vw,104px)}
+.captain-panel .lead{font-size:var(--wb-text)}
+.captain{width:clamp(220px,min(13vw,24vh),320px)}
+.space .lucy .speech{font-size:20px}
+.space .lucy figcaption{font-size:14px;padding:9px 22px}
+.captain-label{font-size:12px}
+.star-map{max-height:none;padding:18px 26px 12px}
+.map-heading{font-size:12px}
+.map-mark{font-size:34px}
+.map-caption{font-size:22px;margin-top:8px}
+.planets{max-width:none}
+.paged .planets .pick-glyph{font-size:clamp(54px,calc(var(--card-h,96px)*.32),84px)}
+.planets .pick-caption{font-size:13px}
+body.space .collection-summary{min-height:72px;font-size:22px;padding:10px 22px 10px 12px}
+body.space .summary-symbol{width:50px;height:50px}
+body.space .page-arrow{width:80px;height:80px}
+body.space .page-arrow .icon{width:40px;height:40px}
+body.space .page-label{font-size:20px}
+.space .listen-layout{max-width:calc(var(--wb-max)*.82);gap:110px}
+.space .guide-lucy{width:calc(var(--wb-lucy)*.85)}
+.space .listen-letter{width:min(100%,42vh);margin-inline:auto}
+.map-ship{font-size:13px;margin-top:4px}
+.map-ship .art{width:44px}
+.space .letter-corner{font-size:13px}
+.space .listen-work .small-note{font-size:18px}
+.space .match-layout{max-width:var(--wb-max);grid-template-columns:1fr 1.15fr;gap:clamp(60px,5vw,110px)}
+.space .match-sound{width:min(65%,calc(var(--wb-glyph)*3.6))}
+.space .match .listen-letter{min-height:calc(var(--wb-glyph)*2.3)}
+.space .match .glyph{font-size:max(100px,var(--wb-glyph))}
+.space .match .sound-label{font-size:19px}
+.space .match-lucy{width:clamp(115px,8vw,170px)}
+.space .choices{gap:clamp(14px,1.8vh,24px)}
+.space .choice{min-height:0;padding:clamp(8px,1vh,16px) 40px;gap:36px;border-radius:999px}
+.space .choice .art{width:calc(var(--wb-pic)*.64);max-width:none;max-height:calc(var(--wb-pic)*.64)}
+.space .choice .word{font-size:var(--wb-word)}
+.space .choice .word .icon{width:calc(var(--wb-word)*.7)}
+.space .match-work{display:flex;flex-wrap:wrap;align-items:center;column-gap:32px}
+.space .match-work .choices{flex:1 0 100%}
+.space .feedback{font-size:20px}
+.space .replay-prompt{font-size:20px}
+}

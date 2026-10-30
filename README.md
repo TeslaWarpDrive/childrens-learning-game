@@ -19,6 +19,10 @@ one-line summary that opens the whole collection. On phones the cards scroll
 in their shelves as before. Ribbon Road's home is unchanged. Stamp
 strips/constellations count up to 26, and a newly earned letter is brought
 into view on the celebration screen.
+On short landscape screens (1366×768, 1024×768) the chooser's sign-in card
+and layout picker fit with no scrolling. On big screens (1600×950 and up, such
+as whiteboards and 1080p laptops) all three layouts scale up from one set of
+CSS variables in `base.css` (`--wb-pic`, `--wb-word`, `--wb-glyph` and so on).
 
 A letter is **done** only after a correct answer. Done cards keep their colors
 and stay tappable, read **Done**, and carry the same dark green `#176b3a`
@@ -82,6 +86,7 @@ CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/accounts_flow.mjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/accounts_two_devices.mjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/home_flow.mjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/fit_check.mjs
+CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/screen_sizes.mjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/close_button.mjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/catchup_flow.mjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/celebrate_timing.mjs
@@ -107,6 +112,16 @@ To run the browser suites without writing any screenshots, add
   after a real round. Each word is whole on one line, inside its slot, at
   least 12px, clear of its done tick and at least 4px from the next word.
   `FIT_SHOTS=dir` saves screenshots.
+- `screen_sizes.mjs` checks short landscape screens (1366×768, 1024×768): the
+  sign-in card, fresh and with six "played here before" pictures, and the
+  picker, signed in and playing without saving, fit with no scrolling, with
+  "Sign in instead" about 64px tall with 20px text. It also checks that on big
+  screens (2560×1440, 1920×1080) all three layouts scale up on the home, the
+  letter page and the picture page: pictures 180–320px, words 26–44px, the big
+  letter 60–110px, headings about 64px, the layout 1180–1760px wide, with the
+  letter and picture pages fitting and the pictures keeping their edges.
+  Mid-size Moonboat (1440×900) and the tablet picker are checked unchanged.
+  `SIZES_SHOTS=dir` saves screenshots.
 - `close_button.mjs` opens Letter Post and Moonboat's collection pop-up at
   1024×576, 1366×768, 768×1024, 1920×1080 and 1440×900 in every theme, checks
   nothing covers Close, and shuts it with a real mouse click on Close (and a

@@ -13,3 +13,63 @@ body.silk[data-theme="2"]{--ink:#202752;--primary:#235fe9;--accent:#ffcd38;--sec
 /* Sound ribbon: each word sits whole on one line inside its own round slot, clear of its neighbours. */
 .silk .collection-slots{grid-auto-columns:84px;gap:8px}.silk .collection-slot{min-height:80px}.silk .collection-slot>b+span{font-size:16px;line-height:1.15;white-space:nowrap;overflow-wrap:normal}
 @media(max-width:700px){.silk .collection-slots{grid-auto-columns:70px;gap:6px}.silk .collection-slot{min-height:70px}.silk .collection-slot>b+span{font-size:14px}}
+
+/* Big screens (whiteboards, 1080p and up): the road, the letter page and the picture page
+   grow with the screen (sizes from base.css). The pictures keep their soft round backing. */
+@media(min-width:1600px) and (min-height:950px){
+.silk .app{max-width:calc(var(--wb-max) + 88px)}
+.silk .brand{min-height:72px}
+.silk .tool{min-width:var(--wb-ui);min-height:var(--wb-ui)}
+.silk #main{padding-top:clamp(24px,3vh,48px);padding-bottom:16px}
+.silk .theme-control,.silk .theme-control select{min-height:var(--wb-ui)}
+.silk .back,.silk .replay-prompt,.silk .secondary{min-height:var(--wb-ui)}
+.silk-welcome{grid-template-columns:1.15fr .85fr;gap:96px;margin-bottom:64px}
+.silk .home-copy h1{font-size:clamp(112px,6.4vw,150px)}
+.silk .home-copy .eyebrow{font-size:15px}
+.silk .lead{font-size:var(--wb-text);margin-bottom:28px}
+.beads{gap:16px;margin-bottom:34px}
+.beads b{width:68px;height:68px;font-size:32px}
+.beads b:first-child{width:84px;height:84px;font-size:42px}
+.silk .primary{min-height:var(--wb-ui);border-radius:32px}
+.silk-play{font-size:32px;min-width:440px;min-height:96px!important;gap:22px}
+.silk-play small{font-size:15px}
+.play-icon{width:54px;height:54px;font-size:30px}
+.cta-spark{font-size:40px}
+.lucy-stage{max-width:clamp(370px,22vw,520px)}
+.stage-spark{font-size:54px}
+.mascot-caption{font-size:14px}
+.silk-trail{padding:36px 44px 28px;border-radius:44px}
+.trail-heading h2{font-size:clamp(44px,2.6vw,56px)}
+.trail-heading .eyebrow{font-size:13px}
+.trail-heading>p{font-size:22px}
+.trail-heading small{font-size:16px}
+.silk .pearls-shelf{max-height:clamp(420px,34vh,520px)}
+.pearls{gap:150px 32px;padding:100px 28px 90px;background-size:100% 320px}
+.pearls button{max-width:160px;border-width:4px}
+.pearls button:nth-child(6n+2),.pearls button:nth-child(6n+5){translate:0 -44px}
+.pearls button:nth-child(6n+3),.pearls button:nth-child(6n+4){translate:0 40px}
+.pearls .pick-glyph{font-size:58px}
+.pearls .pick-caption{font-size:13px;margin-top:6px}
+.silk .listen-layout{max-width:calc(var(--wb-max)*.82);gap:110px}
+.silk .guide-lucy{width:var(--wb-lucy);margin-top:120px}
+.silk .listen-letter{border-radius:48px;padding:40px}
+.silk .letter-corner{font-size:14px}
+.silk .continue{margin:32px 0 24px;font-size:28px}
+.silk .match-layout{max-width:var(--wb-max)}
+.silk .match-layout{margin-block:0}
+.silk .match-prompt{grid-template-columns:1fr calc(var(--wb-glyph)*2.5) calc(var(--wb-glyph)*1.9);gap:36px;margin-bottom:clamp(20px,2.6vh,40px)}
+.silk .match-work{display:flex;flex-wrap:wrap;align-items:center;column-gap:32px}
+.silk .match-work .choices{flex:1 0 100%}
+.silk .match .listen-letter{min-height:calc(var(--wb-glyph)*2.2);padding:16px;border-radius:32px}
+.silk .match .glyph{font-size:var(--wb-glyph)}
+.silk .match .sound-label{font-size:17px}
+.silk .match-lucy figcaption{font-size:12px;padding:8px 16px}
+.silk .choices{gap:36px}
+.silk .choice{min-height:0;padding:clamp(20px,2.4vh,40px) 28px;border-radius:44px}
+.silk .choice .art{max-width:var(--wb-pic);padding:calc(var(--wb-pic)*.067)}
+.silk .choice .word{font-size:var(--wb-word);margin-top:18px}
+.silk .feedback{margin:clamp(20px,2.6vh,34px) 0}
+.silk .collection-slots{grid-auto-columns:104px;gap:10px}
+.silk .collection-slot{min-height:96px}
+.silk .collection-slot>b+span{font-size:20px}
+}

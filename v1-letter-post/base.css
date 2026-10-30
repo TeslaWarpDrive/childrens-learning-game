@@ -13,3 +13,50 @@
 @media(max-width:650px){#footer{padding-top:12px}#footer #storage{display:none}}
 /* Short browser windows scroll naturally; the learning controls retain their size. */
 @media(min-width:651px) and (max-height:500px){.app{padding:14px 20px}#header{padding-bottom:10px}.brand small{display:none}#main{padding-top:16px!important;padding-bottom:16px!important}#footer{padding-top:4px}.stepbar{margin-bottom:16px}.play-title{font-size:30px}.play-copy{font-size:15px}.eyebrow{font-size:9px;margin-bottom:10px}.steps-label{font-size:10px}}
+
+/* Big screens (classroom whiteboards, 1080p and up): everything scales up from one set of
+   sizes, sized by both width and height so a 1080p laptop still fits. Smaller screens never
+   see these. */
+@media(min-width:1600px) and (min-height:950px){
+body{--wb-max:clamp(1180px,90vw,1760px);--wb-pic:clamp(180px,min(12.5vw,22vh),320px);--wb-word:clamp(26px,min(1.72vw,3.05vh),44px);--wb-glyph:clamp(60px,min(4.3vw,7.6vh),110px);--wb-head:clamp(54px,min(3.35vw,5.9vh),68px);--wb-text:clamp(20px,min(1.15vw,2vh),28px);--wb-ui:clamp(64px,min(3.75vw,6.6vh),88px);--wb-lucy:clamp(200px,min(13vw,23vh),340px);--wb-big:clamp(190px,min(12vw,21vh),300px)}
+.app{max-width:calc(var(--wb-max) + 84px)}
+#main{padding-block:clamp(20px,3vh,40px) 16px}
+.stepbar{margin-bottom:clamp(16px,2.4vh,32px)}
+.small-note{font-size:17px}
+.brand{font-size:26px;gap:14px}
+.brand small{font-size:13px}
+.brand-mark{width:64px;height:64px;border-radius:21px}
+.brand-mark .icon{width:36px;height:36px}
+.tool{min-width:var(--wb-ui);min-height:var(--wb-ui)}
+.tool .icon{width:30px;height:30px}
+.theme-control{min-height:var(--wb-ui);padding:0 20px}
+.theme-control select{font-size:18px;max-width:170px;min-height:calc(var(--wb-ui) - 4px)}
+.eyebrow{font-size:15px}
+#footer{font-size:16px}
+#footer a{min-height:60px}
+.back{min-height:var(--wb-ui);padding:12px 24px;font-size:20px}
+.back .icon{width:30px;height:30px}
+.steps span{width:44px;height:10px}
+.steps-label{font-size:15px}
+.play-title{font-size:var(--wb-head)}
+.play-copy{font-size:var(--wb-text)}
+.primary,.secondary{min-height:var(--wb-ui);font-size:26px;padding:16px 34px;border-radius:28px}
+.primary .icon{width:34px}
+.listen-letter{min-height:340px}
+.listen-letter .glyph{font-size:var(--wb-big)}
+.listen-letter .sound-label{font-size:22px}
+.listen-letter .sound-label .icon{width:30px;height:30px}
+.sound-wave{height:34px;gap:7px}
+.sound-wave i{width:7px}
+.choices{gap:28px}
+.choice{min-height:0}
+.choice .art{width:var(--wb-pic);max-width:var(--wb-pic)}
+.choice .word{font-size:var(--wb-word)}
+.choice .word .icon{width:calc(var(--wb-word)*.7)}
+.feedback{font-size:22px;min-height:40px}
+.replay-prompt{min-height:var(--wb-ui);font-size:21px;padding:12px 24px}
+.replay-prompt .icon{width:30px;height:30px}
+.lucy .speech{font-size:22px;padding:16px 18px}
+.lucy figcaption{font-size:15px}
+.letter-list .pick-caption{font-size:13px}
+}

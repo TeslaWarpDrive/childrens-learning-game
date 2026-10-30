@@ -74,3 +74,43 @@ body.post[data-theme="2"]{--accent2:#355b71}
 /* Stamp strip and pop-up: each word sits whole on one line inside its own stamp, clear of its neighbours. */
 body.post .collection-slots{grid-auto-columns:84px}body.post .collection-slot.collected>b+span{font-size:16px;line-height:1.2;white-space:nowrap;overflow-wrap:normal}
 @media(max-width:700px){body.post .collection-slots{grid-auto-columns:70px}body.post .collection-slot.collected>b+span{font-size:14px}}
+
+/* Big screens (whiteboards, 1080p and up): the home, the letter page and the picture page
+   grow with the screen (sizes from base.css). Picture cards stay plain post cards. */
+@media(min-width:1600px) and (min-height:950px){
+.post .letter-list{--card-max:300px}
+.post-home{grid-template-columns:.85fr 1.15fr;column-gap:clamp(80px,5vw,120px)}
+.post-intro h1{font-size:clamp(116px,6.2vw,150px)}
+.post-intro .lead{font-size:var(--wb-text)}
+.tiny-star{font-size:32px}
+.office-top{--office-lucy:clamp(170px,min(11vw,16vh),230px);height:calc(var(--office-lucy) + 72px)}
+.office-top .lucy{width:var(--office-lucy)}
+.office-top .speech{font-size:20px;padding:10px 18px}
+.office-number{font-size:16px}
+.shelf-title{font-size:18px}
+.paged .envelopes .pick-glyph{font-size:clamp(50px,calc(var(--card-h,96px)*.38),84px)}
+.pick-caption{font-size:13px}
+.post-bottom{font-size:14px}
+body.post .collection-summary{min-height:72px;font-size:22px;padding:10px 22px 10px 12px}
+body.post .summary-symbol{width:50px;height:50px}
+body.post .page-arrow{width:80px;height:80px}
+body.post .page-arrow .icon{width:40px;height:40px}
+body.post .page-label{font-size:20px}
+.post .listen-layout{max-width:calc(var(--wb-max)*.82)}
+.post .guide-lucy{max-width:var(--wb-lucy)}
+.post .listen-work{padding:40px}
+.post .listen-work .small-note{font-size:18px}
+.letter-corner{font-size:14px}
+.post .match-layout{grid-template-columns:.55fr 1.45fr;gap:56px}
+.post .match-sound{max-width:calc(var(--wb-glyph)*3.4)}
+.post .match .listen-letter{min-height:calc(var(--wb-glyph)*2.1)}
+.post .match .glyph{font-size:max(82px,var(--wb-glyph))}
+.post .match .sound-label{font-size:19px}
+.post .match-lucy{width:clamp(105px,8vw,160px)}
+.post .match-lucy figcaption{font-size:12px}
+.post .choice{min-height:0;padding:clamp(24px,2.6vh,40px) 20px}
+.post .match-work{display:flex;flex-wrap:wrap;align-items:center;column-gap:32px}
+.post .match-work .choices{flex:1 0 100%}
+.post .feedback{margin-top:clamp(22px,3vh,36px)}
+.post .replay-prompt{margin-top:clamp(22px,3vh,36px)}
+}

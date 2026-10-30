@@ -6,7 +6,7 @@
  * A new version takes over at once and deletes the older stores.
  * tests/offline_shell.cjs checks this list against the files in the repo. */
 'use strict';
-const VERSION = 'little-woof-shell-5';
+const VERSION = 'little-woof-shell-6';
 const FILES = [
   './',
   "accounts/accounts.js",
