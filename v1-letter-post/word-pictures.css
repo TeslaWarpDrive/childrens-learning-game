@@ -62,4 +62,29 @@ body.silk .choice img.word-picture, body.silk .reward-art img.word-picture {
   .silk .home-copy h1,.silk .trail-heading h2{font-size:var(--board-heading)}
   .silk .pearls button{max-width:var(--board-pick)}
   .silk .pearls .pick-caption{font-size:16px}
+
+  body[data-screen="listen"]{
+    --board-listen-width:2240px;
+    --board-listen-card:clamp(400px,calc(100svh - 540px),720px);
+    --board-listen-glyph:clamp(260px,28vh,400px);
+    --board-listen-heading:clamp(80px,4vw,104px);
+  }
+  body[data-screen="listen"] .app{max-width:var(--board-listen-width)}
+  body[data-screen="listen"] #main{padding-block:24px 16px}
+  body[class] .listen-layout{max-width:none;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(48px,4vw,112px);margin:0 auto}
+  body[class] .listen .play-title{font-size:var(--board-listen-heading)}
+  body[class] .listen .play-copy{font-size:28px}
+  body[class] .listen .eyebrow{font-size:16px}
+  body[class] .listen .guide-lucy{width:280px;max-width:280px;margin:100px auto 0}
+  body[class] .listen .listen-work{width:100%;max-width:none;padding:20px}
+  body[class] .listen .listen-letter{min-height:var(--board-listen-card);margin-bottom:24px}
+  body[class] .listen .glyph{font-size:var(--board-listen-glyph)}
+  body[class] .listen .sound-label{font-size:24px}
+  body[class] .listen .letter-corner{font-size:16px}
+  body[class] .listen .continue{min-height:88px;font-size:28px;padding:18px 32px;margin:0;width:100%}
+  body[class] .listen .continue .icon{width:36px;height:36px}
+  body[class] .listen .small-note{font-size:18px;margin:14px 0 0}
+  .space .listen .listen-letter{width:var(--board-listen-card);max-width:100%;margin-inline:auto}
+  body[class] .celebration .word-line{font-size:var(--board-word)}
+  body[class] .reward-art>.word-picture{width:var(--board-picture);max-width:100%}
 }

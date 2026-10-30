@@ -11,6 +11,17 @@ nav{display:grid;grid-template-columns:repeat(var(--worlds,3),minmax(0,1fr));gap
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}button:active,nav a:active{transform:none}}html[data-calm] *{animation:none!important;transition:none!important}
 
 @media (max-height:820px) and (orientation:landscape){
+  #login-dialog{inset:88px 0 16px;max-height:calc(100svh - 104px);padding:16px 28px}
+  #login-dialog .welcome{display:grid;grid-template-columns:64px minmax(0,1fr);column-gap:16px;align-items:center;text-align:left}
+  #login-dialog .welcome img{width:64px;height:64px;grid-row:1/4;margin:0}
+  #login-dialog .eyebrow{margin-bottom:6px}
+  #login-dialog .welcome h1{font-size:32px;margin:4px 0 6px}
+  #login-dialog form{margin-top:8px;gap:8px}
+  #login-dialog label{gap:4px}
+  #login-dialog .unsaved-choice{margin-top:10px;padding-top:10px}
+  #login-dialog .unsaved-choice p{margin:6px 0;font-size:14px}
+  #login-dialog .grown{margin-top:0}
+  #login-dialog #continue-player{margin-top:8px}
   main{padding-block:16px}
   .picker-heading{margin:0 auto 16px}
   h1{font-size:clamp(32px,4vw,44px);margin-block:8px 12px}

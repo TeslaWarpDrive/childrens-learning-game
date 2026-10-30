@@ -1,24 +1,26 @@
-FIX-2-4 implements CSS sizing fixes on `test/lucy-fix-2-4`, based on `ca34d50`.
+FIX-2-4 and FIX-24B apply CSS layout fixes on `test/lucy-fix-2-4`. The follow-up builds on `721553e`.
 
-Files changed:
+Files changed in the follow-up:
 
-- `home/home.css`: one short-landscape breakpoint reduces the layout picker height and gives "Sign in to save" a 64px control with 20px text. Closes an existing unclosed motion media rule so the breakpoint also applies with reduced motion.
-- `v1-letter-post/word-pictures.css`: shared variables at 1600px wide and 950px tall scale all three layouts. Pictures are 320px, words 44px, match letters 110px, and headings 64px. The app maximum width is 1760px. Letter pages and home letter controls scale too. Moonboat uses three picture columns and a capped letter-page circle to keep its continuation visible.
-- `sw-assets.js`: regenerated the offline asset version with `python3 scripts/build-offline-manifest.py`.
-- `tests/fix24_layout.cjs`: repeatable local browser checks and screenshots under `/tmp/lucy-fix24`.
+- `home/home.css`: extends the existing short-landscape query to fit the initial and returning-child login cards at 1366x768 and 1024x768. Lucy sits beside the greeting, gaps are tighter, and inputs, buttons, and the grown-up link retain their 60px minimum height. The layout picker still fits without scrolling.
+- `v1-letter-post/word-pictures.css`: enlarges letter pages in all three layouts only at 1600px wide and 950px tall. At 1920x1080, headings are 80px and glyphs about 302px. At 2560x1440, headings are about 102px and glyphs 400px. The letter-page app can use 2240px, Aa cards grow with available height, Lucy is 280px wide, and continuation buttons are 88px tall with 28px text. Existing reward pictures and word text grow to 320px and 44px. Letter pages have no vocabulary picture before the matching step, so no content was added.
+- `tests/fix24_layout.cjs`: adds initial/returning login checks, letter-page dimensions and visible continuation checks, reward sizing, home glyph checks, and optional visual comparisons with a named baseline commit.
+- `sw-assets.js`: regenerated with `python3 scripts/build-offline-manifest.py`.
 - `reports/fix24-summary.md`: this report.
 
-Verification:
+The earlier picture-choice sizes, Moonboat's three-card grid and circular fades, Ribbon Road's rounded-square fades, and Letter Post's picture treatment remain in place. Home roads retain their earlier whiteboard sizing.
 
-- `python3 tests/run_tests.py`: PASS, all six strict checks.
-- `node tests/fix24_layout.cjs`: PASS. Home fits without scrolling at 1366x768 and 1024x768, including sign-in and offline status. All three layouts pass home, letter, and picture checks at 1600x950, 1920x1080, 2560x1440, 1440x1000, and 1920x900. The last two remain below the whiteboard breakpoint. Screenshot review covers all three themes, Moonboat's circular fades, Ribbon Road's rounded-square fades, and Letter Post's existing picture treatment.
-- `node tests/runtime_smoke.cjs`: PASS, 234 rounds across all three worlds and themes.
-- `node tests/motion_smoke.cjs`: PASS, all 12 cases after capping Moonboat's letter circle. An earlier run caught continuation below the viewport and failed the reduced-hover position check.
-- `node tests/silk_smoke.cjs`: PASS, chooser, all 26 letters, and all nine viewport/theme cases.
+Follow-up verification:
+
+- `python3 tests/run_tests.py`: PASS, all six strict groups.
+- `FIX24_BASELINE=721553e node tests/fix24_layout.cjs`: PASS. Both 768px-tall login states and the picker fit without scrolling. All three layouts pass enlarged letter, home, picture-choice, and reward checks at 1600x950, 1920x1080, and 2560x1440. The 33 baseline captures at 768x1024, 1440x1000, and 1920x900 match geometry and computed styles exactly. Screenshot comparison separates game content from native header-control repaint and permits at most 0.1% differing pixels with channel deltas no greater than 32 for antialiasing. Screenshots are saved under `/tmp/lucy-fix24`.
+- `node tests/runtime_smoke.cjs`: PASS, 234 rounds across all three layouts and themes.
+- `node tests/motion_smoke.cjs`: PASS, all 12 cases, including a final run after the portrait spacing adjustment.
+- `node tests/silk_smoke.cjs`: PASS, all letters, chooser checks, and nine viewport/theme cases.
 - `node tests/grown_ups_runtime.cjs` and `node tests/grown_ups_smoke.cjs`: PASS.
-- `node tests/home_flow.cjs`: FAIL at line 51 because the small-screen game brand hides the tagline. Reproduces on an untouched archive of `ca34d50`.
-- `node tests/confetti_smoke.cjs`: FAIL at line 98, replay expects 24 pieces and receives zero. Reproduces on the same untouched baseline.
-- `node tests/browser_smoke.cjs`: five cases passed before the full run was stopped at 480 seconds, matching the previous report runner limit. It was waiting for celebration at line 105 in Letter Post's tablet case. Separate runs with `BROWSER_SMOKE_SHARD=4` and `BROWSER_SMOKE_SHARD=5` both PASS all three themes, covering Moonboat at 768px and 1440px. The starting commit's `reports/fade-swap.md` documents three known timeouts in shards 1, 2, and 5. They were not pursued; this run does not claim a fully passing browser suite.
+- `node tests/home_flow.cjs`: existing failure at line 51, the hidden small-screen tagline.
+- `node tests/confetti_smoke.cjs`: existing failure at line 98, zero confetti pieces after replay instead of 24. Both failures were reproduced on `ca34d50` during FIX-2-4.
+- `node tests/browser_smoke.cjs`: five cases passed before the 480-second process limit, exit 124. The full browser suite is not claimed green. The three known shard timeouts documented in `reports/fade-swap.md` remain outside this follow-up and were not pursued.
 - `node --check tests/fix24_layout.cjs` and `git diff --check`: PASS. No package manifest or separate lint configuration is present.
 
-All browser checks use isolated local contexts, blocked external requests, or an in-memory account fixture. No live account sign-in, account changes, database changes, or deployment occurred. The master account and the user's prior account/settings changes remain untouched. `index.html`, game logic, audio, content, and picture assets are unchanged. Job instructions and report logs are excluded from the commit.
+Checks use local isolated browsers, blocked external requests, or an in-memory account fixture. No live account sign-in, database changes, or deployment occurred. The master account and the user's account deletions, passwords, and settings remain untouched. Markup, game behavior, audio, content, and image assets are unchanged. Job files and report logs are excluded from the commit.
