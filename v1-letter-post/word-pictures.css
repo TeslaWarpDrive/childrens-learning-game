@@ -15,3 +15,51 @@ body.silk .choice img.word-picture, body.silk .reward-art img.word-picture {
   transform: none;
   rotate: none;
 }
+
+/* Shared whiteboard sizing; the source pictures retain each world's fade. */
+@media (min-width:1600px) and (min-height:950px){
+  body{
+    --board-width:1760px;
+    --board-picture:320px;
+    --board-word:44px;
+    --board-letter:110px;
+    --board-heading:64px;
+    --board-pick:180px;
+  }
+  body[class] .app{max-width:var(--board-width)}
+  body[class] .listen-layout,body[class] .match-layout{max-width:var(--board-width)}
+  body[class] .play-title{font-size:var(--board-heading)}
+  body[class] .listen-letter .glyph{font-size:calc(var(--board-letter) * 2)}
+  body[class] .match .glyph{font-size:var(--board-letter)}
+  body[class] .match-layout{display:block}
+  body[class] .match-prompt{
+    display:grid;grid-template-columns:minmax(0,1fr) 220px 110px;
+    align-items:center;gap:24px;margin-bottom:28px;padding-right:0;border-right:0;
+  }
+  body[class] .match-sound{width:100%;margin:0;max-width:none}
+  body[class] .match .listen-letter{min-height:180px;margin:0}
+  body[class] .match-lucy{position:static;width:110px;margin:0}
+  body[class] .match-prompt h1 br{display:none}
+  body[class] .choices{grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+  body[class] .choice{flex-direction:column;justify-content:center;gap:8px;padding:20px;min-height:0}
+  body[class] .choice .art{
+    width:var(--board-picture);max-width:100%;height:auto;max-height:none;
+  }
+  body[class] .choice .word{font-size:var(--board-word);flex:none;margin-top:12px}
+  body[class] .choice .word .icon{width:28px;height:28px}
+  .silk .match-prompt{grid-template-columns:minmax(0,1fr) 220px 110px}
+  .space .choice{border-radius:48px}
+  .space .listen-work{width:100%;max-width:560px;margin-inline:auto}
+  .layout-built[data-screen="home"] .app{max-width:var(--board-width)}
+  .layout-built[data-screen="home"].post,.layout-built[data-screen="home"].space{--letter-size:var(--board-pick)}
+  .layout-built[data-screen="home"] .envelopes button{height:var(--board-pick);min-height:var(--board-pick)}
+  .layout-built[data-screen="home"] .planets button{max-width:var(--board-pick)}
+  .layout-built[data-screen="home"] .pick-glyph,
+  .layout-built[data-screen="home"] .planets .pick-glyph,
+  .silk .pearls .pick-glyph{font-size:var(--board-heading)}
+  .layout-built[data-screen="home"] .post-intro h1,
+  .layout-built[data-screen="home"] .captain-panel h1,
+  .silk .home-copy h1,.silk .trail-heading h2{font-size:var(--board-heading)}
+  .silk .pearls button{max-width:var(--board-pick)}
+  .silk .pearls .pick-caption{font-size:16px}
+}
