@@ -1,4 +1,4 @@
-# Letter Post Lucy letters (made 2026-10-30, about 10:10 to 11:15 pm CT)
+# Letter Post Lucy letters (made 2026-10-30, about 10:10 to 10:35 pm CT)
 
 Method: ElevenLabs Seedream 5 Lite, 1:1 2K, 10 refs (garden-B edit base + keep pile 01-04, 07-11), flow yuQAe0hoTg2oErjfSE3P. Prompt: prompt.txt (test1 KEEP/CHANGE wording, letter beside her, plain cream backdrop, no garden). Redo hints in p2/ and p3/.
 Cutouts: cutout/lucy-letter-<x>.webp (768px, transparent, soft ground shadow) + .png masters (1024px). Square canvas; everything fits inside the inscribed circle (radius 47%), with a uniform 0.86 scale unless it had to shrink to fit. Use object-fit:contain or cover on a square img.
