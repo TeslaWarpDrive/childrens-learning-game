@@ -62,3 +62,7 @@ try3 (back to the garden-B base on node W0rY.., redo-5 layout plus thick-stroke 
 Bradley t778u/t779u: widen the accordion-narrow N. Garden-B base plus keep pile 01-04 and 07-11 on node JW7s... Prompts p9/N-try1..3.txt, gens gens-redo8-n.json, raws raw/N-redo5-try1..3.png. 3 x 212.1 = 636.3 credits.
 All 3 failed: Lucy alone, no letter at all (try1 shape-heavy wording; try2 T-style layout with a wide-N description; try3 the proven redo3 prompt plus "wide ... wider than Lucy's body"). The N is unchanged (redo3-try3, backup raw/N-final-v4.png, cutout/old-n-v4/).
 Lesson: on this model, any wording that stresses N width makes the letter vanish. Next idea: the N-final as edit base, or widen the current N in post (stretch only the letter region of the cutout).
+
+## Redo 8 N widen via edit base (2026-11-01, about 4:10 to 4:25 pm CT) - FAIL, NO SWAP
+Bradley card t779s3132: one paid try with the current N (gen fsLr6XcCb1GrI6iGQKCT, static node ZG8J..) FIRST, plus keep pile 01-04 and 07-11, on node ufZm.. ("LP N widen edit"). Prompt p10/N-edit.txt. Gen RN9N5Iltci53Kl3aL37o, raw raw/N-redo6-edit-try1.png. 1 x 212.1 = 212.1 credits.
+Result: the N is still narrow (about 29% of the frame width, about the same as before). The model zoomed in (Lucy bigger, her tail cut off at the frame edge) and her face shifted a little. Fail: N unchanged. Comparison: n-sheet.jpg (current N cutout vs the failed raw).
