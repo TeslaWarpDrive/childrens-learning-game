@@ -25,7 +25,7 @@ Credits: 37 generations x 212.1 = 7,847.7.
 | Q | cutout/lucy-letter-q.webp | raw/Q-final.png | pass: Q-try2 (try1 tiny/garbled) |
 | R | cutout/lucy-letter-r.webp | raw/R-final.png | pass: redo2-alt1, big clean R beside her. Other run pick kept: raw/R-final-redo2pick.png (v1 kept: raw/R-final-v1.png, cutout/old-v1/) |
 | S | cutout/lucy-letter-s.webp | raw/S-final.png | pass: S-try1 |
-| T | cutout/lucy-letter-t.webp | raw/T-final.png | ok: redo5-try1, T stands by itself on the floor at her left with a clear gap, whole T (both bar ends + stem) visible, Lucy full size, not touching it. Nit: the T strokes are a bit slimmer than v4. Tail keyed in cutout (KEY="410,395,485,440"). v4 kept: raw/T-final-v4.png, cutout/old-v4/ |
+| T | cutout/lucy-letter-t.webp | raw/T-final.png | ok: redo6-try3, thicker chunky T standing by itself on the floor at her left, whole T visible, Lucy full size and not touching it. Nit: still a bit less thick than v4, and the right end of the bar touches the edge of her ear. Tail keyed (KEY="405,385,475,430", CLR="440,423,512,445"). v5 kept: raw/T-final-v5.png, cutout/old-v5/ |
 | U | cutout/lucy-letter-u.webp | raw/U-final.png | pass: U-try1; stray object at left edge removed in cutout |
 | V | cutout/lucy-letter-v.webp | raw/V-final.png | pass: redo2-alt1 (parallel run), clean V on the floor beside her; tail restored in cutout (KEY). Other run pick kept: raw/V-final-redo2pick.png (v1 kept: raw/V-final-v1.png, cutout/old-v1/) |
 | W | cutout/lucy-letter-w.webp | raw/W-final.png | flag: W-try2 CROPPED: lower half only (the full image had a 2nd floating Lucy head; try1 had a room background and 3 Vs). Lucy is lying down here. FLAG: weakest; redo if Bradley wants |
@@ -51,3 +51,9 @@ cut_lp.py KEY now takes several boxes separated by ';'. Old vs new: nt-sheet.jpg
 ## Redo 5 T pose (2026-11-01, about 12:00 to 12:15 pm CT)
 Bradley t776u: the right half of the T's top bar was behind her ear. New pose with the same letter. Prompts p7/T-try1..3.txt (try1 T on the left with a gap, try2 Lucy lying beside the stem, try3 Lucy peeking under the bar), run in parallel on nodes 4OLL.. + copies ufZm.. and W0rY.. Gens gens-redo6-t.json, raws raw/T-redo5-try1..3.png. 3 x 212.1 = 636.3 credits.
 Picked try1. Try2 had no letter and a room background. Try3 had the full chunky bar above her head, but the T is huge, so Lucy shrinks in the circle and the cutout broke the stem. Comparison: t-sheet.jpg.
+
+## Redo 6 T thicken (2026-11-01, about 12:15 to 12:45 pm CT)
+Bradley t777u: thicken the redo-5 T. Node ufZm.. ("LP T thicken") was rewired: garden-B removed, redo-5 T (node 4OLL.., gen dw1M..) plus keep pile 01-04 and 07-11 = 10 refs. Prompts p8/. Gens gens-redo7-t.json, raws raw/T-redo6-try1..3.png. 3 x 212.1 = 636.3 credits.
+try1 (T as last ref): Lucy's pose and face changed, and the T overlapped her face. Fail.
+try2 (T as first ref): zoomed in and cropped at the bottom, T no thicker. Fail.
+try3 (back to the garden-B base on node W0rY.., redo-5 layout plus thick-stroke wording): picked. Comparison: t-sheet.jpg.
