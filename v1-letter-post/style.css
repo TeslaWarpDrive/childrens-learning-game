@@ -13,3 +13,6 @@ body.post[data-theme="2"]{--bg:#182b43;--surface:#263e58;--ink:#fff3d8;--muted:#
 @media(max-width:650px){.post #main{padding-top:22px}.post-intro{grid-template-columns:minmax(0,1fr) 120px}.post-intro h1{font-size:42px}.post-intro .lead{font-size:15px;padding-left:8px}.post-home{row-gap:20px}.post-intro .eyebrow{font-size:8px;margin-bottom:12px}.route-card{margin-top:20px;padding-block:12px}.office-top{height:138px;padding-top:22px}.office-top .lucy{width:95px}.office-top .speech{font-size:12px}.office-top .lucy figcaption{font-size:9px;padding:6px 17px;margin-top:-12px}.open-sign{font-size:8px;bottom:26px}.open-sign strong{font-size:10px}.office-number{font-size:10px;bottom:24px}.post-bottom{display:none}.sorting-shelf{padding:18px 16px}.shelf-title{margin-bottom:18px}.envelopes button{height:88px;min-height:88px}.envelopes{row-gap:19px}}
 body.post:not([data-theme="1"]):not([data-theme="2"]){--accent:#c74234}
 body.post[data-theme="2"]{--accent2:#355b71}
+.post .lucy-cutout img{object-position:50% 50%;transform:none}
+@keyframes letter-breathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+@media(prefers-reduced-motion:no-preference){body[data-screen="listen"] .lucy-cutout .lucy-portrait>img{animation-name:letter-breathe}}
