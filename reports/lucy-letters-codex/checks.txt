@@ -1,0 +1,12 @@
+tablet, theme 0: all 26 letter images loaded; match portrait unchanged; no horizontal overflow
+tablet, theme 1: all 26 letter images loaded; match portrait unchanged; no horizontal overflow
+tablet, theme 2: all 26 letter images loaded; match portrait unchanged; no horizontal overflow
+chromebook, theme 0: all 26 letter images loaded; match portrait unchanged; no horizontal overflow
+chromebook, theme 1: all 26 letter images loaded; match portrait unchanged; no horizontal overflow
+chromebook, theme 2: all 26 letter images loaded; match portrait unchanged; no horizontal overflow
+whiteboard, theme 0: all 26 letter images loaded; match portrait unchanged; no horizontal overflow
+whiteboard, theme 1: all 26 letter images loaded; match portrait unchanged; no horizontal overflow
+whiteboard, theme 2: all 26 letter images loaded; match portrait unchanged; no horizontal overflow
+v1-letter-post: baseline/current DOM, geometry and computed styles identical for home, match, celebrate
+v4-silk-thread: baseline/current DOM, geometry and computed styles identical for home, listen, match, celebrate
+v3-moonboat: baseline/current DOM, geometry and computed styles identical for home, listen, match, celebrate

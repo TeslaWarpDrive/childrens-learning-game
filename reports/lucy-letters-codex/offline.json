@@ -1,0 +1,137 @@
+{
+  "offlineListen": true,
+  "offlineAssets": [
+    {
+      "letter": "a",
+      "status": 200,
+      "bytes": 64672
+    },
+    {
+      "letter": "b",
+      "status": 200,
+      "bytes": 53938
+    },
+    {
+      "letter": "c",
+      "status": 200,
+      "bytes": 56986
+    },
+    {
+      "letter": "d",
+      "status": 200,
+      "bytes": 62044
+    },
+    {
+      "letter": "e",
+      "status": 200,
+      "bytes": 63352
+    },
+    {
+      "letter": "f",
+      "status": 200,
+      "bytes": 52560
+    },
+    {
+      "letter": "g",
+      "status": 200,
+      "bytes": 64958
+    },
+    {
+      "letter": "h",
+      "status": 200,
+      "bytes": 58350
+    },
+    {
+      "letter": "i",
+      "status": 200,
+      "bytes": 51524
+    },
+    {
+      "letter": "j",
+      "status": 200,
+      "bytes": 58702
+    },
+    {
+      "letter": "k",
+      "status": 200,
+      "bytes": 75246
+    },
+    {
+      "letter": "l",
+      "status": 200,
+      "bytes": 48216
+    },
+    {
+      "letter": "m",
+      "status": 200,
+      "bytes": 55300
+    },
+    {
+      "letter": "n",
+      "status": 200,
+      "bytes": 59016
+    },
+    {
+      "letter": "o",
+      "status": 200,
+      "bytes": 69116
+    },
+    {
+      "letter": "p",
+      "status": 200,
+      "bytes": 57138
+    },
+    {
+      "letter": "q",
+      "status": 200,
+      "bytes": 56086
+    },
+    {
+      "letter": "r",
+      "status": 200,
+      "bytes": 61108
+    },
+    {
+      "letter": "s",
+      "status": 200,
+      "bytes": 63594
+    },
+    {
+      "letter": "t",
+      "status": 200,
+      "bytes": 56088
+    },
+    {
+      "letter": "u",
+      "status": 200,
+      "bytes": 63346
+    },
+    {
+      "letter": "v",
+      "status": 200,
+      "bytes": 56492
+    },
+    {
+      "letter": "w",
+      "status": 200,
+      "bytes": 44226
+    },
+    {
+      "letter": "x",
+      "status": 200,
+      "bytes": 67528
+    },
+    {
+      "letter": "y",
+      "status": 200,
+      "bytes": 50264
+    },
+    {
+      "letter": "z",
+      "status": 200,
+      "bytes": 60966
+    }
+  ],
+  "externalRequestsBlocked": 2,
+  "liveDatabaseRequestsSent": 0
+}
