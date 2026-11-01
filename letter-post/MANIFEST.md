@@ -19,13 +19,13 @@ Credits: 37 generations x 212.1 = 7,847.7.
 | K | cutout/lucy-letter-k.webp | raw/K-final.png | pass: K-try3 (try1 hidden/mangled, try2 mangled) |
 | L | cutout/lucy-letter-l.webp | raw/L-final.png | pass: L-try1 |
 | M | cutout/lucy-letter-m.webp | raw/M-final.png | pass: test1 M-2 (reused) |
-| N | cutout/lucy-letter-n.webp | raw/N-final.png | pass: redo3-try3, big chunky N standing on the floor beside her (try1 no letter + room background, try2 N half behind her). v2 kept: raw/N-final-v2.png, cutout/old-v2/ |
+| N | cutout/lucy-letter-n.webp | raw/N-final.png | pass: redo3-try3, big chunky N standing on the floor beside her (try1 no letter + room background, try2 N half behind her). v2 kept: raw/N-final-v2.png, cutout/old-v2/. Redo 4 (wider N) failed all 3 tries, so this one stays; still narrow |
 | O | cutout/lucy-letter-o.webp | raw/O-final.png | pass: O-try1; Lucy sits inside the O so she looks a bit smaller in the circle |
 | P | cutout/lucy-letter-p.webp | raw/P-final.png | pass: P-try1 |
 | Q | cutout/lucy-letter-q.webp | raw/Q-final.png | pass: Q-try2 (try1 tiny/garbled) |
 | R | cutout/lucy-letter-r.webp | raw/R-final.png | pass: redo2-alt1, big clean R beside her. Other run pick kept: raw/R-final-redo2pick.png (v1 kept: raw/R-final-v1.png, cutout/old-v1/) |
 | S | cutout/lucy-letter-s.webp | raw/S-final.png | pass: S-try1 |
-| T | cutout/lucy-letter-t.webp | raw/T-final.png | weak: redo3-try2, chunky wide-bar T but it floats above the floor, and Lucy shows a bit smaller in the circle because the T sits high (try1 T behind her + cropped, try3 slim tilted floating T). v2 kept: raw/T-final-v2.png, cutout/old-v2/ |
+| T | cutout/lucy-letter-t.webp | raw/T-final.png | ok: redo4-try1, chunky T with its stem standing on the floor beside her (no floating, she does not hold it), Lucy at full size; right half of the top bar is tucked behind her ear. Letter + tail keyed in cutout (KEY="40,150,200,434;400,390,485,440"). v3 floating T kept: raw/T-final-v3.png, cutout/old-v3/; v2: raw/T-final-v2.png, cutout/old-v2/ |
 | U | cutout/lucy-letter-u.webp | raw/U-final.png | pass: U-try1; stray object at left edge removed in cutout |
 | V | cutout/lucy-letter-v.webp | raw/V-final.png | pass: redo2-alt1 (parallel run), clean V on the floor beside her; tail restored in cutout (KEY). Other run pick kept: raw/V-final-redo2pick.png (v1 kept: raw/V-final-v1.png, cutout/old-v1/) |
 | W | cutout/lucy-letter-w.webp | raw/W-final.png | flag: W-try2 CROPPED: lower half only (the full image had a 2nd floating Lucy head; try1 had a room background and 3 Vs). Lucy is lying down here. FLAG: weakest; redo if Bradley wants |
@@ -41,3 +41,9 @@ Credits, both runs: 3,393.6 + 1,484.7 = 4,878.3 (over the 3,500 cap because two 
 
 ## Redo 3 (2026-11-01, about 10:25 to 10:45 am CT): N and T only
 Bradley t773u: "N is really tiny, tiny, tiny, and T is really slim". Lucy unchanged. Prompts p5/ (N.txt/T.txt = try1, -try2, -try3), gens gens-redo4-nt.json, raws raw/<X>-redo3-try1..3.png. 6 generations x 212.1 = 1,272.6 credits. Old vs new: nt-sheet.jpg.
+
+## Redo 4 (2026-11-01, about 10:50 to 11:15 am CT): N wider, T grounded
+Bradley t774u: the T floats; the N is squeezed. Lucy must not hold or lift a letter. Prompts p6/, gens gens-redo5-nt.json, raws raw/<X>-redo4-try1..3.png. 6 generations x 212.1 = 1,272.6 credits.
+N: try1 drew an I, try2 no letter + room background, try3 no letter -> N unchanged (redo3-try3), still narrow.
+T: try1 picked (grounded); try2 no letter; try3 grounded but bar hidden more and tail cropped.
+cut_lp.py KEY now takes several boxes separated by ';'. Old vs new: nt-sheet.jpg.
