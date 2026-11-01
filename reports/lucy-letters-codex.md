@@ -2,8 +2,10 @@
 
 Letter Post's listen page now shows the selected letter's approved Lucy cutout over the existing theme-colored circle. The match page keeps `lucy-specs.jpg`.
 
-Branch: `test/lucy-letters-codex`.
+Branch: `test/lucy-letters-codex`. Implementation commit: `f02377f`. The remote branch was verified after push.
 Preview: https://raw.githack.com/TeslaWarpDrive/childrens-learning-game/test/lucy-letters-codex/v1-letter-post/
+
+The githack URL returned a Cloudflare HTTP 403 to this environment during the post-push check. Hosted preview rendering remains unverified. Local browser and offline checks passed.
 
 Changes:
 
