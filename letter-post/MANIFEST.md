@@ -25,7 +25,7 @@ Credits: 37 generations x 212.1 = 7,847.7.
 | Q | cutout/lucy-letter-q.webp | raw/Q-final.png | pass: Q-try2 (try1 tiny/garbled) |
 | R | cutout/lucy-letter-r.webp | raw/R-final.png | pass: redo2-alt1, big clean R beside her. Other run pick kept: raw/R-final-redo2pick.png (v1 kept: raw/R-final-v1.png, cutout/old-v1/) |
 | S | cutout/lucy-letter-s.webp | raw/S-final.png | pass: S-try1 |
-| T | cutout/lucy-letter-t.webp | raw/T-final.png | ok: redo4-try1, chunky T with its stem standing on the floor beside her (no floating, she does not hold it), Lucy at full size; right half of the top bar is tucked behind her ear. Letter + tail keyed in cutout (KEY="40,150,200,434;400,390,485,440"). v3 floating T kept: raw/T-final-v3.png, cutout/old-v3/; v2: raw/T-final-v2.png, cutout/old-v2/ |
+| T | cutout/lucy-letter-t.webp | raw/T-final.png | ok: redo5-try1, T stands by itself on the floor at her left with a clear gap, whole T (both bar ends + stem) visible, Lucy full size, not touching it. Nit: the T strokes are a bit slimmer than v4. Tail keyed in cutout (KEY="410,395,485,440"). v4 kept: raw/T-final-v4.png, cutout/old-v4/ |
 | U | cutout/lucy-letter-u.webp | raw/U-final.png | pass: U-try1; stray object at left edge removed in cutout |
 | V | cutout/lucy-letter-v.webp | raw/V-final.png | pass: redo2-alt1 (parallel run), clean V on the floor beside her; tail restored in cutout (KEY). Other run pick kept: raw/V-final-redo2pick.png (v1 kept: raw/V-final-v1.png, cutout/old-v1/) |
 | W | cutout/lucy-letter-w.webp | raw/W-final.png | flag: W-try2 CROPPED: lower half only (the full image had a 2nd floating Lucy head; try1 had a room background and 3 Vs). Lucy is lying down here. FLAG: weakest; redo if Bradley wants |
@@ -47,3 +47,7 @@ Bradley t774u: the T floats; the N is squeezed. Lucy must not hold or lift a let
 N: try1 drew an I, try2 no letter + room background, try3 no letter -> N unchanged (redo3-try3), still narrow.
 T: try1 picked (grounded); try2 no letter; try3 grounded but bar hidden more and tail cropped.
 cut_lp.py KEY now takes several boxes separated by ';'. Old vs new: nt-sheet.jpg.
+
+## Redo 5 T pose (2026-11-01, about 12:00 to 12:15 pm CT)
+Bradley t776u: the right half of the T's top bar was behind her ear. New pose with the same letter. Prompts p7/T-try1..3.txt (try1 T on the left with a gap, try2 Lucy lying beside the stem, try3 Lucy peeking under the bar), run in parallel on nodes 4OLL.. + copies ufZm.. and W0rY.. Gens gens-redo6-t.json, raws raw/T-redo5-try1..3.png. 3 x 212.1 = 636.3 credits.
+Picked try1. Try2 had no letter and a room background. Try3 had the full chunky bar above her head, but the T is huge, so Lucy shrinks in the circle and the cutout broke the stem. Comparison: t-sheet.jpg.
