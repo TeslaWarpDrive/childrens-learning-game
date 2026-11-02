@@ -1,8 +1,8 @@
 # Lucy letters: Claude
 
-**Preview:** https://raw.githack.com/TeslaWarpDrive/childrens-learning-game/test/lucy-letters-claude/index.html?mode=guest
+**Preview:** https://raw.githack.com/TeslaWarpDrive/childrens-learning-game/test/lucy-letters-claude/index.html
 
-Open that, choose Letter Post, then tap any letter. `/v1-letter-post/` opened directly sends anyone who is not signed in or in guest mode back to the sign-in page, so use `index.html` or `/v1-letter-post/?mode=guest`.
+githack first shows a "One more step" notice: click **Open the page**. Then click **Play without saving**, choose Letter Post, and tap a letter. I walked this path on the hosted branch and letter C's cutout loaded. `index.html` is the entry because `/v1-letter-post/` sends anyone not signed in or in guest mode back to sign-in.
 
 ## What changed
 Letter Post's listen page now shows that letter's Lucy cutout on the theme-colored circle. The match page keeps the old photo, as Bradley decided.
