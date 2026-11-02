@@ -8,13 +8,11 @@ Merged `test/kid-fixes-codex` (Fix 1) and `test/kid-fixes-claude` (Fix 2) into t
 
 A kid who signs out from the progress page, from game settings (the existing guard sends them to their progress page first), or from the game menu lands on the site-root home screen under `/letterswithlucy/`, and the session is cleared. A grown-up who signs out from the portal or from game settings lands on the grown-up sign-in. A grown-up who signs out from the game menu still lands on the home screen; that path already went home. Destinations use the script-relative site base, not a bare `/index.html`.
 
-## Fix 2 — kid picture picker: pass, one check pending
+## Fix 2 — kid picture picker: UI pass, live stick not run
 
-The My picture card renders for a signed-in kid on their progress page, above Your progress, and stays hidden for a grown-up. A Lucy choice is wired to `setOwnAvatar` (`/rpc/set_own_avatar`). While that function is missing, Save shows "Your picture did not save. Please try again." and the saved picture does not change.
+The My picture card renders for a signed-in kid on their progress page, above Your progress, and stays hidden for a grown-up. A Lucy choice is wired to `setOwnAvatar` (`/rpc/set_own_avatar`). While that function was missing, Save showed "Your picture did not save. Please try again." and the saved picture did not change.
 
-**Sticks after reload: pending** until the migration is applied. Then re-test with a throwaway kid. `tests/kid_picture_browser.cjs` does stick a picture after reload against a mock backend; that does not cover the live database.
-
-`supabase/migrations/20261102120000_set_own_avatar.sql` is in the tree and was not applied. No Supabase writes. The master account was not signed into or changed. Browser checks used in-memory fixtures only.
+**Sticks after reload: not run.** Bradley applied `set_own_avatar` on `ixjbgshhzeaosrzavssr`. The live check needs a throwaway kid, and creating a kid needs a grown-up. Every recorded disposable grown-up login is gone (invalid credentials). Creating a new grown-up requires the master account. That account was not signed into, and no account was created or deleted. `tests/kid_picture_browser.cjs` still only sticks a picture against a mock backend.
 
 ## What I tested
 
@@ -24,8 +22,9 @@ The My picture card renders for a signed-in kid on their progress page, above Yo
 | `node tests/kid_picture_browser.cjs` (card, missing function, mock save) | Pass |
 | `node tests/kid_picture_database.cjs` (local PGlite only) | Pass |
 | `python3 tests/run_tests.py` | Pass, 6/6 |
+| Live sticks-after-reload on `ixjbgshhzeaosrzavssr` | Not run. No disposable grown-up login still works, and the master account was left alone. |
 
-No full browser suites, shards, or live-site runs.
+No full browser suites or shards. The live picture check stopped before any account write.
 
 ## Screenshots
 
