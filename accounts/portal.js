@@ -2,6 +2,7 @@
 'use strict';
 const $ = id => document.getElementById(id);
 const A = window.ACCOUNTS;
+const base = new URL('../', document.currentScript.src);
 const lucyChoices = window.LUCY_AVATARS;
 for (const fieldset of document.querySelectorAll('.avatar-options')) {
   for (const [index, choice] of lucyChoices.entries()) {
@@ -289,7 +290,8 @@ $('back-to-me').addEventListener('click', async () => {
 $('sign-out').addEventListener('click', async () => {
   $('sign-out').disabled = true;
   try {
-    await A.signOut(); location.href='index.html';
+    const destination = new URL(A.profile?.role === 'child' ? 'index.html' : 'accounts/index.html', base);
+    await A.signOut(); location.href = destination.href;
   } catch (error) { notice(errorText(error), true); }
   finally { $('sign-out').disabled = false; }
 });

@@ -12,7 +12,7 @@ if(isAdmin){
   button.id='sign-out';button.type='button';button.className='quiet-button auth-signout';button.textContent='Sign out';
   document.querySelector('.masthead')?.append(button);
   const update=()=>{button.hidden=!A.profile;};
-  if(!existing)button.addEventListener('click',async()=>{button.disabled=true;await A.signOut();location.href=new URL('accounts/index.html',base).href;});
+  if(!existing)button.addEventListener('click',async()=>{button.disabled=true;const destination=new URL(A.profile?.role==='child'?'index.html':'accounts/index.html',base);await A.signOut();location.href=destination.href;});
   A.subscribe(update);A.ready.then(update).catch(()=>{});update();
   if(new URL(location.href).searchParams.has('expired')){
     const note=document.createElement('p');note.className='notice';note.setAttribute('role','status');note.textContent='Signed out for safety. Please sign in again.';document.querySelector('main')?.prepend(note);
