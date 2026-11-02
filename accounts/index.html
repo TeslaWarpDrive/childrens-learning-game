@@ -56,6 +56,15 @@
         <button type="submit" class="quiet-button">Change my password</button><p class="form-result" role="status" aria-live="polite"></p>
       </form></details>
       </div>
+      <section id="my-picture" class="panel" data-child hidden aria-labelledby="my-picture-title">
+        <h2 id="my-picture-title">My picture</h2>
+        <img id="my-picture-preview" class="child-avatar" alt="Your picture">
+        <form id="my-picture-form">
+          <fieldset class="avatar-options"><legend>Pick a Lucy picture</legend></fieldset>
+          <label>Or use your own picture<input id="my-picture-upload" name="avatar_file" type="file" accept="image/*"></label>
+          <button type="submit" class="solid-button">Save my picture</button><p class="form-result" role="status" aria-live="polite"></p>
+        </form>
+      </section>
       <section id="progress" class="panel" aria-labelledby="progress-title">
         <h2 id="progress-title">Your progress</h2>
         <button id="reset-own-progress" type="button" class="quiet-button" hidden>Reset my game progress…</button>

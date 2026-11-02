@@ -21,6 +21,9 @@ function selectPicture(form, value) {
   const selected = lucyChoices.some(choice => choice.value === value) ? value : lucyChoices[0].value;
   for (const input of form.querySelectorAll('[name=avatar]')) input.checked = input.value === selected;
 }
+function clearPicture(form) {
+  for (const input of form.querySelectorAll('[name=avatar]')) input.checked = false;
+}
 
 let roster = [], rosterFor = null, rosterVersion = 0, switchingOwner = false, rosterRequest = null;
 let grownupsFor = null, editingGrownup = null;
@@ -28,7 +31,7 @@ let portalView=location.hash.slice(1)||'kids';
 let grownupRoster=[];
 const selectedGrownups=new Set();
 const selectedKids=new Set();
-let freshness = 'checking', pendingAction = null, profileFor = null;
+let freshness = 'checking', pendingAction = null, profileFor = null, pictureFor = null;
 const cacheKey = id => 'lwl-portal-progress-'+id;
 const worlds = {post: "Lucy's Letter Post", space: "Lucy's Moonboat", silk: "Ribbon Road"};
 const notice = (message, error = false) => {
@@ -56,7 +59,7 @@ function wireForm(id, action, success) {
     try {
       await action(fields);
       output.textContent = success;
-      if(!['profile-form','child-profile-form','grownup-profile-form','reset-password-form','reset-grownup-password-form'].includes(id)) form.reset();
+      if(!['my-picture-form','profile-form','child-profile-form','grownup-profile-form','reset-password-form','reset-grownup-password-form'].includes(id)) form.reset();
       if (id === 'create-child-form') $('avatar-preview').hidden = true;
     } catch (error) {
       output.textContent = errorText(error);
@@ -194,7 +197,7 @@ function render() {
   if (!signedIn) {
     grownupsFor = null; $('grownups-list').replaceChildren();
     selectedKids.clear();selectedGrownups.clear();
-    rosterFor = null; profileFor = null; roster = []; rosterVersion++; freshness='checking';
+    rosterFor = null; profileFor = null; pictureFor = null; roster = []; rosterVersion++; freshness='checking';
     document.querySelector('.title').textContent = 'Grown-up portal';
     notice('Sign in to manage your kids.');
     return;
@@ -218,6 +221,13 @@ function render() {
     selectPicture(form, profile.avatar);
     $('profile-avatar-preview').hidden=!profile.avatar?.startsWith('data:image/');
     if(!$('profile-avatar-preview').hidden)$('profile-avatar-preview').src=profile.avatar;
+  }
+  if(!adult && pictureFor!==profile.id+':'+profile.avatar){
+    pictureFor=profile.id+':'+profile.avatar;
+    selectPicture($('my-picture-form'), profile.avatar);
+    if(!lucyChoices.some(choice=>choice.value===profile.avatar))clearPicture($('my-picture-form'));
+    $('my-picture-upload').value='';
+    $('my-picture-preview').src=profile.avatar?.startsWith('data:image/')?profile.avatar:lucyChoices[0].value;
   }
   const rounds = snapshot.rounds || [];
   $('identity-title').textContent = profile.display_name;
@@ -318,6 +328,21 @@ wireForm('profile-form',async fields=>{
   else await riskyAction('Change your username?', [A.profile], current_password => A.editProfile({...fields,current_password}));
   await loadGrownups();
 },'Profile saved. Use this username next time you sign in.');
+$('my-picture-upload').addEventListener('change',async()=>{
+  const upload=$('my-picture-upload'),output=$('my-picture-form').querySelector('.form-result');
+  if(!upload.files.length)return;
+  output.classList.remove('error');output.textContent='';
+  try{$('my-picture-preview').src=await avatarPicture(upload.files[0]);clearPicture($('my-picture-form'));}
+  catch(error){upload.value='';output.textContent=errorText(error);output.classList.add('error');}
+});
+document.querySelectorAll('#my-picture-form [name=avatar]').forEach(input=>input.addEventListener('change',()=>{
+  $('my-picture-upload').value='';$('my-picture-preview').src=input.value;
+  $('my-picture-form').querySelector('.form-result').textContent='';
+}));
+wireForm('my-picture-form',async()=>{
+  const upload=$('my-picture-upload');
+  await A.setOwnAvatar(upload.files.length?await avatarPicture(upload.files[0]):$('my-picture-preview').src);
+},'Your picture is saved!');
 async function loadGrownups() {
   if (A.profile?.is_master !== true) return;
   const actor = A.profile.id;
