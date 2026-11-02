@@ -82,6 +82,7 @@ function backend() {
     } else if (url.pathname.endsWith('/user') && request.method()==='PUT') {actor.password=data.password;result={id:actor.profile.id};}
     else if (url.pathname.endsWith('/guardians')) {result=links.filter(l=>(actor.profile.is_master||l.adult_id===actor.profile.id)&&(!url.searchParams.get('adult_id')||url.searchParams.get('adult_id')==='eq.'+l.adult_id));result.sort((a,b)=>a.adult_id.localeCompare(b.adult_id)||a.child_id.localeCompare(b.child_id));const offset=Number(url.searchParams.get('offset')||0),limit=Number(url.searchParams.get('limit')||1000);result=result.slice(offset,offset+limit);}
     else if (url.pathname.endsWith('/classes')) result=[];
+    else if (url.pathname.endsWith('/set_own_avatar')) {if(actor.profile.role!=='child'){status=403;result={message:'Child login required'};}else{actor.profile.avatar=data.p_avatar;result=data.p_avatar;}}
     else if (url.pathname.endsWith('/sync_batch')) {
       const allowed=data.p_owner===actor.profile.id || links.some(l=>l.adult_id===actor.profile.id&&l.child_id===data.p_owner);
       if(!allowed) {status=403;result={message:'Not your progress page'};}

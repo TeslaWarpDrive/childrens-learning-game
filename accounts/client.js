@@ -261,6 +261,15 @@ async function editProfile(fields) {
   const wasSelf=owner?.id===self.id;
   persistSession({...session,profile}); if(wasSelf)owner=profile; emit();
 }
+async function setOwnAvatar(avatar) {
+  if (self?.role!=='child') throw new Error('Sign in as a child first.');
+  await syncing;
+  let saved;
+  try { saved = await rest('/rpc/set_own_avatar',{method:'POST',body:{p_avatar:avatar}}); }
+  catch { throw new Error('Your picture did not save. Please try again.'); }
+  const wasSelf=owner?.id===self.id;
+  persistSession({...session,profile:{...self,avatar:saved}}); if(wasSelf)owner=self; emit();
+}
 async function signIn(handle, password, {role} = {}) {
   requireHostedAccounts();
   await ready;
@@ -395,7 +404,7 @@ window.ACCOUNTS = {ready,
     emit();
   },
   get gameDefaults(){return {...gameDefaults};},get childOverrides(){return structuredClone(childOverrides);},effectiveSettings,refreshSettings,applySettings,sessionStatus,expireSession,
-  get guest(){return guest;}, signIn,signOut,selectOwner,setSetting,setSettings,recordRound,sync,rest,allRows,manage,readProgress,editProfile,
+  get guest(){return guest;}, signIn,signOut,selectOwner,setSetting,setSettings,recordRound,sync,rest,allRows,manage,readProgress,editProfile,setOwnAvatar,
   async changePassword(password,current_password) { if([...password].length<6)throw new Error('Use at least 6 characters.'); return manage('change-own-password',{password,current_password}); },
   get session(){return guest?null:session;},get profile(){return guest?null:self;},get owner(){return guest?null:owner;},get status(){return status;},
   get snapshot(){return snapshotFor(guest?null:owner?.id);},get pending(){if(guest)return 0;return records.filter(r=>r.pending && r.user_id===owner?.id).length;},

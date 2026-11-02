@@ -51,3 +51,5 @@ body:has(#account-main) .masthead{padding-top:0;flex-wrap:wrap}
 #confirm-own-reset-dialog::backdrop{background:rgb(37 63 101 / .5)}
 #confirm-own-reset-dialog .actions{position:static;justify-content:flex-end;margin-top:20px}
 #reset-own-progress{margin-bottom:16px}
+#my-picture-preview{width:112px;height:112px;border:3px solid var(--line-strong)}
+#my-picture .avatar-options img{width:88px;height:88px}
