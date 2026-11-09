@@ -27,14 +27,31 @@ function formPicture(form) {
   const preview=form.querySelector('img[id$="avatar-preview"]');
   return preview&&!preview.hidden?preview.src:form.querySelector('[name=avatar]:checked')?.value;
 }
+function showKeptPicture(form, avatar) {
+  const preview=form.querySelector('img[id$="avatar-preview"]');
+  const upload=form.querySelector('input[type=file]');
+  if(upload)upload.value='';
+  const custom=typeof avatar==='string'&&avatar.startsWith('data:image/');
+  if(preview){
+    preview.hidden=!custom;
+    if(custom)preview.src=avatar;
+  }
+  selectPicture(form, avatar);
+  loadedPictures.set(form, formPicture(form));
+}
 function profilePictureChange(form, fields, child=false) {
   const picture=formPicture(form), loadedPicture=loadedPictures.get(form);
   delete fields.avatar_file;
   if(picture!==loadedPicture)fields.avatar=picture;
   else if(child)delete fields.avatar;
   else fields.avatar=null;
-  return ()=>{
-    if(loadedPictures.get(form)===loadedPicture)loadedPictures.set(form,picture);
+  return kept=>{
+    if(loadedPictures.get(form)!==loadedPicture)return;
+    if(formPicture(form)===picture && typeof kept==='string' && kept!==picture){
+      showKeptPicture(form, kept);
+      return;
+    }
+    loadedPictures.set(form, picture);
   };
 }
 function clearPicture(form) {
@@ -335,14 +352,14 @@ wireForm('child-profile-form',async fields=>{
   const savedPicture=profilePictureChange($('child-profile-form'),fields,true);
   const save = current_password => A.manage('edit-child-profile',{...fields,child_id:child.id,current_password});
   const {profile}=fields.handle.trim().toLowerCase()===child.handle ? await save() : await riskyAction('Change this child’s username?', [child], save);
-  savedPicture();
+  savedPicture(profile?.avatar);
   await A.selectOwner(profile);await loadRoster({fresh:true});
 },'Child profile saved. Use the new username next time.');
 wireForm('profile-form',async fields=>{
   const savedPicture=profilePictureChange($('profile-form'),fields);
   if (fields.handle.trim().toLowerCase()===A.profile.handle) await A.editProfile(fields);
   else await riskyAction('Change your username?', [A.profile], current_password => A.editProfile({...fields,current_password}));
-  savedPicture();
+  savedPicture(A.profile?.avatar);
   await loadGrownups();
 },'Profile saved. Use this username next time you sign in.');
 $('my-picture-upload').addEventListener('change',async()=>{
@@ -427,7 +444,7 @@ wireForm('grownup-profile-form',async fields=>{
   const savedPicture=profilePictureChange($('grownup-profile-form'),fields);
   const save = current_password => A.manage('edit-grownup-profile',{...fields,grownup_id:editingGrownup.id,current_password});
   const {profile}=fields.handle.trim().toLowerCase()===editingGrownup.handle ? await save() : await riskyAction('Change this grown-up’s username?', [editingGrownup], save);
-  savedPicture();
+  savedPicture(profile?.avatar);
   editingGrownup=profile;await loadGrownups();
 },'Profile saved. Use the new username next time.');
 $('close-edit-grownup').addEventListener('click',()=>$('edit-grownup').close());
