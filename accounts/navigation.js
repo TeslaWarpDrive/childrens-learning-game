@@ -12,7 +12,7 @@ if(isAdmin){
   button.id='sign-out';button.type='button';button.className='quiet-button auth-signout';button.textContent='Sign out';
   document.querySelector('.masthead')?.append(button);
   const update=()=>{button.hidden=!A.profile;};
-  if(!existing)button.addEventListener('click',async()=>{button.disabled=true;const destination=new URL(A.profile?.role==='child'?'index.html':'accounts/index.html',base);await A.signOut();location.href=destination.href;});
+  if(!existing)button.addEventListener('click',async()=>{button.disabled=true;await A.signOutFrom('portal');});
   A.subscribe(update);A.ready.then(update).catch(()=>{});update();
   if(new URL(location.href).searchParams.has('expired')){
     const note=document.createElement('p');note.className='notice';note.setAttribute('role','status');note.textContent='Signed out for safety. Please sign in again.';document.querySelector('main')?.prepend(note);
@@ -49,7 +49,7 @@ if(!isHome&&!isAdmin){
   document.addEventListener('click',event=>{if(!menu.contains(event.target)||event.target.closest('a'))close();});
   document.addEventListener('keydown',event=>{if(event.key==='Escape'&&menu.open){close();avatar.focus();}});
   window.addEventListener('pagehide',close);
-  done.addEventListener('click',async()=>{done.disabled=true;await A.signOut();location.href=new URL('index.html',base).href;});
+  done.addEventListener('click',async()=>{done.disabled=true;await A.signOutFrom('game-menu');});
   A.subscribe(render);A.ready.then(render).catch(()=>{});render();
 }
 if('serviceWorker' in navigator){

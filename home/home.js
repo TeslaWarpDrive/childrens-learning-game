@@ -37,7 +37,7 @@ form.addEventListener('submit',async event=>{
 });
 document.getElementById('play-unsaved').addEventListener('click',async()=>{await A.startGuest();showLayouts();});
 again.addEventListener('click',async()=>{try{await A.selectOwner(A.profile);showLayouts();}catch(error){status.textContent=error.message;}});
-document.getElementById('change-player').addEventListener('click',async()=>{form.reset();await A.signOut();status.textContent='';openLogin();});
+document.getElementById('change-player').addEventListener('click',async()=>{form.reset();await A.signOutFrom('home');status.textContent='';openLogin();});
 openLogin();
 if(new URL(location.href).searchParams.has('expired'))status.textContent='Signed out for safety. Your saved play is waiting for your next sign-in.';
 A.subscribe(()=>{if(!A.session&&!A.guest)openLogin();});

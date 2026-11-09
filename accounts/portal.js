@@ -300,8 +300,7 @@ $('back-to-me').addEventListener('click', async () => {
 $('sign-out').addEventListener('click', async () => {
   $('sign-out').disabled = true;
   try {
-    const destination = new URL(A.profile?.role === 'child' ? 'index.html' : 'accounts/index.html', base);
-    await A.signOut(); location.href = destination.href;
+    await A.signOutFrom('portal');
   } catch (error) { notice(errorText(error), true); }
   finally { $('sign-out').disabled = false; }
 });

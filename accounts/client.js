@@ -59,9 +59,7 @@ function localDeadline(){
 async function expireSession(){
   if(ending||!session)return;
   ending=true;
-  const role=self?.role;
-  await signOut({expired:true});
-  location.replace(new URL(role==='grownup'?'accounts/index.html?expired=1':'index.html?expired=1',base).href);
+  await signOutFrom('expiry');
 }
 async function sessionStatus({touch=false}={}){
   if(!session||guest)return;
@@ -295,6 +293,16 @@ async function signOut({expired=false}={}) {
     try { await network('/auth/v1/logout?scope=local',{method:'POST',token:previous.access_token}); } catch { /* Local sign-out already removed the session. */ }
   }
 }
+async function signOutFrom(surface) {
+  if(!['home','portal','game-menu','expiry'].includes(surface))throw new Error('Choose a sign-out surface.');
+  const role=self?.role;
+  const destination=new URL(surface!=='game-menu'&&role==='grownup'?'accounts/index.html':'index.html',base);
+  if(surface==='expiry')destination.searchParams.set('expired','1');
+  await signOut({expired:surface==='expiry'});
+  if(surface==='home')return;
+  if(surface==='expiry')location.replace(destination.href);
+  else location.href=destination.href;
+}
 async function selectOwner(profile) {
   await ready;
   await syncing;
@@ -404,7 +412,7 @@ window.ACCOUNTS = {ready,
     emit();
   },
   get gameDefaults(){return {...gameDefaults};},get childOverrides(){return structuredClone(childOverrides);},effectiveSettings,refreshSettings,applySettings,sessionStatus,expireSession,
-  get guest(){return guest;}, signIn,signOut,selectOwner,setSetting,setSettings,recordRound,sync,rest,allRows,manage,readProgress,editProfile,setOwnAvatar,
+  get guest(){return guest;}, signIn,signOut,signOutFrom,selectOwner,setSetting,setSettings,recordRound,sync,rest,allRows,manage,readProgress,editProfile,setOwnAvatar,
   async changePassword(password,current_password) { if([...password].length<6)throw new Error('Use at least 6 characters.'); return manage('change-own-password',{password,current_password}); },
   get session(){return guest?null:session;},get profile(){return guest?null:self;},get owner(){return guest?null:owner;},get status(){return status;},
   get snapshot(){return snapshotFor(guest?null:owner?.id);},get pending(){if(guest)return 0;return records.filter(r=>r.pending && r.user_id===owner?.id).length;},
