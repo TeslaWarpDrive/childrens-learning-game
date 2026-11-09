@@ -42,13 +42,13 @@ function page(registration){
  for(const registration of [new Error('Register failed'),{update:async()=>{}},{update:async()=>{throw Error('Update failed without an active worker');}}]){
   const p=page(registration);await tick();assert.equal(p.offline.textContent,failed);
  }
- // Run the actual install handler: a rejected precache never activates/deletes the old cache.
- const handlers={};let skipped=0,deleted=0,install;
+ // Run the actual install handler: a rejected precache never activates, and only the cache this install opened is deleted.
+ const handlers={};let skipped=0,install;const removed=[];
  vm.runInNewContext(fs.readFileSync('sw.js','utf8'),{
   URL,importScripts:()=>{},self:{OFFLINE_MANIFEST:{version:'fixture',files:['./index.html']},location:new URL('http://localhost/sw.js'),registration:{scope:'http://localhost/'},addEventListener:(name,fn)=>handlers[name]=fn,skipWaiting:()=>skipped++},
-  caches:{open:async()=>({addAll:async()=>{throw Error('Precache failed');}}),delete:()=>deleted++}
+  caches:{open:async()=>({addAll:async()=>{throw Error('Precache failed');}}),delete:async name=>{removed.push(name);}}
  });
  handlers.install({waitUntil:promise=>install=promise});await assert.rejects(install,/Precache failed/);
- assert.equal(skipped,0);assert.equal(deleted,0);
- console.log('PASS offline readiness: current install, old active worker, update check, waiting worker, registration/install failures, failed addAll keeps old cache');
+ assert.equal(skipped,0);assert.deepEqual(removed,['letters-with-lucy-fixture']);
+ console.log('PASS offline readiness: current install, old active worker, update check, waiting worker, registration/install failures, failed addAll deletes only its new cache');
 })().catch(error=>{console.error(error);process.exitCode=1;});

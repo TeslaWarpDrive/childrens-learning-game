@@ -9,7 +9,15 @@ self.addEventListener('message',event=>{
   if(event.data?.type==='letters-offline-aware'&&event.source?.id)aware.add(event.source.id);
 });
 self.addEventListener('install',event=>{
-  event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(self.OFFLINE_MANIFEST.files)).then(()=>self.skipWaiting()));
+  event.waitUntil((async()=>{
+    const cache=await caches.open(CACHE);
+    try{await cache.addAll(self.OFFLINE_MANIFEST.files);}
+    catch(error){
+      try{await caches.delete(CACHE);}catch{}
+      throw error;
+    }
+    await self.skipWaiting();
+  })());
 });
 self.addEventListener('activate',event=>{
   event.waitUntil((async()=>{
