@@ -113,7 +113,8 @@ async function go(next,{focus=true,transition=true,keepVoice=false}={}){if(!keep
 async function celebrationMoment(mine){if(await F.reward()&&route===mine)await F.lucy('nod');}
 async function start(letter){layout?.select(letter);roundId=window.ACCOUNTS?.owner?crypto.randomUUID():null;publishOfflineRound();current=letters.find(l=>l.letter===letter)||letters[0];misses=0;choices=shuffle([current,...shuffle(letters.filter(l=>l!==current&&l.sound!==current.sound&&(current.letter==='X'||l.word[0]!==current.word[0]))).slice(0,2)]);if(!await go('listen'))return;const mine=route;if(!await F.open())return;if(route===mine)voice(letterAudio());}
 async function continueMatch(button){if(busy||state!=='listen')return;busy=true;stopVoice();const mine=route,pressed=await F.press(button);if(route!==mine)return;if(pressed)await go('match');else busy=false;}
-async function replay(reward=false){if(busy)return;stopVoice();F.cancel();const mine=route,token=voiceToken;if(!await F.replay())return;if(route===mine&&token===voiceToken)voice(reward?[wordAudio(current)]:state==='match'?[A.letters[current.letter].sound]:letterAudio());}
+// Reward replay is transient, so it must not clear the route-owned paper rain.
+async function replay(reward=false){if(busy)return;stopVoice();if(!reward)F.cancel();const mine=route,token=voiceToken;if(!await F.replay())return;if(route===mine&&token===voiceToken)voice(reward?[wordAudio(current)]:state==='match'?[A.letters[current.letter].sound]:letterAudio());}
 const retryClips = ['../audio/feedback/lucy-uh-oh.mp3','../audio/feedback/lucy-try-again.mp3','../audio/feedback/lucy-oops-try-again.mp3'];
 let retryBag=[];
 function nextRetry(){if(!retryBag.length)retryBag=shuffle(retryClips);return retryBag.pop();}

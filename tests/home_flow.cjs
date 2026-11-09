@@ -48,7 +48,13 @@ async function run(){
       for(const world of ['post','space']){
         await page.locator('[data-world='+world+']').click();await settle(page);
         assert.match(await page.title(),/Letters with Lucy/);
-        assert.match(await page.locator('#header .brand').innerText(),/Letters with Lucy\s+Little Sounds Big Discovery/);
+        // Approved phone home hides the tagline (layout.css, max-width 550px). Wider homes still show it.
+        const brand=page.locator('#header .brand'),tagline=brand.locator('small');
+        if(viewport.width<=550){
+          assert.equal((await brand.innerText()).replace(/\s+/g,' ').trim(),'Letters with Lucy',world+': phone home keeps the name and hides the tagline');
+          assert.equal(await tagline.evaluate(node=>getComputedStyle(node).display),'none',world+': phone home hides .brand small');
+          assert.equal((await tagline.textContent()).trim(),'Little Sounds Big Discovery');
+        }else assert.match(await brand.innerText(),/Letters with Lucy\s+Little Sounds Big Discovery/);
         assert(!/little\s*woof|ready[\s-]*set[\s-]*abc|silk (road|thread)/i.test(await page.locator('body').innerText()));
         await page.getByRole('link',{name:'Choose a layout'}).click();await page.waitForFunction(()=>document.body.dataset.homeStep==='layouts');
       }
