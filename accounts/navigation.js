@@ -52,10 +52,26 @@ if(!isHome&&!isAdmin){
   done.addEventListener('click',async()=>{done.disabled=true;await A.signOutFrom('game-menu');});
   A.subscribe(render);A.ready.then(render).catch(()=>{});render();
 }
+async function offlineInstalled(registration){
+  // An existing registration can resolve before its update check finishes.
+  if(!registration.installing&&!registration.waiting)await registration.update();
+  const worker=registration.installing||registration.waiting||registration.active;
+  await new Promise((resolve,reject)=>{
+    if(!worker){reject(new Error('No offline worker.'));return;}
+    const check=()=>{
+      if(['installed','activating','activated'].includes(worker.state)){
+        worker.removeEventListener('statechange',check);resolve();
+      }else if(worker.state==='redundant'){
+        worker.removeEventListener('statechange',check);reject(new Error('Offline install failed.'));
+      }
+    };
+    worker.addEventListener('statechange',check);check();
+  });
+}
 if('serviceWorker' in navigator){
   offline.textContent='Saving the games for offline play…';
   navigator.serviceWorker.register(new URL('sw.js',base),{scope:base.pathname,updateViaCache:'none'})
-    .then(()=>navigator.serviceWorker.ready).then(()=>{offline.textContent='Games ready for offline play.';navigator.storage?.persist?.().catch(()=>{});})
+    .then(offlineInstalled).then(()=>{offline.textContent='Games ready for offline play.';navigator.storage?.persist?.().catch(()=>{});})
     .catch(()=>{offline.textContent='Offline copy is not ready. Keep this page online and reload to try again.';});
 }else offline.textContent='This browser needs an internet connection to reopen the games.';
 })();
