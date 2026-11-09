@@ -128,7 +128,8 @@ async function pageAnnounces(file){
     await restarted.activate();
     assert.deepEqual(restarted.navigations,[], 'A worker that lost its memory does not reload a persisted in-round window');
     await restarted.send(client,{type:'letters-offline-round',inRound:false});
-    assert.deepEqual(restarted.navigations,[client.url],'After the restart, the round ending is the safe reload');
+    assert.deepEqual(restarted.navigations,[],'The page owns the final reload decision');
+    assert.equal(restarted.messages.length,2,'After restart, the safe report asks the page to check again');
   });
   await check('unknown roster state is not force-reloaded',async()=>{
     const client={id:'unknown',url:'http://localhost/v3-moonboat/index.html'};
@@ -139,15 +140,17 @@ async function pageAnnounces(file){
     assert.deepEqual(worker.navigations,[], 'Unreadable or missing round state defaults to no force-reload');
     assert.ok(!store.deleted.includes(ROSTER));
   });
-  await check('a deferred takeover reloads only after the round is reported over',async()=>{
+  await check('a deferred takeover asks the page again after each safe report',async()=>{
     const client={id:'playing',url:'http://localhost/v4-silk-thread/?theme=1'};
     const store=fakeCaches([]);
     await seed(store,{playing:{aware:true,inRound:true,pending:true}});
     const worker=boot(store,{clients:[client]});
     await worker.send(client,{type:'letters-offline-round',inRound:false,updateWaiting:true});
-    assert.deepEqual(worker.navigations,[client.url],'The next safe report reloads a window the takeover had to skip');
+    assert.deepEqual(worker.navigations,[],'A safe report never authorizes forced navigation');
+    assert.deepEqual(worker.messages,[{id:client.id,type:'letters-offline-update'}]);
     await worker.send(client,{type:'letters-offline-round',inRound:false,updateWaiting:true});
-    assert.deepEqual(worker.navigations,[client.url],'A second safe report does not reload again');
+    assert.deepEqual(worker.navigations,[]);
+    assert.equal(worker.messages.length,2,'A page that deferred again can receive another update request');
   });
   await check('an ordinary safe report without a pending takeover does not reload',async()=>{
     const client={id:'playing',url:'http://localhost/v1-letter-post/'};

@@ -5,7 +5,7 @@ const files = new Set(self.OFFLINE_MANIFEST.files.map(file=>new URL(file,self.lo
 const games = ['v1-letter-post/','v3-moonboat/','v4-silk-thread/'].map(path=>new URL(path,self.registration.scope).href);
 const owned = key=>key.startsWith('little-woof-')||key.startsWith('letters-with-lucy-');
 const ROSTER='letters-offline-clients';
-const memory=new Map(),settled=new Set();
+const memory=new Map();
 let loadJob=null,tail=Promise.resolve(),arming=false;
 const gameClient=client=>!!client&&games.some(url=>String(client.url||'').startsWith(url));
 function rosterRequest(){return new Request(new URL('letters-offline-roster',self.registration.scope).href);}
@@ -72,20 +72,15 @@ self.addEventListener('message',event=>{
     await load();
     const {record,wasInRound}=apply(id,data);
     const armed=record.pending||arming;
-    if(data.inRound===false&&!settled.has(id)&&armed&&(wasInRound||data.updateWaiting===true)){
+    if(data.inRound===false&&armed&&(wasInRound||data.updateWaiting===true)){
       try{
         const client=typeof self.clients?.get==='function'?await self.clients.get(id):null;
         if(gameClient(client)){
-          record.pending=false;
-          memory.set(id,record);
-          settled.add(id);
-          await client.navigate(client.url);
+          // The player may have started another round while this lookup waited.
+          // Keep the update pending; only the page can check its current state.
+          client.postMessage({type:'letters-offline-update'});
         }
-      }catch{
-        record.pending=true;
-        memory.set(id,record);
-        settled.delete(id);
-      }
+      }catch{}
     }
     await persist();
   })();
@@ -109,14 +104,13 @@ self.addEventListener('activate',event=>{
     await Promise.all(old.map(key=>caches.delete(key)));
     await self.clients.claim();
     // An old window cannot report listen, match, roundId, or a save. Unknown and
-    // in-round clients stay. A later true-to-false round report reloads once.
+    // in-round clients stay. A later safe report asks the page to check again.
     if(!old.length)return;
     arming=true;
     await load();
     for(const client of await self.clients.matchAll({type:'window'})){
       if(!gameClient(client))continue;
       try{client.postMessage({type:'letters-offline-update'});}catch{}
-      if(settled.has(client.id))continue;
       const prev=memory.get(client.id)||{aware:false,inRound:null,pending:false};
       prev.pending=true;
       memory.set(client.id,prev);
