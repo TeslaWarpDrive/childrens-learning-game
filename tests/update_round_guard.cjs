@@ -19,7 +19,7 @@ async function workerCheck(){
  await workerCheck();
  const local=await staticServer(),browser=await playwright().chromium.launch({executablePath:process.env.CHROMIUM_EXECUTABLE||'/usr/bin/google-chrome',args:['--no-sandbox']});
  try{
-  for(const layout of ['v1-letter-post','v3-moonboat','v4-silk-thread']){
+  for(const layout of ['v1-letter-post','v3-moonboat','v4-silk-thread'])for(const guest of [false,true]){
    const fixture=backend();fixture.seed('fixture_admin','fixture-only');fixture.seed('fixture_child','fixture-only','Fixture child',{role:'child'});
    const context=await browser.newContext({serviceWorkers:'block',reducedMotion:'reduce'});
    await context.route('**/*',route=>{
@@ -29,7 +29,9 @@ async function workerCheck(){
     return route.abort();
    });
    const page=await context.newPage(),errors=[];page.on('pageerror',error=>errors.push(error.message));
-   await page.goto(local.url+'/');await page.evaluate(()=>ACCOUNTS.signIn('fixture_child','fixture-only'));
+   await page.goto(local.url+'/');
+   if(guest)await page.locator('#play-unsaved').click();
+   else await page.evaluate(()=>ACCOUNTS.signIn('fixture_child','fixture-only'));
    await page.goto(local.url+'/'+layout+'/');await page.waitForFunction(()=>document.body.dataset.screen==='home');
    const update=()=>page.evaluate(()=>navigator.serviceWorker.dispatchEvent(new MessageEvent('message',{data:{type:'letters-offline-update'}})));
    async function stays(label){
@@ -41,6 +43,35 @@ async function workerCheck(){
     await update();await navigation;await page.waitForLoadState();await page.waitForFunction(()=>document.body.dataset.screen==='home');
    }
    await reloads(); // No round yet.
+   if(guest){
+    await page.locator('#mute').click();
+    await page.locator('[data-letter=A]').click();
+    await page.waitForFunction(()=>document.body.dataset.screen==='listen');
+    await stays('Guest Listen defers reload');
+    await page.locator('[data-action=match]').click();
+    await page.waitForFunction(()=>document.body.dataset.screen==='match');
+    await stays('Guest Match defers reload');
+    await page.locator('.choice:not([data-answer=A])').first().click();
+    await stays('Guest wrong answer defers reload');
+    await page.locator('[data-answer=A]').click();
+    await page.waitForFunction(()=>document.body.dataset.screen==='celebrate');
+    await page.locator('[data-action=next]').click();
+    await page.waitForFunction(()=>document.body.dataset.screen==='listen');
+    await stays('Guest next round defers reload');
+    await page.keyboard.press('Escape');
+    await page.waitForFunction(()=>document.body.dataset.screen==='home');
+    await reloads();
+    await page.locator('[data-letter=B]').click();
+    await page.waitForFunction(()=>document.body.dataset.screen==='listen');
+    await page.locator('[data-action=match]').click();
+    await page.waitForFunction(()=>document.body.dataset.screen==='match');
+    await page.locator('[data-answer=B]').click();
+    await page.waitForFunction(()=>document.body.dataset.screen==='celebrate');
+    await reloads();
+    assert.deepEqual(errors,[]);
+    console.log(`PASS ${layout}: guest Listen/Match/wrong/next deferral, safe Home and completed-round reload`);
+    await context.close();continue;
+   }
    const holdSaves=()=>page.evaluate(()=>{
     window.saves=[];
     const record=ACCOUNTS.recordRound;

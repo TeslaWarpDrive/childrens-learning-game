@@ -21,7 +21,7 @@ const accounts=location.protocol==='file:'?null:window.ACCOUNTS;
 let progressOwner=accounts?.owner?.id||null;
 let theme=0, storageOK=true, muted=grown.voice===false, state='home', current=letters[0], visited=new Set(progressOwner?accounts.snapshot.rounds.map(round=>round.letter):[]), misses=0, choices=[], busy=false, route=0, voiceToken=0, player=null, resolveClip=null, pauseTimer=null, roundId=null, savingRounds=0;
 navigator.serviceWorker?.addEventListener('message',event=>{
- if(event.data?.type==='letters-offline-update'&&!roundId&&!savingRounds)location.reload();
+ if(event.data?.type==='letters-offline-update'&&state!=='listen'&&state!=='match'&&!roundId&&!savingRounds)location.reload();
 });
 const layout=window.createLetterLayout?.({pool,visited,post,main,ico,grown,saved:()=>Boolean(progressOwner)});
 try { const saved=Number(window.ACCOUNTS?.guest ? 0 : window.ACCOUNTS?.owner && location.protocol !== 'file:' ? window.ACCOUNTS.snapshot.themes[C.kind] : localStorage.getItem(key)); if(Number.isInteger(saved)&&saved>=0&&saved<C.themes.length) theme=saved; }catch(e){storageOK=false;}
