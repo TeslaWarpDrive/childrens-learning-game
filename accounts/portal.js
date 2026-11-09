@@ -22,6 +22,19 @@ function selectPicture(form, value) {
   const selected = lucyChoices.some(choice => choice.value === value) ? value : lucyChoices[0].value;
   for (const input of form.querySelectorAll('[name=avatar]')) input.checked = input.value === selected;
 }
+const loadedPictures = new WeakMap();
+function formPicture(form) {
+  const preview=form.querySelector('img[id$="avatar-preview"]');
+  return preview&&!preview.hidden?preview.src:form.querySelector('[name=avatar]:checked')?.value;
+}
+function profilePictureChange(form, fields, child=false) {
+  const picture=formPicture(form);
+  delete fields.avatar_file;
+  if(picture!==loadedPictures.get(form))fields.avatar=picture;
+  else if(child)delete fields.avatar;
+  else fields.avatar=null;
+  return ()=>loadedPictures.set(form,picture);
+}
 function clearPicture(form) {
   for (const input of form.querySelectorAll('[name=avatar]')) input.checked = false;
 }
@@ -204,7 +217,7 @@ function render() {
     return;
   }
   const owner = A.owner || profile;
-  if(owner.role==='child' && $('child-profile-form').dataset.childProfile!==owner.id+':'+owner.handle){const form=$('child-profile-form');form.dataset.childProfile=owner.id+':'+owner.handle;form.elements.handle.value=owner.handle;form.elements.display_name.value=owner.display_name;selectPicture(form, owner.avatar);$('child-avatar-upload').value='';$('child-avatar-preview').hidden=!owner.avatar?.startsWith('data:image/');if(!$('child-avatar-preview').hidden)$('child-avatar-preview').src=owner.avatar;void loadChildGrownups();}
+  if(owner.role==='child' && $('child-profile-form').dataset.childProfile!==owner.id+':'+owner.handle){const form=$('child-profile-form');form.dataset.childProfile=owner.id+':'+owner.handle;form.elements.handle.value=owner.handle;form.elements.display_name.value=owner.display_name;selectPicture(form, owner.avatar);$('child-avatar-upload').value='';$('child-avatar-preview').hidden=!owner.avatar?.startsWith('data:image/');if(!$('child-avatar-preview').hidden)$('child-avatar-preview').src=owner.avatar;loadedPictures.set(form,formPicture(form));void loadChildGrownups();}
   const adult = profile.role === 'grownup';
   if (profile.is_master === true && grownupsFor !== profile.id) { grownupsFor = profile.id; void loadGrownups(); }
   document.querySelectorAll('[data-child]').forEach(node => { node.hidden = adult; });
@@ -222,6 +235,7 @@ function render() {
     selectPicture(form, profile.avatar);
     $('profile-avatar-preview').hidden=!profile.avatar?.startsWith('data:image/');
     if(!$('profile-avatar-preview').hidden)$('profile-avatar-preview').src=profile.avatar;
+    loadedPictures.set(form,formPicture(form));
   }
   if(!adult && pictureFor!==profile.id+':'+profile.avatar){
     pictureFor=profile.id+':'+profile.avatar;
@@ -316,17 +330,17 @@ document.querySelectorAll('#profile-form [name=avatar]').forEach(input=>input.ad
 wireForm('child-profile-form',async fields=>{
   const child=A.owner;
   if(child?.role!=='child')throw new Error('Open a child first.');
-  delete fields.avatar_file;
-  if(!$('child-avatar-preview').hidden)fields.avatar=$('child-avatar-preview').src;
+  const savedPicture=profilePictureChange($('child-profile-form'),fields,true);
   const save = current_password => A.manage('edit-child-profile',{...fields,child_id:child.id,current_password});
   const {profile}=fields.handle.trim().toLowerCase()===child.handle ? await save() : await riskyAction('Change this child’s username?', [child], save);
+  savedPicture();
   await A.selectOwner(profile);await loadRoster({fresh:true});
 },'Child profile saved. Use the new username next time.');
 wireForm('profile-form',async fields=>{
-  delete fields.avatar_file;
-  if(!$('profile-avatar-preview').hidden)fields.avatar=$('profile-avatar-preview').src;
+  const savedPicture=profilePictureChange($('profile-form'),fields);
   if (fields.handle.trim().toLowerCase()===A.profile.handle) await A.editProfile(fields);
   else await riskyAction('Change your username?', [A.profile], current_password => A.editProfile({...fields,current_password}));
+  savedPicture();
   await loadGrownups();
 },'Profile saved. Use this username next time you sign in.');
 $('my-picture-upload').addEventListener('change',async()=>{
@@ -376,6 +390,7 @@ function renderGrownups(){
         selectPicture(form, person.avatar);
         $('grownup-avatar-preview').hidden=!person.avatar?.startsWith('data:image/');
         if(!$('grownup-avatar-preview').hidden)$('grownup-avatar-preview').src=person.avatar;
+        loadedPictures.set(form,formPicture(form));
         form.querySelector('.form-result').textContent='';
         $('edit-grownup-title').textContent=person.display_name;
         $('edit-grownup-login').textContent='Login: '+person.handle;
@@ -407,10 +422,10 @@ document.querySelectorAll('#grownup-profile-form [name=avatar]').forEach(input=>
 }));
 wireForm('grownup-profile-form',async fields=>{
   if(!editingGrownup)throw new Error('Choose a grown-up first.');
-  delete fields.avatar_file;
-  if(!$('grownup-avatar-preview').hidden)fields.avatar=$('grownup-avatar-preview').src;
+  const savedPicture=profilePictureChange($('grownup-profile-form'),fields);
   const save = current_password => A.manage('edit-grownup-profile',{...fields,grownup_id:editingGrownup.id,current_password});
   const {profile}=fields.handle.trim().toLowerCase()===editingGrownup.handle ? await save() : await riskyAction('Change this grown-up’s username?', [editingGrownup], save);
+  savedPicture();
   editingGrownup=profile;await loadGrownups();
 },'Profile saved. Use the new username next time.');
 $('close-edit-grownup').addEventListener('click',()=>$('edit-grownup').close());

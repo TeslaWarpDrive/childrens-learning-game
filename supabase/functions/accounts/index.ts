@@ -318,7 +318,7 @@ export async function serve(request: Request): Promise<Response> {
       if (object(previous[0]).handle !== name) await verifyPassword();
       const display = string(input.display_name, 'Name').trim();
       if (!display || [...display].length > 60) throw new RequestError('Use a name of 1–60 characters.');
-      const avatar = childAvatar(input.avatar);
+      const avatar = input.avatar == null ? null : childAvatar(input.avatar);
       const taken = await api(`/rest/v1/profiles?handle=eq.${name}&id=neq.${target}&select=id`);
       if (Array.isArray(taken) && taken.length) throw new RequestError('That handle is taken. Choose another handle.', 409);
       await api('/rest/v1/rpc/edit_confirmed_profile', {method:'POST',body:JSON.stringify({p_actor:adult,p_target:target,p_expected_handle:object(previous[0]).handle,p_handle:name,p_display_name:display,p_avatar:avatar})});
