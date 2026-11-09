@@ -54,7 +54,10 @@ if(!isHome&&!isAdmin){
 }
 async function offlineInstalled(registration){
   // An existing registration can resolve before its update check finishes.
-  if(!registration.installing&&!registration.waiting)await registration.update();
+  if(!registration.installing&&!registration.waiting){
+    try{await registration.update();}
+    catch(error){if(registration.active?.state!=='activated')throw error;}
+  }
   const worker=registration.installing||registration.waiting||registration.active;
   await new Promise((resolve,reject)=>{
     if(!worker){reject(new Error('No offline worker.'));return;}

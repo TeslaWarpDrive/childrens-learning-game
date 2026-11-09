@@ -37,9 +37,9 @@ function page(registration){
   if(outcome==='update'){
    assert.equal(p.offline.textContent,saving);registration.installing.change('installed');await tick();
   }
-  assert.equal(p.offline.textContent,outcome==='failure'?failed:ready);
+  assert.equal(p.offline.textContent,ready);
  }
- for(const registration of [new Error('Register failed'),{update:async()=>{}}]){
+ for(const registration of [new Error('Register failed'),{update:async()=>{}},{update:async()=>{throw Error('Update failed without an active worker');}}]){
   const p=page(registration);await tick();assert.equal(p.offline.textContent,failed);
  }
  // Run the actual install handler: a rejected precache never activates/deletes the old cache.
