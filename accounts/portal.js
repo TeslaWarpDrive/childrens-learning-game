@@ -28,12 +28,14 @@ function formPicture(form) {
   return preview&&!preview.hidden?preview.src:form.querySelector('[name=avatar]:checked')?.value;
 }
 function profilePictureChange(form, fields, child=false) {
-  const picture=formPicture(form);
+  const picture=formPicture(form), loadedPicture=loadedPictures.get(form);
   delete fields.avatar_file;
-  if(picture!==loadedPictures.get(form))fields.avatar=picture;
+  if(picture!==loadedPicture)fields.avatar=picture;
   else if(child)delete fields.avatar;
   else fields.avatar=null;
-  return ()=>loadedPictures.set(form,picture);
+  return ()=>{
+    if(loadedPictures.get(form)===loadedPicture)loadedPictures.set(form,picture);
+  };
 }
 function clearPicture(form) {
   for (const input of form.querySelectorAll('[name=avatar]')) input.checked = false;
