@@ -20,7 +20,7 @@ const volume=Math.min(1,Math.max(0,(grown.volume??100)/100)), all=pool.length===
 const accounts=location.protocol==='file:'?null:window.ACCOUNTS;
 let progressOwner=accounts?.owner?.id||null;
 let theme=0, storageOK=true, muted=grown.voice===false, state='home', current=letters[0], visited=new Set(progressOwner?accounts.snapshot.rounds.map(round=>round.letter):[]), misses=0, choices=[], busy=false, route=0, voiceToken=0, player=null, resolveClip=null, pauseTimer=null, roundId=null, savingRounds=0;
-navigator.serviceWorker?.addEventListener('message',event=>{
+window.navigator?.serviceWorker?.addEventListener('message',event=>{
  if(event.data?.type==='letters-offline-update'&&state!=='listen'&&state!=='match'&&!roundId&&!savingRounds)location.reload();
 });
 const layout=window.createLetterLayout?.({pool,visited,post,main,ico,grown,saved:()=>Boolean(progressOwner)});
