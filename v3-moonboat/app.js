@@ -19,7 +19,10 @@ const grown=window.GROWN_UPS?.settings||{}, chosen=letters.filter(l=>!grown.lett
 const volume=Math.min(1,Math.max(0,(grown.volume??100)/100)), all=pool.length===letters.length;
 const accounts=location.protocol==='file:'?null:window.ACCOUNTS;
 let progressOwner=accounts?.owner?.id||null;
-let theme=0, storageOK=true, muted=grown.voice===false, state='home', current=letters[0], visited=new Set(progressOwner?accounts.snapshot.rounds.map(round=>round.letter):[]), misses=0, choices=[], busy=false, route=0, voiceToken=0, player=null, resolveClip=null, pauseTimer=null, roundId=null;
+let theme=0, storageOK=true, muted=grown.voice===false, state='home', current=letters[0], visited=new Set(progressOwner?accounts.snapshot.rounds.map(round=>round.letter):[]), misses=0, choices=[], busy=false, route=0, voiceToken=0, player=null, resolveClip=null, pauseTimer=null, roundId=null, savingRounds=0;
+navigator.serviceWorker?.addEventListener('message',event=>{
+ if(event.data?.type==='letters-offline-update'&&!roundId&&!savingRounds)location.reload();
+});
 const layout=window.createLetterLayout?.({pool,visited,post,main,ico,grown,saved:()=>Boolean(progressOwner)});
 try { const saved=Number(window.ACCOUNTS?.guest ? 0 : window.ACCOUNTS?.owner && location.protocol !== 'file:' ? window.ACCOUNTS.snapshot.themes[C.kind] : localStorage.getItem(key)); if(Number.isInteger(saved)&&saved>=0&&saved<C.themes.length) theme=saved; }catch(e){storageOK=false;}
 function setTheme(value){F.cancel();theme=value;document.body.dataset.theme=String(value);try{if(window.ACCOUNTS?.guest){}else if(window.ACCOUNTS?.owner && location.protocol !== 'file:'){if(window.ACCOUNTS.snapshot.themes[C.kind]!==value)window.ACCOUNTS.setSetting('theme.'+C.kind,value).catch(()=>announce('Could not save your color.'));}else localStorage.setItem(key,String(value));}catch(e){storageOK=false;$('#storage').textContent='Theme saved for this visit only.';} }
@@ -113,8 +116,10 @@ async function answer(button){
  if((accounts?.owner?.id||null)!==progressOwner){refreshProgress();return;}
  const newCompletion=!visited.has(current.letter);
  if(window.ACCOUNTS?.owner){
-  try{await window.ACCOUNTS.recordRound(C.kind,current.letter,misses,roundId);}
+  const savingRound=roundId;savingRounds++;
+  try{await window.ACCOUNTS.recordRound(C.kind,current.letter,misses,savingRound);if(roundId===savingRound)roundId=null;}
   catch{unlock();announce('Could not save this sound. Free some browser storage and try again.');return;}
+  finally{savingRounds--;}
  }
  if(route!==mine)return;
  if(newCompletion)layout?.complete(current.letter);

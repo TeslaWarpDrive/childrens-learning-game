@@ -12,9 +12,9 @@ self.addEventListener('activate',event=>{
     const old = (await caches.keys()).filter(key=>owned(key)&&key!==CACHE);
     await Promise.all(old.map(key=>caches.delete(key)));
     await self.clients.claim();
-    // The previous cache-first worker's pages cannot refresh themselves on takeover.
+    // Each game checks its round/save before reloading on takeover.
     if(old.length)for(const client of await self.clients.matchAll({type:'window'})){
-      if(games.some(url=>client.url.startsWith(url)))client.navigate(client.url).catch(()=>{});
+      if(games.some(url=>client.url.startsWith(url)))try{client.postMessage({type:'letters-offline-update'});}catch{}
     }
   })());
 });
