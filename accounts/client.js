@@ -8,6 +8,7 @@ function requireHostedAccounts(){
 }
 const GUEST_KEY = 'letters-with-lucy-guest';
 let guest = new URL(location.href).searchParams.get('mode') === 'guest';
+try { if (guest) sessionStorage.setItem(GUEST_KEY, '1'); } catch {}
 try { guest ||= sessionStorage.getItem(GUEST_KEY) === '1'; } catch {}
 let db, records = [], session = read(SESSION_KEY), self = session?.profile || null;
 let owner = self, status = 'Sign in to keep your adventures.', syncing = null, refreshPromise = null;
