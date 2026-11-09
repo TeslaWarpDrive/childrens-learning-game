@@ -5,11 +5,13 @@ async function workerCheck(){
  for(const old of [false,true]){
   const listeners={},messages=[],navigations=[];let activation;
   const paths=['v1-letter-post/','v3-moonboat/index.html','v4-silk-thread/?theme=1','accounts/','index.html'];
+  const clients=paths.map((path,index)=>({id:'client-'+index,url:'http://localhost/'+path,postMessage:message=>messages.push({path,type:message.type}),navigate:()=>navigations.push(path)}));
   vm.runInNewContext(fs.readFileSync('sw.js','utf8'),{
    URL,importScripts:()=>{},caches:{keys:async()=>old?['letters-with-lucy-old']:[],delete:async()=>true},
    self:{OFFLINE_MANIFEST:{version:'fixture',files:[]},location:new URL('http://localhost/sw.js'),registration:{scope:'http://localhost/'},addEventListener:(name,fn)=>listeners[name]=fn,
-    clients:{claim:async()=>{},matchAll:async()=>paths.map(path=>({url:'http://localhost/'+path,postMessage:message=>messages.push({path,type:message.type}),navigate:()=>navigations.push(path)}))}}
+    clients:{claim:async()=>{},matchAll:async()=>clients}}
   });
+  for(const client of clients)listeners.message({data:{type:'letters-offline-aware'},source:client});
   listeners.activate({waitUntil:promise=>activation=promise});await activation;
   assert.equal(navigations.length,0,'Worker cannot force a game navigation');
   assert.deepEqual(messages,old?paths.slice(0,3).map(path=>({path,type:'letters-offline-update'})):[]);

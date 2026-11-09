@@ -1,5 +1,14 @@
 (async () => {
 'use strict';
+const announceOfflineClient=worker=>{try{worker?.postMessage({type:'letters-offline-aware'});}catch{}};
+const offlineRegistration=window.navigator?.serviceWorker?.getRegistration?.();
+if(offlineRegistration)offlineRegistration.then(registration=>{
+  if(!registration)return;
+  announceOfflineClient(registration.active);
+  announceOfflineClient(registration.waiting);
+  announceOfflineClient(registration.installing);
+  registration.addEventListener('updatefound',()=>announceOfflineClient(registration.installing));
+}).catch(()=>{});
 if (location.protocol !== 'file:') {
   if (!window.ACCOUNTS) { location.replace('../index.html'); return; }
   try { await window.ACCOUNTS.ready; } catch { if(!window.ACCOUNTS.guest){ location.replace('../index.html'); return; } }
