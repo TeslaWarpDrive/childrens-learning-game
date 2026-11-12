@@ -1,5 +1,5 @@
 self.OFFLINE_MANIFEST = {
-  "version": "d5b88b8cb6943afb",
+  "version": "385469ff4e1967b4",
   "files": [
     "./accounts/client.js",
     "./accounts/config.js",
@@ -179,6 +179,8 @@ self.OFFLINE_MANIFEST = {
     "./v1-letter-post/pictures/zebra.webp",
     "./v1-letter-post/style.css",
     "./v1-letter-post/word-pictures.css",
+    "./v1-letter-post/worlds.css",
+    "./v1-letter-post/worlds.js",
     "./v3-moonboat/app.js",
     "./v3-moonboat/assets/Comfortaa-Bold.woff2",
     "./v3-moonboat/assets/NunitoSans-Black.woff2",

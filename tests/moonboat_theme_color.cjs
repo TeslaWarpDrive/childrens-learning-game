@@ -12,7 +12,7 @@ const cssPath = path.join(gameDir, 'style.css');
 const html = fs.readFileSync(htmlPath, 'utf8');
 const css = fs.readFileSync(cssPath, 'utf8');
 const names = ['Dark', 'Cloud day', 'Plum dusk'];
-const expected = ['#191d39', '#e7edf3', '#30223e'];
+const expected = ['#0e1238', '#e3e9ff', '#2a1638'];
 
 function backgrounds() {
   const base = {};
