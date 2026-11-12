@@ -211,7 +211,7 @@ body.silk,body.post,body.space{background-attachment:fixed}
 .space .choice{color:var(--ink)}
 .space[data-theme="1"] .choice{color:var(--card-ink)}
 .space .choice .art,.space .choice img{box-shadow:0 0 0 3px rgb(255 255 255/.6),0 0 30px -4px var(--glow)}
-.space .listen-letter,.space .match-sound{box-shadow:0 0 0 1.5px var(--glass-line),0 0 80px -10px var(--glow),inset 0 0 60px rgb(140 130 255/.18)}
+.space .listen-letter{box-shadow:0 0 0 1.5px var(--glass-line),0 0 80px -10px var(--glow),inset 0 0 60px rgb(140 130 255/.18)}
 .space .choices .choice:hover{background:radial-gradient(340px circle at var(--gx,50%) var(--gy,0%),rgb(255 255 255/.22),transparent 45%),var(--card-face)!important}
 .space .choices .choice{background:var(--card-face)!important;color:var(--ink)!important;border:1px solid var(--card-edge)}
 .space .map-orbit{border-color:var(--glass-line)}

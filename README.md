@@ -6,6 +6,8 @@ The home page opens a child-first sign-in dialog. Sign in, continue a previously
 
 The sign-in and picker share a glowing dusk sky: drifting light beams, rising letter lanterns, Lucy in an orbiting halo, and three animated world windows that tilt toward the pointer. The look lives in `home/home.css`; decorative motion lives in `home/effects.js`, which never touches account logic. Reduced motion and the grown-ups' calm setting show the same scene standing still. See the [landing redesign report](reports/landing-redesign.md).
 
+Every world and the grown-up area share that design language. `v1-letter-post/worlds.css` and `worlds.js` give each world its own sky, materials and motion: satin ribbons for Ribbon Road, an airmail sky for Letter Post, and a night voyage for Moonboat. `grown-ups/dusk.css` brings the dusk sky to the portal and game settings. Both load last, so the shared layout, IDs, sounds and pictures are unchanged. See the [full-site redesign report](reports/fullsite-redesign.md).
+
 Unsaved play never reads or changes saved preferences and never records rounds or achievements. Its colors and sound choices last only for the current page. A small Sign in to save link stays beside the game controls. Existing grown-up layout visibility choices still apply to signed-in accounts; unsaved play always offers all three layouts.
 
 Open [index.html](index.html) directly, or serve the repository root with
