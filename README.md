@@ -4,6 +4,8 @@ Little Sounds Big Discovery.
 
 The home page opens a child-first sign-in dialog. Sign in, continue a previously signed-in child, or choose **Play without saving**. Then choose **Ribbon Road**, highlighted first by default, **Letter Post**, or **Moonboat**. The small **Are you a grown-up?** link opens the separate grown-up area. Grown-ups manage kids; additional administrator accounts require an existing grown-up to sign in.
 
+The sign-in and picker share a glowing dusk sky: drifting light beams, rising letter lanterns, Lucy in an orbiting halo, and three animated world windows that tilt toward the pointer. The look lives in `home/home.css`; decorative motion lives in `home/effects.js`, which never touches account logic. Reduced motion and the grown-ups' calm setting show the same scene standing still. See the [landing redesign report](reports/landing-redesign.md).
+
 Unsaved play never reads or changes saved preferences and never records rounds or achievements. Its colors and sound choices last only for the current page. A small Sign in to save link stays beside the game controls. Existing grown-up layout visibility choices still apply to signed-in accounts; unsaved play always offers all three layouts.
 
 Open [index.html](index.html) directly, or serve the repository root with

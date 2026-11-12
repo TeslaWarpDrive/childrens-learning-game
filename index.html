@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#faf2df">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#160f33">
 <title>Letters with Lucy</title>
 <link rel="stylesheet" href="home/home.css">
 <script src="accounts/config.js" defer></script>
@@ -11,42 +11,171 @@
 <script src="grown-ups/settings.js" defer></script>
 <script src="accounts/navigation.js" defer></script>
 <script src="home/home.js" defer></script>
+<script src="home/effects.js" defer></script>
 </head>
 <body data-page="home" data-home-step="login">
-<header class="site-header"><div class="site-brand"><strong>Letters with Lucy</strong><span>Little Sounds Big Discovery</span></div></header>
+<div class="sky" id="sky" aria-hidden="true">
+  <div class="sky-glow"></div>
+  <div class="beams"><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="aurora"><i></i><i></i><i></i></div>
+  <div class="stars stars-far"></div>
+  <div class="stars stars-near"></div>
+  <div class="lanterns" id="lanterns"></div>
+  <div class="horizon"></div>
+  <div class="grain"></div>
+</div>
+<div class="bloom" id="bloom" aria-hidden="true"></div>
+<header class="site-header">
+  <div class="site-brand">
+    <span class="brand-mark" aria-hidden="true"><img src="accounts/lucy/wave.jpg" width="44" height="44" alt=""></span>
+    <span class="brand-words"><strong>Letters with Lucy</strong><span>Little Sounds Big Discovery</span></span>
+  </div>
+</header>
 <main>
 <section id="layouts" hidden aria-labelledby="layout-title">
-  <div class="picker-heading"><p class="eyebrow">Your sound adventure</p><h1 id="layout-title" tabindex="-1">Where shall we play?</h1><p>Pick a layout. The sounds and Lucy come along.</p></div>
+  <div class="picker-heading">
+    <p class="eyebrow"><img src="accounts/lucy/headtilt.jpg" width="32" height="32" alt="">Your sound adventure</p>
+    <h1 id="layout-title" tabindex="-1">Where shall we play?</h1>
+    <p class="picker-lede">Pick a layout. The sounds and Lucy come along.</p>
+  </div>
   <p id="saving-notice" class="saving-notice" role="status"></p>
-    <nav id="layout-picker" aria-label="Choose a layout">
-      <a class="ribbon selected" data-world="silk" aria-current="true" href="v4-silk-thread/index.html">
-        <div class="scene" aria-hidden="true"><svg viewBox="0 0 180 150" fill="none"><path d="M12 112C10 38 84 142 88 65S162 13 166 85" stroke="#fff5fb" stroke-width="13" stroke-linecap="round"/><path d="M12 112C10 38 84 142 88 65S162 13 166 85" stroke="#b41468" stroke-width="3" stroke-linecap="round"/><rect x="17" y="70" width="45" height="50" rx="14" fill="#61ead7" stroke="#432045" stroke-width="3" transform="rotate(-10 40 95)"/><text x="39" y="106" fill="#432045" font-size="33" font-family="Nunito, sans-serif" font-weight="900" text-anchor="middle">A</text><rect x="105" y="22" width="45" height="50" rx="14" fill="#fff5fb" stroke="#432045" stroke-width="3" transform="rotate(10 128 47)"/><text x="128" y="59" fill="#b41468" font-size="33" font-family="Nunito, sans-serif" font-weight="900" text-anchor="middle">B</text></svg></div>
-        <strong>Ribbon Road</strong><span>Follow a sound.<br>Find a little wonder.</span><span class="go">Let's play <b aria-hidden="true">→</b></span>
-      </a>
-      <a data-world="post" href="v1-letter-post/index.html">
-        <div class="scene" aria-hidden="true"><svg viewBox="0 0 180 150" fill="none"><path d="M20 32h140v99H20z" fill="#fff8e5" stroke="#253f65" stroke-width="4" stroke-linejoin="round"/><path d="m20 32 70 53 70-53M20 131l48-48m92 48-48-48" stroke="#253f65" stroke-width="4" stroke-linejoin="round"/><path d="M125 44h23v28h-23z" fill="#c74234"/><path d="m79 10 5-9m-33 16-8-6m65 4 8-8" stroke="#c74234" stroke-width="4" stroke-linecap="round"/></svg></div>
-        <strong>Letter Post</strong><span>Open sound mail.<br>Find its picture.</span><span class="go">Let's deliver <b aria-hidden="true">→</b></span>
-      </a>
-      <a class="space" data-world="space" href="v3-moonboat/index.html">
-        <div class="scene" aria-hidden="true"><svg viewBox="0 0 180 150" fill="none"><path d="M32 95c18 32 75 37 111-3-46 13-75-18-76-52-25 9-43 30-35 55Z" fill="#eed29a" stroke="#fff5dc" stroke-width="3"/><g transform="rotate(22 108 60)"><path d="M91 91V51c0-20 17-35 17-35s17 15 17 35v40Z" fill="#b9dce6" stroke="#fff5dc" stroke-width="3"/><circle cx="108" cy="54" r="9" fill="#292940" stroke="#fff5dc" stroke-width="3"/><path d="m91 74-13 21h13m34-21 13 21h-13" fill="#c78276" stroke="#fff5dc" stroke-width="3"/><path d="m101 100 7 18 7-18" stroke="#eed29a" stroke-width="5" stroke-linecap="round"/></g><path d="m29 27 3 8 8 3-8 3-3 8-3-8-8-3 8-3Z" fill="#eed29a"/></svg></div>
-        <strong>Moonboat</strong><span>Explore a sound.<br>Light up the sky.</span><span class="go">Let's explore <b aria-hidden="true">→</b></span>
-      </a>
-    </nav>
+  <nav id="layout-picker" aria-label="Choose a layout">
+    <a class="world world-ribbon" data-world="silk" aria-current="true" href="v4-silk-thread/index.html" style="--i:0">
+      <span class="world-ring" aria-hidden="true"></span>
+      <span class="world-bg" aria-hidden="true"></span>
+      <span class="world-badge" aria-hidden="true">★ Start here</span>
+      <span class="world-scene" aria-hidden="true">
+        <svg viewBox="0 0 320 190" preserveAspectRatio="xMidYMid meet" fill="none">
+          <g class="layer l1">
+            <circle cx="36" cy="38" r="30" fill="#fff" opacity=".35"/>
+            <circle cx="282" cy="34" r="44" fill="#ffe6a8" opacity=".45"/>
+            <circle cx="248" cy="160" r="34" fill="#8ff5e6" opacity=".35"/>
+            <circle cx="120" cy="20" r="10" fill="#fff" opacity=".5"/>
+          </g>
+          <g class="layer l2">
+            <path d="M-150 112C-90 196-44 196-14 152C52 58 104 196 164 112S268 18 336 70S420 150 470 96" stroke="#fff" stroke-opacity=".7" stroke-width="28" stroke-linecap="round"/>
+            <path d="M-150 112C-90 196-44 196-14 152C52 58 104 196 164 112S268 18 336 70S420 150 470 96" stroke="#d92a83" stroke-width="10" stroke-linecap="round"/>
+            <path class="flow" d="M-150 112C-90 196-44 196-14 152C52 58 104 196 164 112S268 18 336 70S420 150 470 96" stroke="#fff4fa" stroke-width="3.5" stroke-dasharray="1 15" stroke-linecap="round"/>
+          </g>
+          <g class="layer l3">
+            <g transform="translate(58 104) rotate(-12)"><g class="bob b1"><rect x="-24" y="-26" width="48" height="52" rx="14" fill="#61ead7" stroke="#432045" stroke-width="3.5"/><text y="12" text-anchor="middle" class="svg-letter" fill="#432045">A</text></g></g>
+            <g transform="translate(164 98) rotate(6)"><g class="bob b2"><rect x="-24" y="-26" width="48" height="52" rx="14" fill="#fff6fb" stroke="#432045" stroke-width="3.5"/><text y="12" text-anchor="middle" class="svg-letter" fill="#b41468">B</text></g></g>
+            <g transform="translate(262 52) rotate(14)"><g class="bob b3"><rect x="-24" y="-26" width="48" height="52" rx="14" fill="#ffd66e" stroke="#432045" stroke-width="3.5"/><text y="12" text-anchor="middle" class="svg-letter" fill="#432045">C</text></g></g>
+            <path class="twinkle k1" d="M112 40l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" fill="#fff"/>
+            <path class="twinkle k2" d="M222 132l2.5 6.5 6.5 2.5-6.5 2.5-2.5 6.5-2.5-6.5-6.5-2.5 6.5-2.5z" fill="#b41468"/>
+            <path class="twinkle k3" d="M292 112l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#fff"/>
+          </g>
+        </svg>
+      </span>
+      <span class="world-copy"><strong>Ribbon Road</strong><span class="world-line">Follow a sound.<br>Find a little wonder.</span></span>
+      <span class="go">Let's play <b aria-hidden="true">→</b></span>
+      <span class="world-glare" aria-hidden="true"></span>
+    </a>
+    <a class="world world-post" data-world="post" href="v1-letter-post/index.html" style="--i:1">
+      <span class="world-ring" aria-hidden="true"></span>
+      <span class="world-bg" aria-hidden="true"></span>
+      <span class="world-badge" aria-hidden="true">★ Start here</span>
+      <span class="world-scene" aria-hidden="true">
+        <svg viewBox="0 0 320 190" preserveAspectRatio="xMidYMid meet" fill="none">
+          <g class="layer l1">
+            <g class="drift d1"><path d="M28 52a16 16 0 0 1 30-8 13 13 0 0 1 22 10H22a8 8 0 0 1 6-2z" fill="#fff" opacity=".9"/></g>
+            <g class="drift d2"><path d="M226 34a18 18 0 0 1 34-9 15 15 0 0 1 25 11h-66a9 9 0 0 1 7-2z" fill="#fff" opacity=".8"/></g>
+            <g class="drift d1"><path d="M250 150a12 12 0 0 1 22-6 10 10 0 0 1 17 8h-44a6 6 0 0 1 5-2z" fill="#fff" opacity=".7"/></g>
+          </g>
+          <g class="layer l2">
+            <path class="flow" d="M-140 112C-80 196-40 206-10 168C70 70 150 210 214 110S300 30 336 40S420 70 470 20" stroke="#253f65" stroke-opacity=".45" stroke-width="3" stroke-dasharray="4 10" stroke-linecap="round"/>
+            <g class="fly f1"><g transform="rotate(-14)"><rect x="-17" y="-11" width="34" height="22" rx="3" fill="#f6cf62" stroke="#253f65" stroke-width="2.5"/><path d="m-17-11 17 12 17-12" stroke="#253f65" stroke-width="2.5" stroke-linejoin="round"/></g></g>
+            <g class="fly f2"><g transform="rotate(10)"><rect x="-14" y="-9" width="28" height="18" rx="3" fill="#f5ab9b" stroke="#253f65" stroke-width="2.5"/><path d="m-14-9 14 10 14-10" stroke="#253f65" stroke-width="2.5" stroke-linejoin="round"/></g></g>
+          </g>
+          <g class="layer l3">
+            <g transform="translate(160 106) rotate(-5)"><g class="bob b2">
+              <rect x="-66" y="-44" width="132" height="88" rx="9" fill="#fff8e5" stroke="#253f65" stroke-width="4"/>
+              <path d="M-66 44 -14 4M66 44 14 4" stroke="#253f65" stroke-width="3.5" stroke-linecap="round" opacity=".55"/>
+              <path class="flap" d="M-64-42 0 8l64-50" fill="#f2e6c6" stroke="#253f65" stroke-width="4" stroke-linejoin="round"/>
+              <circle cx="0" cy="8" r="11" fill="#c74234"/>
+              <path d="M-4 5.5a3 3 0 0 1 4-1 3 3 0 0 1 4 1c1.5 2.5-4 7-4 7s-5.5-4.5-4-7z" fill="#fff8e5"/>
+              <rect x="34" y="-36" width="24" height="28" rx="2" fill="#c74234" stroke="#fff8e5" stroke-width="2" stroke-dasharray="3 2"/>
+              <text x="46" y="-15" text-anchor="middle" class="svg-letter small" fill="#fff8e5">A</text>
+            </g></g>
+            <path class="twinkle k1" d="M70 112l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" fill="#c74234"/>
+            <path class="twinkle k2" d="M262 92l2.5 6.5 6.5 2.5-6.5 2.5-2.5 6.5-2.5-6.5-6.5-2.5 6.5-2.5z" fill="#253f65"/>
+          </g>
+        </svg>
+      </span>
+      <span class="world-copy"><strong>Letter Post</strong><span class="world-line">Open sound mail.<br>Find its picture.</span></span>
+      <span class="go">Let's deliver <b aria-hidden="true">→</b></span>
+      <span class="world-glare" aria-hidden="true"></span>
+    </a>
+    <a class="world world-moon" data-world="space" href="v3-moonboat/index.html" style="--i:2">
+      <span class="world-ring" aria-hidden="true"></span>
+      <span class="world-bg" aria-hidden="true"></span>
+      <span class="world-badge" aria-hidden="true">★ Start here</span>
+      <span class="world-scene" aria-hidden="true">
+        <svg viewBox="0 0 320 190" preserveAspectRatio="xMidYMid meet" fill="none">
+          <g class="layer l1">
+            <g class="twinkle k1" fill="#fff5dc"><circle cx="24" cy="30" r="1.8"/><circle cx="96" cy="16" r="1.4"/><circle cx="210" cy="22" r="1.8"/><circle cx="300" cy="120" r="1.6"/><circle cx="40" cy="160" r="1.4"/></g>
+            <g class="twinkle k2" fill="#fff5dc"><circle cx="150" cy="30" r="1.4"/><circle cx="262" cy="166" r="1.8"/><circle cx="18" cy="96" r="1.6"/><circle cx="300" cy="18" r="1.4"/><circle cx="120" cy="176" r="1.6"/></g>
+            <ellipse class="flow" cx="160" cy="112" rx="210" ry="58" stroke="#b9bde8" stroke-opacity=".35" stroke-width="2" stroke-dasharray="3 9"/>
+          </g>
+          <g class="layer l2">
+            <circle cx="62" cy="58" r="34" fill="#f7d7a0" opacity=".18"/>
+            <path d="M74 30a30 30 0 1 0 14 52 26 26 0 1 1-14-52z" fill="#f7d7a0"/>
+            <g transform="translate(262 62)"><g class="bob b3">
+              <circle r="24" fill="#b9bde8"/><circle r="24" fill="url(#moonShade)"/>
+              <ellipse rx="38" ry="9" stroke="#fff5dc" stroke-opacity=".8" stroke-width="2.5" transform="rotate(-18)"/>
+              <text y="9" text-anchor="middle" class="svg-letter small" fill="#292940">A</text>
+            </g></g>
+            <g transform="translate(40 128)"><g class="bob b1"><circle r="14" fill="#f2a987"/><text y="6" text-anchor="middle" class="svg-letter tiny" fill="#292940">B</text></g></g>
+          </g>
+          <g class="layer l3">
+            <g transform="translate(166 116)"><g class="bob b2 sail">
+              <path d="M-4-56v62" stroke="#fff5dc" stroke-width="3" stroke-linecap="round"/>
+              <path d="M0-52 0 0 42-4z" fill="#f2a987" stroke="#fff5dc" stroke-width="2.5" stroke-linejoin="round"/>
+              <path d="M-8-40-8 0-38-3z" fill="#b9bde8" stroke="#fff5dc" stroke-width="2.5" stroke-linejoin="round"/>
+              <path d="m-4-66 2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#f7d7a0"/>
+              <path d="M-58 4q54 52 112 0-56 18-112 0z" fill="#f7d7a0" stroke="#fff5dc" stroke-width="2.5" stroke-linejoin="round"/>
+            </g></g>
+            <path class="twinkle k3" d="M222 150l2.5 6.5 6.5 2.5-6.5 2.5-2.5 6.5-2.5-6.5-6.5-2.5 6.5-2.5z" fill="#f7d7a0"/>
+            <path class="twinkle k1" d="M110 44l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#fff5dc"/>
+          </g>
+          <defs><radialGradient id="moonShade" cx=".35" cy=".3" r=".8"><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#292940" stop-opacity=".45"/></radialGradient></defs>
+        </svg>
+      </span>
+      <span class="world-copy"><strong>Moonboat</strong><span class="world-line">Explore a sound.<br>Light up the sky.</span></span>
+      <span class="go">Let's explore <b aria-hidden="true">→</b></span>
+      <span class="world-glare" aria-hidden="true"></span>
+    </a>
+  </nav>
   <footer><button type="button" id="change-player">Change player</button></footer>
 </section>
 <p id="offline-status" class="offline-status" role="status"></p>
 </main>
 <dialog id="login-dialog" open aria-labelledby="login-title" aria-describedby="login-help">
-  <div class="welcome"><img src="v1-letter-post/assets/lucy-default.jpg" width="100" height="100" alt="Lucy the golden retriever"><p class="eyebrow">Letters with Lucy</p><h1 id="login-title">Hello, little explorer.</h1><p id="login-help">Sign in to keep your discoveries.</p></div>
-  <form id="child-signin-form">
-    <label>Username<input name="handle" autocomplete="username" autocapitalize="none" spellcheck="false" required></label>
-    <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
-    <button class="primary" type="submit">Sign in and play</button>
-    <p id="login-status" class="form-result" role="status" aria-live="polite"></p>
-  </form>
-  <button type="button" id="continue-player" hidden></button>
-  <div class="unsaved-choice"><button type="button" id="play-unsaved">Play without saving</button><p>Progress, achievements and settings will not be saved.</p></div>
-  <a class="grown" href="accounts/index.html">Are you a grown-up?</a>
+  <div class="welcome">
+    <div class="lucy">
+      <span class="lucy-halo" aria-hidden="true"></span>
+      <span class="lucy-ring" aria-hidden="true"></span>
+      <img src="v1-letter-post/assets/lucy-default.jpg" width="100" height="100" alt="Lucy the golden retriever">
+      <span class="orbit" aria-hidden="true"><b style="--a:-42deg"><i>A</i></b><b style="--a:38deg"><i>B</i></b><b style="--a:196deg"><i>C</i></b></span>
+      <span class="lucy-tag" aria-hidden="true">Lucy</span>
+    </div>
+    <div class="welcome-words">
+      <p class="eyebrow"><i aria-hidden="true"></i>Letters with Lucy</p>
+      <h1 id="login-title">Hello, little explorer<span class="dot">.</span></h1>
+      <p id="login-help">Sign in to keep your discoveries.</p>
+    </div>
+  </div>
+  <div class="panel">
+    <form id="child-signin-form">
+      <label>Username<input name="handle" autocomplete="username" autocapitalize="none" spellcheck="false" required></label>
+      <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
+      <button class="primary" type="submit">Sign in and play</button>
+      <p id="login-status" class="form-result" role="status" aria-live="polite"></p>
+    </form>
+    <button type="button" id="continue-player" hidden></button>
+    <div class="unsaved-choice"><button type="button" id="play-unsaved">Play without saving</button><p>Progress, achievements and settings will not be saved.</p></div>
+    <a class="grown" href="accounts/index.html">Are you a grown-up?</a>
+  </div>
 </dialog>
 <noscript>This game needs JavaScript. Turn it on to sign in or play without saving.</noscript>
 </body>

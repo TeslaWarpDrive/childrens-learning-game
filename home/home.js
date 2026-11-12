@@ -24,9 +24,13 @@ function showLayouts(){
     if(A.guest)target.searchParams.set('mode','guest');else target.searchParams.delete('mode');
     card.href=target.href;
   }
-  document.getElementById('layout-picker').style.setProperty('--worlds',games.length);
-  document.getElementById('saving-notice').textContent=A.guest?'Playing without saving. Progress, achievements and settings will not be saved.':'Your discoveries and settings belong to '+A.profile.display_name+'.';
+  const picker=document.getElementById('layout-picker');
+  picker.style.setProperty('--worlds',games.length);picker.dataset.count=games.length;
+  const notice=document.getElementById('saving-notice');
+  notice.textContent=A.guest?'Playing without saving. Progress, achievements and settings will not be saved.':'Your discoveries and settings belong to '+A.profile.display_name+'.';
+  notice.dataset.kind=A.guest?'guest':'saved';
   document.getElementById('layout-title').focus();
+  document.dispatchEvent(new CustomEvent('home:layouts'));
 }
 dialog.addEventListener('cancel',event=>event.preventDefault());
 form.addEventListener('submit',async event=>{

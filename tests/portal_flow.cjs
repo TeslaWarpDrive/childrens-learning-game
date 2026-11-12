@@ -14,9 +14,9 @@ const live=process.argv.includes('--live');
       if(!live)await context.route('https://*.supabase.co/**',fixture.route);
       const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
       await page.goto(url+'/');
-      const chrome=await page.evaluate(()=>({background:getComputedStyle(document.body).backgroundColor,ink:getComputedStyle(document.body).color,texture:getComputedStyle(document.body).backgroundImage}));
       await page.locator('#login-dialog .grown').click();await page.waitForURL('**/accounts/index.html');
-      assert.deepEqual(await page.evaluate(()=>({background:getComputedStyle(document.body).backgroundColor,ink:getComputedStyle(document.body).color,texture:getComputedStyle(document.body).backgroundImage})),chrome);
+      // The child sign-in and picker have their own look (landing redesign); the grown-up pages still share one chrome.
+      const chrome=await page.evaluate(()=>({background:getComputedStyle(document.body).backgroundColor,ink:getComputedStyle(document.body).color,texture:getComputedStyle(document.body).backgroundImage}));
       assert.equal(await page.locator('#register-form').count(),0);
       assert(await page.locator('#create-grownup-form').isHidden());
       for(const action of ['register','create-grownup','create-child']) {
