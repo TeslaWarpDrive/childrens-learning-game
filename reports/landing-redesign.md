@@ -79,8 +79,10 @@ Run on macOS Chrome with the repository's local mock backend. As an extra guard,
 - Not run: the `*_live`, `*_hosted`, `portal_master*`, `portal_round2`, `child_settings_browser`, `accounts_selection` and `master_login` suites, which create or use real accounts, and the `*_database` and `*_edge` suites, which need the local `.job/db-tools` that isn't in the repository.
 - **One test edit.** `tests/portal_flow.cjs` used to assert that the home page's body colours equal the grown-up portal's cream chrome. That is the old cream-chrome lock, which this redesign lifts for these two screens. The check now compares the portal with the settings page only. Everything else in that test, including the grown-up link, is unchanged.
 
-## Questions for Bradley
+## Decisions after review
 
-1. **Test edit.** Is it OK that `tests/portal_flow.cjs` no longer requires the child home to match the grown-up portal's cream look? Your brief lifts that lock for these two screens, but it's the only test I changed.
-2. **Dark home, light games.** The new home is a dusk sky, while Ribbon Road and Letter Post open bright, so each world feels like stepping through a window. Is that jump what you want, or should the sky lighten toward the picked world as it opens?
-3. **Wording.** I kept the existing copy, including "Pick a layout. The sounds and Lucy come along." Would you like the picker to say "world" instead of "layout", or any new lines for Lucy?
+Bradley chose "world" over "layout" and left the rest to Claude's judgment.
+
+1. **Wording.** The picker now says "Pick a world. The sounds and Lucy come along." Screen readers announce it as "Choose a world". The back link inside each game still says "Choose a layout" because the games were out of scope for this change.
+2. **Test edit kept.** `tests/portal_flow.cjs` checks that the grown-up pages match each other, not that the child home matches them.
+3. **Dark home, bright games kept.** Each world card already previews its game's colours, so opening a bright game reads as stepping through that window. A transition held on the home page would delay every game start, including the tests that click straight through.
