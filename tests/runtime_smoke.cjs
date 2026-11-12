@@ -14,12 +14,12 @@ async function smoke(game) {
     innerHTML: '', textContent: '', value: '', dataset: {}, listeners: {},
     attributes: {}, children: alphabet.map((_, i) => ({offsetLeft: i * 60, offsetWidth: 54})),
     clientWidth: 300, scrollLeft: 0,
-    classList: {values: new Set(), add(v) {this.values.add(v);}, remove(v) {this.values.delete(v);}},
+    classList: {values: new Set(), add(v) {this.values.add(v);}, remove(v) {this.values.delete(v);}, contains(v) {return this.values.has(v);}},
     addEventListener(name, handler) {this.listeners[name] = handler;},
     setAttribute(name, value) {this.attributes[name] = value;},
     removeAttribute(name) {delete this.attributes[name];},
     getAttribute(name) {return this.attributes[name] ?? null;},
-    focus() {}, contains() {return true;}, closest() {return this;}
+    focus() {}, contains() {return true;}, closest() {return this;}, insertAdjacentHTML(_, html) {this.innerHTML += html;}
   });
   const getNode = selector => {
     if (!nodes.has(selector)) nodes.set(selector, makeNode());
@@ -58,7 +58,7 @@ async function smoke(game) {
   });
   const scripts = [...fs.readFileSync(path.join(root, game, 'index.html'), 'utf8').matchAll(/<script src="([^"]+)"/g)].map(match => match[1]);
   const script = name => path.resolve(root, game, scripts.find(file => path.basename(file) === name));
-  for (const file of ['config.js', 'art.js']) {
+  for (const file of ['config.js', 'art.js', 'hint.js']) {
     vm.runInContext(fs.readFileSync(script(file), 'utf8'), context);
   }
   context.draw = window.draw; context.ico = window.ico; context.wordPicture = window.wordPicture;
@@ -95,7 +95,10 @@ async function smoke(game) {
       assert.equal(app.choices.length, 3);
       assert.equal(new Set(app.choices.map(l => l.letter)).size, 3);
       const wrong = app.choices.filter(l => l.letter !== letter);
-      for (const choice of wrong) {
+      const correct = getNode(`[data-answer="${letter}"]`);
+      // Stub nodes outlive a round; a real match screen renders fresh cards.
+      correct.classList.values.clear(); correct.innerHTML = '';
+      for (const [miss, choice] of wrong.entries()) {
         assert.notEqual(choice.sound, app.current.sound, 'Ambiguous phoneme distractor');
         if (letter !== 'X') assert.notEqual(choice.word[0], app.current.word[0], 'Ambiguous starting-word distractor');
         const button = getNode(`[data-answer="${choice.letter}"]`);
@@ -109,10 +112,12 @@ async function smoke(game) {
         assert.equal(played.length,before+2,'Only word and retry');
         assert.equal(played[before],audioPath(window.GAME_AUDIO.words[choice.word]));
         assert.equal(document.body.dataset.screen, 'match');
+        // Lucy points to the right picture from the second miss, and never before it.
+        assert.equal(correct.classList.values.has('lucy-hinted'), miss >= 1, `Lucy's hint after ${miss + 1} miss(es)`);
+        assert.equal(getNode('.feedback').textContent.includes('Look where Lucy is pointing!'), miss >= 1);
       }
+      assert.equal((correct.innerHTML.match(/class="lucy-hint"/g) || []).length, 1, 'One pointing Lucy');
       assert(!getNode('.feedback').textContent.includes(app.current.sound));
-      const correct = getNode(`[data-answer="${letter}"]`);
-      assert(!correct.classList.values.has('hint'), 'Repeated misses never reveal a hint');
       assert(!played.includes(audioPath(window.GAME_AUDIO.words[app.current.word])), 'Never say the target word after a wrong tap');
       correct.dataset.answer = letter;
       played.length=0;

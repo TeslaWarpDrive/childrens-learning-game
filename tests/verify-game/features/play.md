@@ -2,7 +2,7 @@
 
 ## Sub-features
 
-Letter entrance, sound replay, three picture choices, wrong-card wiggle and fading red glow, correct-card bounce before reward, Lucy breathing, interruptible word and retry feedback without hints, X's ending sound, and reduced-motion behavior.
+Letter entrance, sound replay, three picture choices, wrong-card wiggle and fading red glow, correct-card bounce before reward, Lucy breathing, interruptible word and retry feedback, Lucy's pointing hint on the right picture from the second miss (still under reduced motion and calm), X's ending sound, and reduced-motion behavior.
 
 ## How to get to it (user POV)
 
@@ -11,6 +11,8 @@ Choose a letter on home, listen or tap the letter again, then tap the main conti
 ## Driving it with Playwright
 
 Click `[data-letter="B"]`; await `body[data-screen="listen"]`. Click `.listen-letter` to replay. Click `[data-action="match"]`; await `body[data-screen="match"]`. Click `.choice:not([data-answer="B"])`; wait until speech ends, then inspect `.tried` and feedback. Wrong taps remain available during audio so a new tap can interrupt. The broader smoke clicks both wrong choices and verifies that no `.hint` or `.hint-tag` appears. Click `[data-answer="B"]` to reach celebrate. Repeat for J, X, and Z using the broader smoke; X must say its sound ends the word. Capture listen/match states. Run both motion preferences and toggle `page.emulateMedia({reducedMotion:'reduce'})` during replay to prove active motion stops.
+
+For Lucy's pointing hint in every world, size and motion mode, run `CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/lucy_hint.cjs`. The hint lives in `v1-letter-post/hint.js`; its placeholder picture path is the one line to change when a new Lucy pointing image is approved.
 
 ## Gotchas
 

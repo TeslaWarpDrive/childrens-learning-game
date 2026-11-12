@@ -54,7 +54,9 @@ async function nativeAudio(page,game,fixture){
   assert.match(log[1].file,/^lucy-(uh-oh|try-again|oops-try-again)\.mp3$/);
   const gap=log[1].start-log[0].end;pauses.push(gap);assert(gap>=150&&gap<=250,`Pause ${gap} ms`);
   assert(log.every(e=>e.overlap===0&&e.end&&!e.error));retries.push(log[1].file);
-  assert.equal(await page.locator('.hint,.hint-tag').count(),0);
+  // Lucy points to B from the second miss; the choices and the spoken feedback stay the same.
+  assert.equal(await page.locator('[data-answer=B].lucy-hinted .lucy-hint').count(),i>=1?1:0);
+  assert.equal(await page.locator('.lucy-hint').count(),i>=1?1:0);
   assert.equal(await page.locator('.choice').count(),3);
   assert(!(await page.locator('.feedback').innerText()).includes('/b/'));
   assert.equal([...fixture.events.values()].filter(e=>e.kind==='round').length,roundsBefore);

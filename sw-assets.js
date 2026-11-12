@@ -1,5 +1,5 @@
 self.OFFLINE_MANIFEST = {
-  "version": "48a27f9191da5f18",
+  "version": "d57893a12037ef4d",
   "files": [
     "./accounts/client.js",
     "./accounts/config.js",
@@ -149,6 +149,7 @@ self.OFFLINE_MANIFEST = {
     "./v1-letter-post/config.js",
     "./v1-letter-post/fun.css",
     "./v1-letter-post/fun.js",
+    "./v1-letter-post/hint.js",
     "./v1-letter-post/index.html",
     "./v1-letter-post/layout.css",
     "./v1-letter-post/layout.js",

@@ -95,11 +95,13 @@ async function run() {
             for (let miss = 0; miss < 2; miss++) {
               await wrong.nth(miss).click();
               await settle();
+              // Lucy points to the right picture from the second miss, and never before it.
+              assert.equal(await page.locator('.lucy-hint').count(), miss);
             }
-            assert.equal(await page.locator('.hint,.hint-tag').count(),0);
+            assert.equal(await page.locator(`[data-answer="${letter}"].lucy-hinted .lucy-hint`).count(), 1);
             if (letter === 'X') {
               assert(!(await page.locator('.feedback').textContent()).includes('/ks/'));
-              await fits(); await capture('match-X-no-hints');
+              await fits(); await capture('match-X-lucy-hint');
             }
             await page.locator(`[data-answer="${letter}"]`).click();
             await screen('celebrate'); await settle(); await fits(); count++;
@@ -126,7 +128,7 @@ async function run() {
           await fits(); await capture('home-end-of-alphabet');
           assert.deepEqual(errors, [], `${prefix}: browser errors`);
           await context.close(); cases++;
-          console.log(`PASS ${prefix}: B/J/X/Z flow, no hints, replay, collection, wrap, keyboard and layout`);
+          console.log(`PASS ${prefix}: B/J/X/Z flow, Lucy's hint after two misses, replay, collection, wrap, keyboard and layout`);
         }
       }
     }

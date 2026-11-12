@@ -8,6 +8,8 @@ The sign-in and picker share a glowing dusk sky: drifting light beams, rising le
 
 Every world and the grown-up area share that design language. `v1-letter-post/worlds.css` and `worlds.js` give each world its own sky, materials and motion: satin ribbons for Ribbon Road, an airmail sky for Letter Post, and a night voyage for Moonboat. `grown-ups/dusk.css` brings the dusk sky to the portal and game settings. Both load last, so the shared layout, IDs, sounds and pictures are unchanged. See the [full-site redesign report](reports/fullsite-redesign.md).
 
+After two wrong picks on one prompt, Lucy points to the right picture: her picture perches on that card with a small arrow and a glowing ring, and the feedback line says "Look where Lucy is pointing!". The sounds are unchanged. Reduced motion and the calm setting show the same hint standing still. The hint lives in `v1-letter-post/hint.js`; its picture is a temporary existing Lucy photo until a new pointing pose is approved. See the [Lucy hint report](reports/lucy-hint.md).
+
 Unsaved play never reads or changes saved preferences and never records rounds or achievements. Its colors and sound choices last only for the current page. A small Sign in to save link stays beside the game controls. Existing grown-up layout visibility choices still apply to signed-in accounts; unsaved play always offers all three layouts.
 
 Open [index.html](index.html) directly, or serve the repository root with
@@ -63,11 +65,15 @@ CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/grown_ups_smoke.cjs
 
 - `runtime_smoke.cjs` (no browser) plays 234 rounds (26 letters × 3 themes ×
   3 games) with browser APIs stubbed: listen/replay, wrong answers and
-  no hints after repeated misses, celebration, next-letter wraparound, collections and mute.
+  Lucy's pointing hint from the second miss, celebration, next-letter wraparound, collections and mute.
 - `browser_smoke.cjs` uses local Playwright and file URLs to check B/J/X/Z
   at 390×844, 768×1024 and 1440×1000 in all themes, including touch targets
   and horizontal overflow. Screenshots go to `/tmp/lpmb-shots`. Set
   `BROWSER_SMOKE_SHARD` to 0–5 to run one game/viewport pair.
+- `lucy_hint.cjs` checks Lucy's pointing hint in all three worlds at 390×844,
+  1024×576 and 1920×1080 with normal motion, reduced motion and the calm
+  setting: nothing after one miss, Lucy on the right picture after two, still
+  under reduced motion and calm, and the same word-plus-retry sound.
 - `motion_smoke.cjs` drives both worlds at phone, tablet, and whiteboard
   sizes with real interactions, normal and reduced motion, and no network.
   Screenshots go to `/tmp/lpmb-motion-shots`.
