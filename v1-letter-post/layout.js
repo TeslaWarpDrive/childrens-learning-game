@@ -11,7 +11,10 @@ window.createLetterLayout = ({pool, visited, post, main, ico, grown, saved=()=>f
     return `<div class="picker-shelf ${type}-shelf" role="region" aria-label="Choose a letter"><div class="letter-list ${type}" aria-label="Choose a letter">${cards()}</div></div><nav class="pager" aria-label="Letter pages"><button data-action="letters-previous" aria-label="Previous six letters"${page === 0 ? ' disabled' : ''}>${ico('back')}</button><div><strong class="page-range" aria-live="polite">${range()}</strong><span class="page-number">Page ${page + 1} of ${pages}</span></div><button data-action="letters-next" aria-label="Next six letters"${page === pages - 1 ? ' disabled' : ''}>${ico('arrow')}</button></nav>`;
   }
   function collection() {
-    return `<details class="collection-preview"${albumOpen ? ' open' : ''}><summary><span class="collection-symbol">${ico(post ? 'paw' : 'star')}</span><span class="collection-heading"><strong>${post ? 'Your stamp album' : 'Your constellation'}</strong><small>${pool.filter(letter=>visited.has(letter.letter)).length} of ${pool.length} collected · ${saved()?'saved progress':'this visit'}</small></span><span class="collection-toggle"><span class="when-closed">Open</span><span class="when-open">Close</span><span class="chevron">⌄</span></span></summary><div class="album-content"><p>${post ? 'A stamp for each sound you deliver.' : 'A star for each sound you explore.'} Your whole alphabet, together.</p><div class="collection-slots album-grid">${pool.map(letter => `<div class="collection-slot album-slot ${visited.has(letter.letter) ? 'collected' : ''}" data-collection-letter="${letter.letter}" aria-label="${letter.letter}, ${visited.has(letter.letter) ? saved() ? 'completed' : 'completed this visit' : 'ready to explore'}">${visited.has(letter.letter) ? badge() : `<span>${ico('star')}</span>`}<b>${letter.letter}</b><small>${visited.has(letter.letter) ? 'Done' : 'Ready'}</small></div>`).join('')}</div><p class="album-note">${post ? 'Your sound deliveries.' : 'Your little sound discoveries.'} ${saved()?'Saved across all games.':'Yours for this visit.'}</p></div></details>`;
+    return `<details class="collection-preview"${albumOpen ? ' open' : ''}><summary><span class="collection-symbol">${ico(post ? 'paw' : 'star')}</span><span class="collection-heading"><strong>${post ? 'Your stamp album' : 'Your constellation'}</strong><small>${pool.filter(letter=>visited.has(letter.letter)).length} of ${pool.length} collected · ${saved()?'saved progress':'this visit'}</small></span><span class="collection-toggle"><span class="when-closed">Open</span><span class="when-open">Close</span><span class="chevron">⌄</span></span></summary><div class="album-content"><p>${post ? 'A stamp for each sound you deliver.' : 'A star for each sound you explore.'} Your whole alphabet, together.</p><div class="collection-slots album-grid">${pool.map(letter => visited.has(letter.letter)
+      // A collected letter is a button: tapping it says the letter, its sound and its word again (app.js).
+      ? `<button type="button" class="collection-slot album-slot collected" data-collection-letter="${letter.letter}" data-hear="${letter.letter}" aria-label="${letter.letter}, ${saved() ? 'completed' : 'completed this visit'}. Hear ${letter.letter} again">${badge()}<b>${letter.letter}</b><small>Done</small></button>`
+      : `<div class="collection-slot album-slot" data-collection-letter="${letter.letter}" aria-label="${letter.letter}, ready to explore"><span>${ico('star')}</span><b>${letter.letter}</b><small>Ready</small></div>`).join('')}</div><p class="album-note">${post ? 'Your sound deliveries.' : 'Your little sound discoveries.'} ${saved()?'Saved across all games.':'Yours for this visit.'}</p></div></details>`;
   }
   function home(pic) {
     const intro = post
@@ -42,10 +45,12 @@ window.createLetterLayout = ({pool, visited, post, main, ico, grown, saved=()=>f
     refresh() {
       const focused=main.querySelector('.letter-list :focus')?.dataset.letter;
       const summaryFocused=document.activeElement===main.querySelector('.collection-preview summary');
+      const heard=main.querySelector('.collection-preview :focus')?.dataset.hear;
       if(main.querySelector('.letter-list'))renderPage();
       const album=main.querySelector('.collection-preview');
       if(album){albumOpen=album.open;album.outerHTML=collection();}
       if(focused)main.querySelector(`[data-letter="${focused}"]`)?.focus({preventScroll:true});
+      else if(heard)main.querySelector(`.collection-preview [data-hear="${heard}"]`)?.focus({preventScroll:true});
       else if(summaryFocused)main.querySelector('.collection-preview summary')?.focus({preventScroll:true});
     },
     select(letter) { page = Math.floor(pool.findIndex(item => item.letter === letter) / 6); },

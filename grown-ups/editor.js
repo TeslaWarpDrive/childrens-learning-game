@@ -22,7 +22,7 @@ function unlock() {
 /* ---------- Settings ---------- */
 const A=window.ACCOUNTS, hosted=location.protocol!=='file:';
 let targets=[], children=[], draft={...G.settings}, patch={}, mixed=new Set(), applying=false;
-const LABELS={voice:"Lucy's voice",volume:'Voice volume',effects:'Sound effects',calm:'Calm motion',letters:'Letters',games:'Worlds',kidControls:"Children's buttons"};
+const LABELS={voice:"Lucy's voice",volume:'Voice volume',effects:'Sound effects',calm:'Calm motion',letters:'Letters',hintAfter:'Help when stuck',games:'Worlds',kidControls:"Children's buttons"};
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 const current = () => structuredClone(draft);
 function scopeValues(){
@@ -41,7 +41,7 @@ function renderScope(){
   $('#discard-settings').hidden=!Object.keys(patch).length;
   $('#reset').textContent=targets.length?'Reset to game defaults':'Reset all settings';
 }
-function summarize(value){return Array.isArray(value)?value.join(', '):typeof value==='boolean'?(value?'On':'Off'):String(value);}
+function summarize(value,key){if(key==='hintAfter')return value===0?'Off':value===1?'After 1 miss':'After '+value+' misses';return Array.isArray(value)?value.join(', '):typeof value==='boolean'?(value?'On':'Off'):String(value);}
 async function setupScope(){
   if(!hosted)return;
   $('#settings-scope').hidden=false;
@@ -73,7 +73,7 @@ async function setupScope(){
   $('#apply-children').addEventListener('click',()=>{
     $('#settings-confirm-title').textContent=`Apply to ${targets.length} ${targets.length===1?'child':'children'}?`;
     const names=children.filter(c=>targets.includes(c.id)).map(c=>c.display_name+' ('+c.handle+')');
-    $('#settings-confirm-copy').textContent=names.join(', ')+': '+Object.entries(patch).map(([key,value])=>LABELS[key]+' → '+summarize(value)).join('; ')+'. Other settings stay as they are.';
+    $('#settings-confirm-copy').textContent=names.join(', ')+': '+Object.entries(patch).map(([key,value])=>LABELS[key]+' → '+summarize(value,key)).join('; ')+'. Other settings stay as they are.';
     $('#settings-confirm-result').textContent='';$('#confirm-settings').showModal();$('#cancel-settings').focus();
   });
   $('#cancel-settings').addEventListener('click',()=>$('#confirm-settings').close());
@@ -103,6 +103,9 @@ function render() {
     $(`[data-preset="${name}"]`).setAttribute('aria-pressed', String((!mixed.has('letters')||('letters' in patch)) && set.length === s.letters.length && set.every(l => s.letters.includes(l))));
   }
   const n = s.letters.length;
+  const hint = $$('#hint input'), checked = hint.findIndex(input => input.checked);
+  $('#hint .segments').style.setProperty('--index', Math.max(0, checked));
+  $('#hint .segments').classList.toggle('mixed', checked < 0);
   $('#letter-count').textContent = n === 26 ? 'All 26 letters are in play.' : `${n} of 26 letters in play: ${s.letters.join(' ').toLowerCase()}.`;
 }
 async function commit(next, message = 'Saved.', touched=Object.keys(LABELS)) {

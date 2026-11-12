@@ -96,13 +96,19 @@ async function run() {
       await page.locator('#volume').fill('40');
       await page.locator('label.row:has([data-setting="effects"])').click();
       await page.locator('[data-preset="starter"]').click();
-      assert.equal(await page.locator('[data-setting=hintAfter]').count(),0,'No hint setting is offered');
+      // Help when stuck: after 2 misses by default; grown-ups can pick 1 miss or turn it off.
+      assert.equal(await page.locator('[data-setting=hintAfter]').count(),3,'Help when stuck offers three choices');
+      assert(await page.locator('[data-setting=hintAfter][value="2"]').isChecked(),'Help when stuck starts at 2 misses');
+      await page.locator('#hint label:has([value="1"])').click();
+      assert.equal((await saved(page)).hintAfter,1);
+      await page.locator('#hint label:has([value="0"])').click();
+      assert(await page.locator('[data-setting=hintAfter][value="0"]').isChecked());
       await page.locator('label.row:has([data-setting="calm"])').click();
       await page.locator('label.row:has([data-game="silk"])').click();
       await page.locator('label.row:has([data-setting="kidControls"])').click();
       await page.locator('[data-letter="T"]').click();
       assert.deepEqual(await saved(page), {voice: false, effects: false, calm: true, kidControls: false, volume: 40,
-        letters: ['A', 'I', 'N', 'P', 'S'], hintAfter: 2, games: ['post', 'space']});
+        letters: ['A', 'I', 'N', 'P', 'S'], hintAfter: 0, games: ['post', 'space']});
       assert.match(await page.locator('#save-status').textContent(), /^Saved\./);
       assert.equal(await page.locator('#volume-value').textContent(), '40%');
       assert.equal(await page.locator('#letter-count').textContent(), '5 of 26 letters in play: a i n p s.');
@@ -133,7 +139,7 @@ async function run() {
       await page.locator('#confirm-reset').click();
       await page.waitForFunction(() => /back to how they started/.test(document.querySelector('#save-status').textContent));
       const defaults = await saved(page);
-      assert.deepEqual(defaults.letters.length, 26); assert.equal(defaults.calm, false); assert.equal(defaults.games.length, 3);
+      assert.deepEqual(defaults.letters.length, 26); assert.equal(defaults.calm, false); assert.equal(defaults.games.length, 3); assert.equal(defaults.hintAfter, 2);
       assert.equal(await page.locator('#letter-grid button[aria-pressed="true"]').count(), 26);
       assert.match(await page.locator('#save-status').textContent(), /back to how they started/);
 
@@ -183,7 +189,9 @@ async function run() {
         await page.locator('[data-action="match"]').click();
         await page.waitForFunction(() => document.body?.dataset.screen === 'match');
         await page.locator('.choice:not([data-answer="P"])').first().click();
-        assert.equal(await page.locator('.hint,.hint-tag').count(),0,'Legacy hint setting is ignored');
+        // Help when stuck is set to "After 1 miss" here, so Lucy points after this one miss.
+        await page.locator('[data-answer="P"].lucy-hinted .lucy-hint').waitFor();
+        assert.equal(await page.locator('.lucy-hint').count(),1,`${world}: Lucy points after one miss`);
         await page.waitForFunction(() => [...document.querySelectorAll('.choice')].every(n => !n.hasAttribute('aria-disabled')));
         await page.locator('[data-answer="P"]').click();
         await page.waitForFunction(() => document.body?.dataset.screen === 'celebrate');
@@ -202,7 +210,7 @@ async function run() {
       await page.waitForFunction(() => window.__volumes.length >= 2);
       assert(await page.evaluate(() => window.__volumes.every(v => v === .4)), 'Voice volume applied in the browser');
       await done(label);
-      console.log(`PASS ${label}: hidden world, chosen letters, quiet start, hidden buttons, calm motion, no hints and volume`);
+      console.log(`PASS ${label}: hidden world, chosen letters, quiet start, hidden buttons, calm motion, hint after 1 miss and volume`);
     }
 
     // Reduced motion and dark mode render cleanly.

@@ -242,7 +242,7 @@ html[data-calm] .choice{--lift:0px!important;transform:none}
 html[data-calm] .app *:hover{translate:none!important;scale:none!important;rotate:none!important}
 
 /* ---------- Lucy's pointing hint (hint.js) ----------
-   After two misses Lucy perches on the right picture's top edge and points into it,
+   After two misses (or as grown-ups set "Help when stuck") Lucy perches on the right picture's top edge and points into it,
    clear of its word and sound icon in both the tall and the row card layouts.
    The ring and badge stay put under reduced motion and calm; only the pop-in and
    the gentle point move otherwise. */
@@ -258,6 +258,13 @@ html[data-calm] .app *:hover{translate:none!important;scale:none!important;rotat
 @keyframes fx-hint-point{from{translate:0 0}to{translate:-5px 5px}}
 @media (prefers-reduced-motion:reduce){:root .lucy-hint,:root .lucy-hint-arrow{animation:none}}
 html[data-calm] .lucy-hint,html[data-calm] .lucy-hint-arrow{animation:none!important}
+
+/* ---------- Collection replay (app.js hear()) ----------
+   A collected letter in the collection is a button that says it again. It keeps
+   the game's 60px touch target, spilling evenly into the gaps where the grid is narrower. */
+:root button.collection-slot.collected{padding:0;min-width:60px;min-height:60px;margin-inline:min(0px,calc((100% - 60px)/2));cursor:pointer;text-align:center;transition:translate .3s var(--spring),box-shadow .3s ease}
+:root button.collection-slot.collected:hover{translate:0 -2px}
+:root button.collection-slot.collected:focus-visible{outline:4px solid var(--focus);outline-offset:3px}
 
 /* ---------- Small screens ---------- */
 @media (max-width:560px){

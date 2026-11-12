@@ -1,6 +1,6 @@
 'use strict';
 /* Lucy's pointing hint in every world: nothing after one miss, Lucy on the right
-   picture after two, transform/opacity motion only, a still highlight under reduced
+   picture after two (or as the grown-ups' "Help when stuck" sets it: 1 miss or off), transform/opacity motion only, a still highlight under reduced
    motion and the grown-ups' calm setting, and no change to sounds or the round. */
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
@@ -79,6 +79,41 @@ assert(manifest.includes('"./v1-letter-post/hint.js"'),'hint.js is cached for of
       await page.locator('[data-letter=C]').first().click();await screen('listen');await settle();
       await page.locator('[data-action=match]').click();await screen('match');await settle();
       assert.equal(await page.locator('.lucy-hint,.lucy-hinted').count(),0,`${label}: fresh prompt has no hint`);
+      assert.deepEqual(errors,[],`${label}: no page errors`);
+      await context.close();
+      console.log(`PASS ${label}`);
+    }
+    // Grown-ups' "Help when stuck" (hintAfter): 1 points after one miss, 0 never points.
+    for(const [game,name] of games) for(const hintAfter of [1,0]) {
+      const label=`${name} hintAfter=${hintAfter}`;
+      const context=await browser.newContext({viewport:{width:1024,height:576}});
+      await context.route(/^https?:/,route=>route.abort());
+      await context.addInitScript(hintAfter=>{
+        localStorage.setItem('little-woof-grown-ups',JSON.stringify({hintAfter}));
+        window.clips=[];
+        HTMLMediaElement.prototype.play=function(){window.clips.push(this.src.split('/').pop());setTimeout(()=>this.dispatchEvent(new Event('ended')),20);return Promise.resolve();};
+      },hintAfter);
+      const page=await context.newPage();
+      const errors=[];page.on('pageerror',error=>errors.push(error.message));
+      await page.goto(pathToFileURL(path.join(root,game,'index.html')).href);
+      const screen=name=>page.waitForFunction(name=>document.body.dataset.screen===name,name);
+      const settle=()=>page.waitForFunction(()=>!document.body.dataset.effect&&!document.body.classList.contains('talking'));
+      await screen('home');
+      assert.equal(await page.evaluate(()=>LucyHint.line),'Look where Lucy is pointing!','The hint line is one string in hint.js');
+      await page.locator('[data-letter=B]').first().click();await screen('listen');await settle();
+      await page.locator('[data-action=match]').click();await screen('match');await settle();
+      const wrong=page.locator('.choice:not([data-answer=B])');
+      await wrong.nth(0).click();await settle();
+      if(hintAfter===1){
+        assert.equal(await page.locator('[data-answer=B].lucy-hinted .lucy-hint').count(),1,`${label}: Lucy points after one miss`);
+        assert.match(await page.locator('.feedback').innerText(),/Look where Lucy is pointing!$/);
+      }else{
+        await wrong.nth(1).click();await settle();
+        assert.equal(await page.locator('.lucy-hint,.lucy-hinted').count(),0,`${label}: off never points`);
+        assert.match(await page.locator('.feedback').innerText(),/Try another picture\.$/);
+      }
+      const clips=await page.evaluate(()=>window.clips);
+      assert.match(clips.at(-1),/^lucy-(uh-oh|try-again|oops-try-again)\.mp3$/,`${label}: usual retry clip`);
       assert.deepEqual(errors,[],`${label}: no page errors`);
       await context.close();
       console.log(`PASS ${label}`);

@@ -121,6 +121,7 @@ legend{padding:0;margin:16px 0 14px;color:var(--muted);max-width:60ch;text-trans
 .segments input:checked+span{color:var(--paper)}
 .segments span{position:relative;transition:color var(--dur-base) var(--ease-standard)}
 .segments label:has(input:focus-visible){outline:4px solid var(--focus);outline-offset:2px}
+.segments.mixed .pill{opacity:0}
 
 /* About */
 .notes{margin:8px 0 0;display:grid}

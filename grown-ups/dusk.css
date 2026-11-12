@@ -62,6 +62,10 @@ input[type=checkbox],input[type=radio],input[type=range]{accent-color:var(--acce
 .danger,button.danger{background:rgb(255 110 120/.14)!important;color:#ffc4c4!important;border:1.5px solid rgb(255 150 160/.55)!important;border-radius:999px!important}
 [aria-pressed="true"].pill,.presets [aria-pressed="true"],.segments input:checked+span,.portal-views [aria-current="page"],.portal-views [aria-selected="true"]{background:var(--gold)!important;color:var(--on-accent)!important;border-color:transparent!important}
 
+/* Help when stuck: the sliding pill carries the gold, not the label text. */
+.segments .pill{background:var(--gold)!important;border:0!important}
+.segments label input:checked+span{background:none!important;color:var(--on-accent)!important}
+
 /* Settings rows, switches and letters */
 .row{border-color:var(--line)!important}
 .row-text strong{color:var(--ink)}

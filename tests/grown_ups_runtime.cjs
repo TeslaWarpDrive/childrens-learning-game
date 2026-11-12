@@ -63,7 +63,8 @@ async function game(name, saved) {
     innerHTML: '', textContent: '', value: '', dataset: {}, listeners: {},
     attributes: {}, children: alphabet.map((_, i) => ({offsetLeft: i * 60, offsetWidth: 54})),
     clientWidth: 300, scrollLeft: 0,
-    classList: {values: new Set(), add(v) {this.values.add(v);}, remove(v) {this.values.delete(v);}},
+    classList: {values: new Set(), add(v) {this.values.add(v);}, remove(v) {this.values.delete(v);}, contains(v) {return this.values.has(v);}},
+    insertAdjacentHTML() {},
     addEventListener(type, handler) {this.listeners[type] = handler;},
     setAttribute(key, value) {this.attributes[key] = value;},
     removeAttribute(key) {delete this.attributes[key];},
@@ -105,7 +106,7 @@ async function game(name, saved) {
   assert(scripts.indexOf('../grown-ups/settings.js') < scripts.findIndex(s => s.endsWith('fun.js')), `${name}: settings must load before effects`);
   assert(html.includes('href="../grown-ups/in-game.css"'), `${name}: missing in-game grown-up styles`);
   const script = base => path.resolve(root, name, scripts.find(file => path.basename(file) === base));
-  for (const file of ['config.js', 'settings.js', 'art.js']) vm.runInContext(fs.readFileSync(script(file), 'utf8'), context);
+  for (const file of ['config.js', 'settings.js', 'art.js', 'hint.js']) vm.runInContext(fs.readFileSync(script(file), 'utf8'), context);
   context.draw = window.draw; context.ico = window.ico; context.wordPicture = window.wordPicture;
   vm.runInContext(fs.readFileSync(path.join(root, 'audio-map.js'), 'utf8'), context);
   const source = fs.readFileSync(script('app.js'), 'utf8');
@@ -139,7 +140,8 @@ async function worldChecks(name) {
     const wrong = t.app.choices.find(l => l.letter !== 'S'), button = t.getNode(`[data-answer="${wrong.letter}"]`);
     button.dataset.answer = wrong.letter;
     await t.app.answer(button); await t.flush();
-    assert(!t.getNode('[data-answer="S"]').classList.values.has('hint'), `${name}: legacy one-miss setting cannot enable hints`);
+    assert(t.getNode('[data-answer="S"]').classList.values.has('lucy-hinted'), `${name}: "Help when stuck: after 1 miss" points after one miss`);
+    assert.match(t.getNode('.feedback').textContent, /Look where Lucy is pointing!$/);
     const correct = t.getNode('[data-answer="S"]'); correct.dataset.answer = 'S';
     await t.app.answer(correct); await t.flush();
     assert(t.main().includes('1 of 6 · this visit'));
@@ -168,8 +170,9 @@ async function worldChecks(name) {
       const button = t.getNode(`[data-answer="${choice.letter}"]`); button.dataset.answer = choice.letter;
       await t.app.answer(button); await t.flush();
     }
-    assert(!t.getNode('[data-answer="B"]').classList.values.has('hint'), `${name}: "Don't outline" never outlines`);
-    assert(!t.played.includes(t.window.GAME_AUDIO.words.ball), `${name}: no hint word without the outline`);
+    assert(!t.getNode('[data-answer="B"]').classList.values.has('lucy-hinted'), `${name}: "Help when stuck: off" never points`);
+    assert.match(t.getNode('.feedback').textContent, /Try another picture\.$/, `${name}: off keeps the usual line`);
+    assert(!t.played.includes(t.window.GAME_AUDIO.words.ball), `${name}: no hint word`);
   }
   {
     const t = await game(name, {letters: ['Q']});
@@ -181,7 +184,7 @@ async function worldChecks(name) {
     t.getNode('#main').listeners.click({target: next}); await t.flush();
     assert.equal(t.app.current.letter, 'Q', `${name}: a single letter wraps to itself`);
   }
-  console.log(`PASS ${name}: chosen letters, counts, wrap, legacy hints ignored, voice off, volume and hidden children's buttons`);
+  console.log(`PASS ${name}: chosen letters, counts, wrap, Help when stuck (after 1 miss and off), voice off, volume and hidden children's buttons`);
 }
 
 (async () => {

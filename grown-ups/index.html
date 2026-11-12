@@ -73,6 +73,16 @@
         </div>
         <div class="letter-grid" id="letter-grid" role="group" aria-label="Letters to include"></div>
         <p class="count" id="letter-count" aria-live="polite"></p>
+        <fieldset class="group" id="hint" aria-describedby="hint-help">
+          <legend>Help when stuck</legend>
+          <p class="section-help" id="hint-help">After wrong pictures, Lucy points to the right one. Choose when that happens, or turn it off.</p>
+          <div class="segments">
+            <span class="pill" aria-hidden="true"></span>
+            <label><input type="radio" name="hintAfter" value="1" data-setting="hintAfter"><span>After 1 miss</span></label>
+            <label><input type="radio" name="hintAfter" value="2" data-setting="hintAfter"><span>After 2 misses</span></label>
+            <label><input type="radio" name="hintAfter" value="0" data-setting="hintAfter"><span>Off</span></label>
+          </div>
+        </fieldset>
       </section>
 
       <section id="motion" aria-labelledby="motion-title">

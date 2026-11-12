@@ -1,19 +1,170 @@
-# Lucy points to the answer, and the Ribbon Road lock test is gone
+# Lucy points to the answer, grown-ups choose when, and collected letters play again
 
-Branch `claude/lucy-hint`, built on `claude/fullsite-redesign` (5e8992f). This pass answers the four questions from the [full-site redesign report](fullsite-redesign.md), following Bradley's answers:
+Branch `claude/lucy-hint`, built on `claude/fullsite-redesign` (5e8992f). There have been two passes so far:
+
+- **Round 2 (this pass)** follows Bradley's answers to the seven questions from round 1.
+- **Round 1** added the pointing hint and deleted the Ribbon Road lock test.
+
+Nothing was deployed or merged, and no live account or live data was touched. No sound was added or changed.
+
+## Round 2: Bradley's answers
 
 | Question | Bradley's answer | What this pass did |
 |---|---|---|
-| 1. New art | Not for now | No new art. |
-| 2. Gameplay | Lucy pointing: yes. Calmer celebration: no. | Built the Lucy-pointing hint. No calmer celebration. Collection replay wasn't mentioned, so it isn't built (see question 2 below). |
-| 3. World names | No new names | No renames. |
-| 4. Ribbon Road test | Delete it | Deleted. |
+| 1. Lucy-pointing pictures | "Have Claude choose the best" | Chose concept A, the paw point, and set it up with the approved recipe. **Nothing generated:** the ElevenLabs connector says the recipe's model (Seedream 5 Lite) "is not available in your region" from here. See question 1. The game still uses the placeholder. |
+| 2. Collection replay | "Yes, build collection replay" | Built. Tapping a collected letter in the collection says it again. |
+| 3. Grown-ups can change the hint | "Yes, grown-ups can change or turn off the hint" | Brought back **Help when stuck**: after 1 miss, after 2 misses (the default) or off. |
+| 4. Voice line | "No voice line" | None. The optional line is dropped from AUDIO NEEDED. |
+| 5. "Look where Lucy is pointing!" | "Yes but depending on if it's too much we can back it out." | Kept. It is now one string in `v1-letter-post/hint.js`, so backing it out is a one-line change. |
+| 6. Leftover test output | "Delete the leftover test output" | Deleted `reports/layout-build/ribbon-unchanged.json`. |
+| 7. This report | "Keep the report file" | Kept and updated. |
 
-Nothing was deployed or merged, and no live account or live data was touched.
+### Help when stuck (grown-ups' setting)
 
-## What changed
+- **Where it is:** Game settings → **02 Letters**, under the letter grid. It has three choices: **After 1 miss**, **After 2 misses** and **Off**.
+- **Default:** after 2 misses, the same as round 1.
+- **How it's stored:** it reuses the old stored value, `hintAfter` (0 = off, 1 or 2). Accounts never stopped syncing it, the database already accepts only 0, 1 or 2, and reset already returns it to 2. There is no database or account change.
+  - Any value saved before the tidy-up, when this setting last existed, now takes effect again. If a grown-up chose "Don't outline" back then, that child gets no hint until it is changed here.
+- **Children:**
+  - It works like every other setting. For game defaults it saves at once.
+  - For chosen children it goes through "Review changes", where it reads, for example, "Help when stuck → Off".
+  - If the selected children have different values, it shows as mixed.
+- **In the game:**
+  - The hint now reads the setting through `LucyHint.after` in `hint.js`.
+  - **After 1 miss:** Lucy points after the first wrong picture.
+  - **Off:** every miss says "Try another picture."
+  - The sounds are the same in every case: the tapped word, a pause, then one of Lucy's existing retry clips.
 
-### Lucy's pointing hint
+### The hint line is one string
+
+`v1-letter-post/hint.js` now has a `line` string set to `'Look where Lucy is pointing!'`. Both game engines read it. Setting it to `null` backs the line out, and the feedback goes back to "That's cat. Try another picture." Lucy still points either way.
+
+### Collection replay
+
+- **What it does:**
+  - In every world's collection, each collected letter is now a button.
+  - Tapping it plays the same three clips the round uses: the letter's name, its sound, a short pause, then its word. For B that is "B", /b/, "ball".
+  - The child stays on the home page.
+  - The stamp gives a small wiggle, using transform only. Under calm or reduced motion it stays still.
+- **Where it works:**
+  - **Letter Post and Moonboat:** in the stamp album and the constellation, after tapping **Open**.
+  - **Ribbon Road:** on the sound thread, on the home page and on the reward screen.
+- **Unchanged:**
+  - Letters not yet collected stay plain and can't be tapped.
+  - The collections look the same as before. The only visual difference is a hover lift and a focus ring on collected letters.
+  - It works by keyboard too: Tab to the letter, then press Enter. Screen readers hear, for example, "B, completed this visit. Hear B again".
+- **Voice off:** if a grown-up turned Lucy's voice off, the tap stays quiet, as every other sound in the game does.
+- **Sounds:** it only reuses the existing letter and word clips. No sound was added.
+
+### Lucy-pointing pictures: chosen, set up, not generated
+
+- **Which concept I chose: A (paw point).** At the badge's size (60–88 px, in a circle) a raised paw reaching down-left reads as pointing most clearly.
+  - **B (nose point):** at that size it looks like sniffing.
+  - **C (blue glasses):** it adds an accessory, and the recipe says no accessories.
+  - **D (one picture per world):** it would need extra code and three times the images.
+- **How it's set up:** following the recipe exactly, on the recipe's flow `yuQAe0hoTg2oErjfSE3P`, using only the "claude.ai ElevenLabs" connector:
+  - I copied the existing approved 1:1 cutout node ("B try 1"), so the new node keeps the same model, 2K, 1:1, the edit base `lucy-locked-garden-b` and all 9 approved references.
+  - The copy is labelled **"HINT paw-point A"** (node `wzfTeDWF1pXD9VAw6VOW`).
+  - Its prompt is the recipe prompt word for word, with only the pose and setting changed: "Lucy sits facing the viewer and points helpfully with one front paw raised and stretched out toward the lower left corner of the image … plain soft light cream studio backdrop … head and pointing paw centred … so she still reads clearly inside a small circle".
+  - Four variations were set up. No other node on the flow was touched.
+- **What stopped it:** the cost check returned `This model is not available in your region.` The recipe says changing the model needs your OK, so I stopped there.
+  - No images were made and no credits were spent.
+  - No other model or connector was tried.
+- **What stays the same:** no Lucy file was touched, and the game still uses the placeholder `accounts/lucy/wave.jpg`.
+- **Image candidate paths:** none yet. When they exist, they go in a new folder, `reports/lucy-hint/pointing-candidates/`, with a contact sheet. Wiring the chosen one in stays a one-line change to `image` in `hint.js`, after you pick.
+
+### Files (round 2)
+
+| File | Change |
+|---|---|
+| `v1-letter-post/hint.js` | `after` comes from the grown-ups' setting (0 = off), a new `due(misses)` check, and the `line` string. The voice slot stays empty. |
+| `v1-letter-post/app.js`, `v3-moonboat/app.js` | The hint uses `hint.due()` and `hint.line`. Collected letters in the Ribbon Road thread are buttons. New `hear()` for collection replay. Focus is kept when the collection refreshes. |
+| `v1-letter-post/layout.js` | Collected letters in the Letter Post and Moonboat album are buttons. Focus is kept on refresh. |
+| `v1-letter-post/worlds.css` | Pointer, hover lift and focus ring for collected letters. The hint comment mentions the setting. |
+| `grown-ups/index.html`, `editor.js`, `grown-ups.css`, `dusk.css` | The Help when stuck control. Its label and summary for "Review changes", and its pill in the dusk colours. |
+| `sw-assets.js` | Rebuilt offline list version (same files). |
+| `reports/layout-build/ribbon-unchanged.json` | Deleted. |
+| `tests/collection_replay.cjs` | New (see Tests). |
+| `tests/lucy_hint.cjs` | Adds Help when stuck at 1 miss and off, in every world, and checks the line string. |
+| `tests/grown_ups_smoke.cjs`, `tests/grown_ups_runtime.cjs` | These had locked in "no hint setting". They now expect the control, its default, saving, reset, and its effect in the worlds. |
+| `tests/verify-game/features/*.md` | Describe the setting, the line string and collection replay. |
+| `reports/lucy-hint.md`, `reports/lucy-hint/help-when-stuck-*.jpg`, `replay-*.jpg` | This report and its screenshots. |
+
+**Locked and unchanged:** every audio clip, `audio-map.js`, `voice-manifest.json` and `approved/`. `git diff cbf53f3 -- audio audio-map.js voice-manifest.json approved '*.mp3'` is empty. Every Lucy and picture image, the world names and the celebration are also unchanged.
+
+### Screenshots (round 2)
+
+| What | Image |
+|---|---|
+| Help when stuck, whiteboard (Off chosen) | ![Help when stuck at 1920 wide](lucy-hint/help-when-stuck-1920x1080.jpg) |
+| Help when stuck, phone | ![Help when stuck at 390 wide](lucy-hint/help-when-stuck-390x844.jpg) |
+| Ribbon Road thread with B collected | ![Ribbon Road collection](lucy-hint/replay-ribbon-road-1920x1080.jpg) |
+| Letter Post stamp album with B collected | ![Letter Post album](lucy-hint/replay-letter-post-1024x576.jpg) |
+| Moonboat constellation with B collected (phone) | ![Moonboat constellation](lucy-hint/replay-moonboat-390x844.jpg) |
+
+### Tests (round 2)
+
+All tests ran in a Linux container using Google Chrome and local fixtures or the mock backend, with external requests blocked. No live account or data was touched. Heavy suites ran one at a time because of the shared 16 GB machine.
+
+- **`python3 tests/run_tests.py`** passed **6/6** strict checks: approved audio hashes, trim metadata, wiring, voice inventory, A–Z and themes.
+- **Audio lock:** `git diff cbf53f3 -- audio audio-map.js voice-manifest.json approved '*.mp3'` is empty.
+- **New `tests/collection_replay.cjs`** passes all **18** combinations: 3 worlds × 3 sizes (390×844, 1024×576, 1920×1080), each with and without calm. In each one it checks that:
+  - nothing is replayable before a letter is collected
+  - the collected letter is a button with the right label, and the other 25 stay plain
+  - a tap plays exactly `b-name-trim.mp3`, `b-sound-trim.mp3`, `word-ball.mp3`
+  - the wiggle uses transform only, and nothing moves under calm
+  - the child stays on home, nothing overflows sideways, Enter works from the keyboard, and there are no page errors
+- **`tests/lucy_hint.cjs`** passes **33/33**:
+  - round 1's 27 combinations
+  - plus Help when stuck at **1 miss** (Lucy points after one miss, with the line) and **off** (no hint after two misses, "Try another picture."), in each world
+  - plus a check that the line is the one `LucyHint.line` string
+  - The usual retry clip still plays in every case.
+- **Updated:**
+  - `grown_ups_smoke` passes. It checks the control and its 2-miss default, saving 1 and Off, reset back to 2, and Lucy pointing after one miss in the worlds when it's set that way.
+  - `grown_ups_runtime` passes. It checks after 1 miss and off in all three engines.
+- **Other suites that pass:**
+  - `runtime_smoke`, `tidy_1`, `tidy_1b`, `layout_build`, `progress`, `fixlist`, `offline_readiness`, `layout_offline`, `silk_smoke`
+  - `browser_smoke` (all 6 shards), `accounts_sync` (which syncs `hintAfter`), `home_flow`, `portal_flow`, `kid_signout`, `guest_link_flag`, `fix24_layout`, `moonboat_theme_color`
+  - `progress_sync`, `update_round_guard`, `takeover_round_race`, `profile_picture_dirty`, `profile_rename_race`, `risky_actions_browser`, `portal_review_browser`, `kid_picture_browser`, `name_only_picture_refresh`, `picture_swap`
+  - `lucy_letters_offline`, `call_list_offline`, `failed_precache_cache`, `first_takeover_reload`, `cancelled_press`, `correct_word`, `fade_swap`, `call_list_sounds`, `celebrate_delay` (which failed here in round 1), `celebrate_audio_rules`
+- **Failed once, then passed when rerun:**
+  - `silk_smoke` failed first on a real problem: on a 390-wide phone, a collected Ribbon Road letter, now a button, was 59.2 px wide, under the game's 60 px touch-target rule. Collected letters now keep a 60 px minimum, spilling evenly into the gaps. Measured at 320, 390 and 1024 wide, they don't overlap their neighbours. The suite then passed.
+  - `browser_smoke` shard 5 stalled once while the real `word-van.mp3` was playing, on a wrong-answer tap, then passed alone.
+  - `celebrate_audio_rules` timed out once while waiting to click, then passed alone, the same as in round 1.
+  - `lucy_hint` and `collection_replay` each failed once with a timing timeout ("element is not stable" or a settle wait) on the picture screen with normal motion, after the long batch. Each then passed in full twice in a row.
+- **Four suites fail the same way on the untouched round-1 commit `cbf53f3`.** I reran them in a separate worktree on that commit:
+  - `motion_smoke`: the live reduced-motion toggle
+  - `confetti_smoke`: "visible page resumes rain"
+  - `tidy_1_update`: the offline-update takeover
+  - `call_list_browser`: a colour check
+
+  These are the same failures as round 1, so they are not from this pass.
+- **Not run**, as before:
+  - `lucy_letters`: it ran out of memory last time.
+  - Suites that use real accounts: `*_live`, `*_hosted`, `portal_master*`, `portal_round2`, `child_settings_browser`, `accounts_selection`, `master_login`.
+  - The `*_database` and `*_edge` suites, which need `.job/db-tools`. `child_settings_database` already checks that `hintAfter` accepts only 0, 1 or 2.
+- **Report artifacts:** suites rewrite old report screenshots and logs as they run. Those changes were thrown away and are not in this commit.
+
+## AUDIO NEEDED
+
+None. Bradley said no voice line, so the optional "Look where I'm pointing!" clip from round 1 is dropped. The hint and collection replay use only existing clips.
+
+## Questions for Bradley
+
+1. **Lucy-pointing pictures: model not available.** Through the "claude.ai ElevenLabs" connector, Seedream 5 Lite (`bytedance-seedream-5-lite`) returns "This model is not available in your region", so I generated nothing. Which would you like?
+   - **(a)** Run the ready node yourself, or have it run from a place where Seedream works. That is node **"HINT paw-point A"** on flow `yuQAe0hoTg2oErjfSE3P`, already set to 4 variations at about 212 credits each. Then send me the results, or let me know and I'll download them and make the contact sheet.
+   - **(b)** OK a different model on the same references. The recipe notes that Krea Flux Kontext was judged "not quite Lucy". The connector's own suggestions for editing a character are `gemini-3-pro-image` and `gpt-image-2.5-sunburst`, but neither is proven on Lucy.
+   - **(c)** Keep the placeholder for now.
+2. **Old "Don't outline" choices.** Bringing back Help when stuck also brings back any value a grown-up saved before the tidy-up. A child whose grown-up chose "Don't outline" back then won't see Lucy point until it's changed. Is that right, or should every child start fresh at "after 2 misses"? Starting fresh would mean a one-time reset of everyone's stored value.
+3. **Collection replay plays the letter, not the round.** Tapping a collected letter replays its sounds right there: name, sound, then word. The usual way to play that letter's round again is its card on the letter shelf, which already works. If you meant that tapping it in the collection should start the round again, that is a one-line change.
+
+## Round 1
+
+Round 1 answered the four questions from the [full-site redesign report](fullsite-redesign.md). New art: not for now. Gameplay: Lucy pointing, yes; calmer celebration, no. World names: no change. Ribbon Road test: delete it. Its AUDIO NEEDED and questions are answered in round 2 above.
+
+### What changed
+
+#### Lucy's pointing hint
 
 **How it behaves.** It works the same way in Ribbon Road, Letter Post and Moonboat, which are the only worlds with answer choices.
 
@@ -35,14 +186,14 @@ Nothing was deployed or merged, and no live account or live data was touched.
 
 **Temporary picture.** It is an existing Lucy photo, not new art: `accounts/lucy/wave.jpg`, her raised-paw wave, already used as a profile picture. When Bradley picks a generated "Lucy pointing" image, it goes in as a new file, and the only change is the `image` path at the top of `v1-letter-post/hint.js`. No original Lucy file was edited, moved or replaced.
 
-### Ribbon Road test deleted
+#### Ribbon Road test deleted
 - **Removed:** `tests/layout_ribbon_unchanged.cjs`.
 - **Doc references:** the reference in `tests/verify-game/features/home.md` is removed. No test runner or other test referenced it.
 - **Old reports left as they are:** they are a record of past runs, so their mentions of the test stay. Those are `reports/fade-swap*`, `picture-swap.md`, `layout-build.md`, `landing-redesign.md` and `fullsite-redesign.md`.
 - **`approved/` files:** there is no `tests/approved/` folder. The deleted test didn't use the top-level `approved/` files, and the audio checks still need them, so they stay.
 - **Candidate for removal:** `reports/layout-build/ribbon-unchanged.json` was that test's only output. It is left in place.
 
-### Files
+#### Files
 
 | File | Change |
 |---|---|
@@ -59,7 +210,7 @@ Nothing was deployed or merged, and no live account or live data was touched.
 
 **Locked and unchanged:** every audio clip, `audio-map.js`, `voice-manifest.json` and `approved/`, all byte-identical to 5e8992f. Every Lucy and picture image, the world names, the celebration and the collections are also unchanged.
 
-## Screenshots
+### Screenshots
 
 Each image shows the same moment before and after: letter B, after tapping apple and then cat. Before is `claude/fullsite-redesign`; after is this branch. They were taken with reduced motion, so this is also exactly what calm mode shows.
 
@@ -73,7 +224,7 @@ Each image shows the same moment before and after: letter B, after tapping apple
 ![Letter Post, before and after](lucy-hint/letter-post-1024x576.jpg)
 ![Moonboat, before and after](lucy-hint/moonboat-390x844.jpg)
 
-## Tests
+### Tests
 
 All tests ran in a Linux container using Google Chrome and the local mock backend. Chrome was started with `*.supabase.co` mapped to "not found" as a safety net, and no live account or data was touched.
 
@@ -107,39 +258,6 @@ All tests ran in a Linux container using Google Chrome and the local mock backen
 - **Not run**, as last time: the suites that use real accounts (`*_live`, `*_hosted`, `portal_master*`, `portal_round2`, `child_settings_browser`, `accounts_selection`, `master_login`), and the `*_database` and `*_edge` suites, which need `.job/db-tools`.
 - **Report artifacts:** several suites rewrite old report screenshots and logs as they run. Those changes were thrown away and are not in this commit.
 
-## AUDIO NEEDED
-
-Nothing is required: the hint works with the existing sounds. One optional line would help:
-
-| Words (exact) | Proposed file | Where it plays |
-|---|---|---|
-| "Look where I'm pointing!" | `audio/feedback/lucy-look-where-im-pointing.mp3` | On the second miss only, in place of the usual retry clip: the tapped word, a short pause, then this line. |
-
-It should be in Lucy's game voice (`FgiNpTIapnCbaD6xiqIo`, `eleven_v4`). Until it exists, the slot is `voice: null` in `v1-letter-post/hint.js`, which is silent and keeps today's sounds exactly. When the clip arrives, three things need updating together: that path, `voice-manifest.json` and the approved-audio list.
-
-## Questions for Bradley
-
-1. **ElevenLabs connector, for the Lucy-pointing pictures.** As you said, I need your ElevenLabs connector, and it isn't available in this environment. Could you share it or give me access? I've only used ElevenLabs for voice, so if image generation lives somewhere else in your setup, please tell me where. Until then I've made no new pictures and used no other image tool. Once I have access, I'll generate the options below and send them to Made It, who brings them to you. Nothing gets wired in until you pick one.
-
-   **Rules for every option:** Lucy stays exactly the same dog as in the rest of the game: same age, size, golden coat, face and overall look. Only her pose and the setting change. The reference pictures are `v1-letter-post/assets/lucy-default.jpg` (main likeness), `v1-letter-post/assets/lucy-specs.jpg` (the Lucy on the picture screen), `v1-letter-post/assets/lucy-celebrate.jpg` and `accounts/lucy/wave.jpg` (raised paw). Each option would be a new square file, about 1024×1024, framed so it still reads in a small circle. She'd point down and to the left, because that's where the card is from her spot. The originals stay untouched.
-
-   - **A. Paw point, cosy room.** Lucy sits as in `lucy-default.jpg`, one front paw raised and stretched down-left, head turned to follow her paw, mouth open and happy. Same warm living-room background as `lucy-default.jpg`.
-   - **B. Nose point, leaning in.** Lucy leans forward and down to the left, nose leading, ears perked and tail up, as if saying "this one!". Same warm room, softly blurred.
-   - **C. With her blue glasses.** Option A's pose wearing the same round blue glasses as `lucy-specs.jpg`, on the same plain dark background. She would match the Lucy already on the picture screen.
-   - **D. One pose, three worlds.** Option A's pose (or your favourite of A to C) drawn three times, changing only the setting: a pink ribbon sky at golden hour for Ribbon Road, an airmail sky with clouds for Letter Post, and a starry night with aurora for Moonboat. This needs one small extra change to pick the picture per world.
-
-2. **Replaying a collected letter from the collection.** Your answer didn't mention it, so I haven't built it. Would you like it?
-
-3. **Should grown-ups be able to change the hint?** The game used to have a "Help when stuck" setting (after 1 miss, after 2, or off). It was removed in the earlier tidy-up, which also removed all hints. Its stored value is still in each account, but nothing reads it. The new hint always appears after two misses, as you asked, and ignores that old value. Should grown-ups get a setting to make it sooner or turn it off?
-
-4. **The optional voice line** under AUDIO NEEDED: would you like it, and are those words right?
-
-5. **The on-screen line** "Look where Lucy is pointing!": is that wording right?
-
-6. **Leftover output file.** `reports/layout-build/ribbon-unchanged.json` was the deleted test's output. Should I delete it too?
-
-7. **This report.** You said "No md needed", but the job brief asked for this report, so I wrote it. If you'd rather not keep it, it can be dropped from the branch.
-
 ## Preview locally
 
 ```sh
@@ -147,4 +265,4 @@ git checkout claude/lucy-hint
 python3 -m http.server 8000
 ```
 
-Open http://localhost:8000/, choose **Play without saving**, pick a world and a letter, then tap two wrong pictures.
+Open http://localhost:8000/, choose **Play without saving**, pick a world and a letter, then tap two wrong pictures. To try Help when stuck, open **Game settings** from the grown-ups' area (02 Letters). To try collection replay, finish a letter, go back home, open the collection and tap that letter.
