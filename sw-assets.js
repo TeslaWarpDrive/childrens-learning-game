@@ -1,5 +1,5 @@
 self.OFFLINE_MANIFEST = {
-  "version": "385469ff4e1967b4",
+  "version": "cfb52a1826ab1e6f",
   "files": [
     "./accounts/client.js",
     "./accounts/config.js",
@@ -91,6 +91,7 @@ self.OFFLINE_MANIFEST = {
     "./audio/words/word-yak.mp3",
     "./audio/words/word-zebra.mp3",
     "./audio-map.js",
+    "./grown-ups/dusk.css",
     "./grown-ups/editor.js",
     "./grown-ups/grown-ups.css",
     "./grown-ups/in-game.css",

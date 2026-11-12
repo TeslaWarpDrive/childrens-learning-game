@@ -23,7 +23,7 @@ Collapsed home must fit without scrolling at the laptop, portrait-tablet, and wh
 Run `tests/silk_smoke.cjs` to verify Ribbon Road palettes in Pink, Purple, Yellow order, persistence, all 26 completed rounds, 60px targets, and chooser links at 390, 1180, and 1920.
 
 
-The root home page now starts at the child login dialog. Click **Play without saving** to open the layout picker, whose first highlighted choice is Ribbon Road. A fresh home entry always shows the dialog; the explicit **Choose a layout** return from a game restores the picker for the current account or unsaved session. Unsaved play deliberately ignores stored settings. Keep direct-file settings-renderer checks separate from this unsaved journey.
+The root home page now starts at the child login dialog. Click **Play without saving** to open the layout picker, whose first highlighted choice is Ribbon Road. A fresh home entry always shows the dialog; the explicit **Choose a world** return from a game restores the picker for the current account or unsaved session. Unsaved play deliberately ignores stored settings. Keep direct-file settings-renderer checks separate from this unsaved journey.
 
 Run `node tests/home_flow.cjs` for the complete hosted journey and unsaved persistence assertions. No screenshots are taken.
 

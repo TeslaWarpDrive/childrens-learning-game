@@ -90,7 +90,7 @@ async function run() {
     assert.equal(await direct.page.evaluate(key => localStorage.getItem(key), SESSION_KEY), null, 'A guest link with no session must not create one');
     await direct.page.locator('a[href="../index.html?layouts"]').click();
     await direct.page.waitForFunction(() => document.body.dataset.homeStep === 'layouts');
-    assert.equal(await direct.page.evaluate(() => window.ACCOUNTS.guest), true, 'The stored flag keeps Choose a layout in guest play');
+    assert.equal(await direct.page.evaluate(() => window.ACCOUNTS.guest), true, 'The stored flag keeps Choose a world in guest play');
     assert.equal(await direct.page.evaluate(key => sessionStorage.getItem(key), GUEST_KEY), '1');
     assert.equal(await direct.page.locator('#login-dialog').evaluate(dialog => dialog.matches(':modal')), false);
     assert.deepEqual(direct.errors, []);

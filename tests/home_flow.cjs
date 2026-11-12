@@ -42,7 +42,7 @@ async function run(){
       await page.reload();await settle(page);
       assert.equal(await page.locator('#theme').inputValue(),'0','Guest choices do not survive reload');
       assert.equal(await page.evaluate(()=>ACCOUNTS.snapshot.count),0);
-      await page.getByRole('link',{name:'Choose a layout'}).click();
+      await page.getByRole('link',{name:'Choose a world'}).click();
       await page.waitForFunction(()=>document.body.dataset.homeStep==='layouts');
       assert.equal(await page.locator('[aria-current=true]').getAttribute('data-world'),'silk');
       for(const world of ['post','space']){
@@ -56,7 +56,7 @@ async function run(){
           assert.equal((await tagline.textContent()).trim(),'Little Sounds Big Discovery');
         }else assert.match(await brand.innerText(),/Letters with Lucy\s+Little Sounds Big Discovery/);
         assert(!/little\s*woof|ready[\s-]*set[\s-]*abc|silk (road|thread)/i.test(await page.locator('body').innerText()));
-        await page.getByRole('link',{name:'Choose a layout'}).click();await page.waitForFunction(()=>document.body.dataset.homeStep==='layouts');
+        await page.getByRole('link',{name:'Choose a world'}).click();await page.waitForFunction(()=>document.body.dataset.homeStep==='layouts');
       }
       assert.deepEqual(errors,[]);
       await context.close();console.log(`PASS ${viewport.width}: login-first, default Ribbon Road, unsaved warning, no persisted play/preferences, cached offline reload, branding and fit`);

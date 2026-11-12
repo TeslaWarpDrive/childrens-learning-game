@@ -66,7 +66,7 @@ const selectedGrownups=new Set();
 const selectedKids=new Set();
 let freshness = 'checking', pendingAction = null, profileFor = null, pictureFor = null;
 const cacheKey = id => 'lwl-portal-progress-'+id;
-const worlds = {post: "Lucy's Letter Post", space: "Lucy's Moonboat", silk: "Ribbon Road"};
+const worlds = {post: "Letter Post", space: "Moonboat", silk: "Ribbon Road"};
 const notice = (message, error = false) => {
   $('account-status').textContent = message;
   $('account-status').classList.toggle('error', error);

@@ -141,7 +141,8 @@ async function signin(page,url,handle,password) {
   await page.goto(url+'/accounts/');
 }
 async function settle(page) {
-  await page.waitForFunction(()=>!document.body.dataset.effect&&!document.body.classList.contains('talking'));
+  // Wait for the page's own scripts too, so a click that opens a new page cannot be read before it loads.
+  await page.waitForFunction(()=>Boolean(window.ACCOUNTS)&&document.readyState!=='loading'&&!document.body.dataset.effect&&!document.body.classList.contains('talking'));
 }
 async function round(page,letter) {
   await page.locator(`[data-letter="${letter}"]`).click();await settle(page);

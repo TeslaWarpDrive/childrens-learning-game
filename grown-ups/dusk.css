@@ -1,0 +1,88 @@
+/* Letters with Lucy: grown-up area skin (portal, progress, accounts and game settings).
+   Loaded last by both grown-up pages so they share one look: the same dusk sky as the
+   child sign-in, glass panels, gold actions and calm, readable type for adults.
+   Layout, IDs and control sizes come from the existing sheets and are not changed here. */
+@font-face{font-family:Comfortaa;src:url(../v1-letter-post/assets/Comfortaa-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
+
+:root{
+  color-scheme:dark;
+  --paper:#160f33;--sheet:#25174f;--ink:#fff7ea;--muted:#cfc4ea;--accent:#ffc35a;--on-accent:#2a1240;--danger:#ff9a9a;
+  --line:rgb(255 255 255/.14);--line-strong:rgb(255 255 255/.3);--off:#5d5184;--focus:#7ff3e1;
+  --band:linear-gradient(100deg,#3b1d6e,#5a2470 40%,#7a2d6a 70%,#a25a3c);
+  --glass:linear-gradient(165deg,rgb(60 36 112/.86),rgb(32 19 70/.9));--glass-line:rgb(255 255 255/.16);
+  --gold:linear-gradient(180deg,#ffe596,#ffd36e 45%,#ffb547);--teal:#7ff3e1;--pink:#ff9cc8;--lilac:#c9b8ff;
+  --dusk-ease:cubic-bezier(.2,.85,.2,1);--dusk-spring:cubic-bezier(.34,1.56,.64,1)
+}
+body{background-color:#160f33;color:var(--ink);
+  background-image:radial-gradient(1.2px 1.2px at 30px 40px,rgb(255 255 255/.75) 60%,transparent),radial-gradient(1px 1px at 150px 110px,rgb(255 233 196/.7) 60%,transparent),radial-gradient(1.4px 1.4px at 230px 210px,rgb(255 255 255/.6) 60%,transparent),
+    radial-gradient(120% 70% at 50% 115%,#5e1d5e 0%,transparent 58%),radial-gradient(80% 55% at 90% -10%,#33307f 0%,transparent 62%),radial-gradient(70% 50% at 0% 20%,#3b1663 0%,transparent 60%),linear-gradient(180deg,#110b2a 0%,#1c1142 46%,#2b1350 100%);
+  background-size:260px 260px,260px 260px,260px 260px,100% 100%,100% 100%,100% 100%,100% 100%;background-attachment:fixed}
+body::before{content:"";position:fixed;inset:-10vh -10vw;z-index:-1;pointer-events:none;
+  background:linear-gradient(105deg,transparent 18%,rgb(255 205 120/.1) 24%,transparent 32%,transparent 58%,rgb(255 130 190/.07) 64%,transparent 72%);animation:dusk-sway 18s ease-in-out infinite alternate}
+::selection{background:rgb(255 211 110/.4)}
+:focus-visible{outline:4px solid var(--focus);outline-offset:4px}
+[tabindex="-1"]:focus{outline:none}
+
+/* Masthead */
+.masthead{border-bottom:1px solid var(--line)!important}
+.masthead .label{color:var(--accent);letter-spacing:.14em}
+.masthead .brand-tagline{color:var(--muted)}
+.title,.masthead h1{font-family:Comfortaa,Nunito,sans-serif;font-weight:700;letter-spacing:-.025em;background:linear-gradient(100deg,#fff4dc 8%,#ffd27a 40%,#ff9cc8 70%,#c9b8ff 95%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+h2,.welcome h2,.panel h2{font-family:Comfortaa,Nunito,sans-serif;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+.panel h2::after,h2::after{background:linear-gradient(90deg,var(--accent),var(--pink),transparent)!important;border-color:transparent!important}
+
+/* Panels, sheets and notices */
+.panel,.sheet,.notes,.group,dialog,.child-management,.password-panel{background:var(--glass)!important;color:var(--ink);border:1px solid var(--glass-line)!important;border-radius:28px!important;
+  box-shadow:0 40px 80px -44px rgb(0 0 0/.85),inset 0 1px 0 rgb(255 255 255/.14)!important}
+.panel{position:relative}
+.panel::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;background:linear-gradient(140deg,rgb(255 211 110/.7),transparent 30%,transparent 70%,rgb(127 243 225/.5));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+dialog::backdrop{background:rgb(8 4 24/.65);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.notice{background:rgb(255 255 255/.06)!important;border:1px solid var(--glass-line);border-left:4px solid var(--accent)!important;border-radius:16px;color:var(--ink)}
+.notice.error{border-left-color:var(--danger)!important}
+.help,.section-help,.welcome p{color:var(--muted)}
+.band{background:var(--band)!important;border-radius:28px;box-shadow:0 30px 70px -40px rgb(255 120 180/.5)}
+.stamp,.postmark{opacity:.55;filter:hue-rotate(200deg) saturate(.8)}
+
+/* Fields */
+input:not([type=checkbox]):not([type=radio]):not([type=range]),select,textarea{background:rgb(10 5 32/.55)!important;color:var(--ink)!important;border:2px solid rgb(255 255 255/.16)!important;border-radius:16px!important;box-shadow:inset 0 2px 8px rgb(0 0 0/.35)}
+input:not([type=checkbox]):not([type=radio]):not([type=range]):focus,select:focus,textarea:focus{border-color:var(--teal)!important;box-shadow:inset 0 2px 8px rgb(0 0 0/.35),0 0 0 4px rgb(127 243 225/.2)}
+input::placeholder{color:rgb(207 196 234/.6)}
+select option{background:#25174f;color:var(--ink)}
+input:-webkit-autofill{-webkit-text-fill-color:var(--ink);box-shadow:inset 0 0 0 100px #1d1144!important}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:var(--accent)}
+
+/* Buttons */
+.solid-button,.fill-button,button.solid-button,form button:not(.quiet-button):not(.danger):not([class*=chip]){background:var(--gold)!important;color:var(--on-accent)!important;border:0!important;border-radius:999px!important;
+  box-shadow:0 16px 30px -14px rgb(255 176 70/.7),0 0 0 1px rgb(255 230 160/.55),inset 0 2px 0 rgb(255 255 255/.6),inset 0 -3px 0 rgb(170 90 0/.22)!important;transition:translate .35s var(--dusk-spring)}
+.fill-button .fill-layer{background:#fff1cf!important;color:var(--on-accent)!important}
+.fill-button .fill-dot{background:var(--on-accent)!important;color:#ffd36e!important}
+.quiet-button,.pill,.auth-signout,.scope-actions button,.presets button{background:rgb(255 255 255/.06)!important;color:var(--ink)!important;border:1.5px solid rgb(255 255 255/.28)!important;border-radius:999px!important;transition:translate .35s var(--dusk-spring)}
+.quiet-button:hover,.pill:hover,.auth-signout:hover,.solid-button:hover,.fill-button:hover{translate:0 -2px}
+.danger,button.danger{background:rgb(255 110 120/.14)!important;color:#ffc4c4!important;border:1.5px solid rgb(255 150 160/.55)!important;border-radius:999px!important}
+[aria-pressed="true"].pill,.presets [aria-pressed="true"],.segments input:checked+span,.portal-views [aria-current="page"],.portal-views [aria-selected="true"]{background:var(--gold)!important;color:var(--on-accent)!important;border-color:transparent!important}
+
+/* Settings rows, switches and letters */
+.row{border-color:var(--line)!important}
+.row-text strong{color:var(--ink)}
+input[role="switch"]{background:var(--off)!important;border-color:transparent!important}
+input[role="switch"]:checked{background:linear-gradient(90deg,#ff9cc8,#ffb547)!important}
+.letter-grid button{background:rgb(255 255 255/.06)!important;color:var(--muted)!important;border:1.5px solid rgb(255 255 255/.2)!important;border-radius:14px!important}
+.letter-grid button[aria-pressed="true"]{background:linear-gradient(160deg,#4a2c8f,#2d1a63)!important;color:var(--ink)!important;border-color:rgb(255 211 110/.75)!important;box-shadow:0 0 16px -4px rgb(255 211 110/.6)}
+.swatch.post{background:linear-gradient(135deg,#9fd3ee,#fff1d6)!important}
+.swatch.space{background:linear-gradient(135deg,#12174a,#5a46c8)!important}
+.swatch.silk{background:linear-gradient(135deg,#ffb3da,#ffd2b4)!important}
+.index a{color:var(--muted)}
+.index a[aria-current],.index a:hover{color:var(--accent)}
+.save-status{color:var(--teal)}
+
+/* People, avatars and progress */
+.child-avatar,.avatar-options img,#my-picture-preview{border-radius:50%;box-shadow:0 0 0 3px rgb(255 255 255/.85),0 0 0 6px rgb(255 211 110/.5)}
+.children-list li,#children-list li,#grownups-list li{border-color:var(--line)!important}
+.count{font-family:Comfortaa,Nunito,sans-serif;background:linear-gradient(100deg,#ffd27a,#ff9cc8);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+a{color:var(--accent)}
+a.solid-button,a.quiet-button,.fill-button{color:inherit}
+
+@keyframes dusk-sway{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+@media (prefers-reduced-motion:reduce){body::before{animation:none}.quiet-button:hover,.pill:hover,.auth-signout:hover,.solid-button:hover,.fill-button:hover{translate:none}}
+html[data-calm] body::before{animation:none}
