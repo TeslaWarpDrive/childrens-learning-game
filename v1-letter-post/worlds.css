@@ -242,20 +242,23 @@ html[data-calm] .choice{--lift:0px!important;transform:none}
 html[data-calm] .app *:hover{translate:none!important;scale:none!important;rotate:none!important}
 
 /* ---------- Lucy's pointing hint (hint.js) ----------
-   After two misses (or as grown-ups set "Help when stuck") Lucy perches on the right picture's top edge and points into it,
-   clear of its word and sound icon in both the tall and the row card layouts.
+   After two misses (or as grown-ups set "Help when stuck") Lucy sits just below and to the right of the right picture,
+   so her up-left paw and the up-left arrow on her ring both point at it. hint.js measures the picture and sets her
+   left/top (the bottom/right below are only the fallback: the card's bottom-right corner) and, on cards too tight for
+   her, --lucy-word-shift / --lucy-word-pad to move the word clear of her.
    The ring and badge stay put under reduced motion and calm; only the pop-in and
    the gentle point move otherwise. */
 :root .choice.lucy-hinted{outline:5px solid var(--dot);outline-offset:5px;box-shadow:0 0 0 12px color-mix(in srgb,var(--dot) 22%,transparent),0 0 60px -6px var(--glow),0 26px 50px -30px var(--glow)}
 :root .choice.lucy-hinted.tried{border-style:solid}
 :root .choice.lucy-hinted{z-index:2}
-:root .lucy-hint{--size:clamp(60px,6vw,88px);position:absolute;z-index:3;top:calc(var(--size)*-.62);right:-6px;width:var(--size);aspect-ratio:1;pointer-events:none;animation:fx-hint-pop .6s var(--spring) both}
+:root .lucy-hint{--size:clamp(60px,6vw,88px);position:absolute;z-index:3;bottom:calc(var(--size)*-.35);right:-6px;width:var(--size);aspect-ratio:1;pointer-events:none;animation:fx-hint-pop .6s var(--spring) both}
+:root .choice.lucy-hinted .word{translate:var(--lucy-word-shift,0) 0;padding-left:var(--lucy-word-pad,0)}
 :root .lucy-hint-photo{position:absolute;inset:0;border-radius:50%;padding:4px;background:var(--ring);box-shadow:0 12px 26px -10px rgb(0 0 0/.45),0 0 26px -4px var(--glow)}
 :root .lucy-hint-photo img{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover;border:3px solid #fff;background:#fff}
-:root .lucy-hint-arrow{position:absolute;left:-24%;bottom:-22%;width:48%;aspect-ratio:1;display:grid;place-items:center;border-radius:50%;background:var(--dot);color:#fff;box-shadow:0 0 0 3px #fff,0 8px 18px -8px rgb(0 0 0/.5);animation:fx-hint-point 1.1s ease-in-out .6s infinite alternate}
-:root .lucy-hint-arrow svg{width:66%;height:66%}
+:root .lucy-hint-arrow{position:absolute;left:-18%;top:-18%;width:48%;aspect-ratio:1;display:grid;place-items:center;border-radius:50%;background:var(--dot);color:#fff;box-shadow:0 0 0 3px #fff,0 8px 18px -8px rgb(0 0 0/.5);animation:fx-hint-point 1.1s ease-in-out .6s infinite alternate}
+:root .lucy-hint-arrow svg{width:66%;height:66%;rotate:90deg}
 @keyframes fx-hint-pop{from{opacity:0;scale:.4}to{opacity:1;scale:1}}
-@keyframes fx-hint-point{from{translate:0 0}to{translate:-5px 5px}}
+@keyframes fx-hint-point{from{translate:0 0}to{translate:-3.5px -3.5px}}
 @media (prefers-reduced-motion:reduce){:root .lucy-hint,:root .lucy-hint-arrow{animation:none}}
 html[data-calm] .lucy-hint,html[data-calm] .lucy-hint-arrow{animation:none!important}
 

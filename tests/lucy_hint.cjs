@@ -1,7 +1,10 @@
 'use strict';
 /* Lucy's pointing hint in every world: nothing after one miss, Lucy on the right
    picture after two (or as the grown-ups' "Help when stuck" sets it: 1 miss or off), transform/opacity motion only, a still highlight under reduced
-   motion and the grown-ups' calm setting, and no change to sounds or the round. */
+   motion and the grown-ups' calm setting, and no change to sounds or the round.
+   Lucy's paw and the arrow both point up-left, so she must sit below-right of the
+   right picture with that line through its middle, covering no word, sound icon,
+   other picture or feedback line; and her picture follows the world's theme. */
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
@@ -9,10 +12,37 @@ const {pathToFileURL}=require('node:url');
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'/usr/local/lib/pnpm/5/.pnpm/node_modules/playwright');
 const root=path.resolve(__dirname,'..');
 const shots=process.env.HINT_SHOTS||'';
+const manifest=fs.readFileSync(path.join(root,'sw-assets.js'),'utf8');
 const games=[['v4-silk-thread','ribbon-road'],['v1-letter-post','letter-post'],['v3-moonboat','moonboat']];
+const pointing={'ribbon-road':['silk-0-pink','silk-1-purple','silk-2-yellow'],'letter-post':['post-0-airmail','post-1-candy','post-2-dark'],'moonboat':['space-0-dark','space-1-cloud-day','space-2-plum-dusk']};
+for(const names of Object.values(pointing))for(const file of names){
+  assert(fs.existsSync(path.join(root,'accounts/lucy/pointing',file+'.webp')),`${file}.webp exists`);
+  assert(manifest.includes(`"./accounts/lucy/pointing/${file}.webp"`),`${file}.webp is cached for offline play`);
+}
+// Where Lucy sits against the right picture, and what she covers.
+const geometry=()=>{
+  const r=n=>n.getBoundingClientRect(), hit=(a,b)=>Math.max(0,Math.min(a.right,b.right)-Math.max(a.left,b.left))*Math.max(0,Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top));
+  const ink=n=>{const g=document.createRange();g.selectNodeContents(n);return [...g.getClientRects()];};
+  const card=document.querySelector('.choice.lucy-hinted'),hint=card.querySelector('.lucy-hint'),arrow=hint.querySelector('.lucy-hint-arrow');
+  const P=r(card.querySelector('.word-picture')),H=r(hint),A=r(arrow);
+  const dx=(H.left+H.right-P.left-P.right)/2,dy=(H.top+H.bottom-P.top-P.bottom)/2;
+  const blocked=[...ink(card.querySelector('.word')),...ink(document.querySelector('.feedback'))];
+  document.querySelectorAll('.choice:not(.lucy-hinted)').forEach(o=>{blocked.push(r(o.querySelector('.word-picture')),...ink(o.querySelector('.word')));});
+  return {dx,dy,miss:Math.abs(dx-dy)*Math.SQRT1_2/Math.min(P.width,P.height),
+    arrowTurn:getComputedStyle(arrow.querySelector('svg')).rotate,arrowSide:[(A.left+A.right)/2<(H.left+H.right)/2,(A.top+A.bottom)/2<(H.top+H.bottom)/2],
+    covers:Math.round(blocked.reduce((s,b)=>s+hit(H,b)+hit(A,b),0)),onScreen:A.left>=0&&H.right<=document.documentElement.clientWidth};
+};
+const checkPlace=async(page,label)=>{
+  const g=await page.evaluate(geometry);
+  assert(g.dx>0&&g.dy>0,`${label}: Lucy is below-right of the picture (${g.dx},${g.dy})`);
+  assert(g.miss<=.31,`${label}: her up-left paw line runs through the picture's middle (${g.miss})`);
+  assert.equal(g.arrowTurn,'90deg',`${label}: the arrow points up-left, like her paw`);
+  assert.deepEqual(g.arrowSide,[true,true],`${label}: the arrow sits on her paw's side`);
+  assert.equal(g.covers,0,`${label}: Lucy covers no word, sound icon, other picture or feedback line`);
+  assert(g.onScreen,`${label}: Lucy stays on screen`);
+};
 const sizes=[[390,844],[1024,576],[1920,1080]];
 const modes=['motion','reduced','calm'];
-const manifest=fs.readFileSync(path.join(root,'sw-assets.js'),'utf8');
 assert(manifest.includes('"./v1-letter-post/hint.js"'),'hint.js is cached for offline play');
 (async()=>{
   const browser=await chromium.launch({executablePath:process.env.CHROMIUM_EXECUTABLE||'/usr/bin/google-chrome',args:['--no-sandbox']});
@@ -46,9 +76,10 @@ assert(manifest.includes('"./v1-letter-post/hint.js"'),'hint.js is cached for of
       assert.equal(await page.locator('.lucy-hint').count(),1,`${label}: one pointing Lucy`);
       assert.match(await page.locator('.feedback').innerText(),/Look where Lucy is pointing!$/);
       assert.equal(await page.locator('[data-answer=B]').getAttribute('aria-label'),'ball','The card keeps its name');
-      // The placeholder is an existing Lucy photo and it loads.
+      // The world's own pointing Lucy for its first theme, and it loads.
       const image=await page.locator('.lucy-hint img').evaluate(async img=>{await img.decode().catch(()=>{});return {src:img.getAttribute('src'),loaded:img.naturalWidth>0};});
-      assert.equal(image.src,'../accounts/lucy/wave.jpg');assert(image.loaded,`${label}: hint picture loads`);
+      assert.equal(image.src,`../accounts/lucy/pointing/${pointing[name][0]}.webp`);assert(image.loaded,`${label}: hint picture loads`);
+      await checkPlace(page,label);
       // The ring is visible in every mode; only motion differs.
       assert.notEqual(await page.locator('[data-answer=B]').evaluate(n=>getComputedStyle(n).outlineStyle),'none',`${label}: highlight shown`);
       const motion=await page.evaluate(()=>{
@@ -73,6 +104,15 @@ assert(manifest.includes('"./v1-letter-post/hint.js"'),'hint.js is cached for of
       await page.locator('.stepbar .back').click();await screen('listen');await settle();
       await page.locator('[data-action=match]').click();await screen('match');await settle();
       assert.equal(await page.locator('[data-answer=B].lucy-hinted .lucy-hint').count(),1,`${label}: hint survives Listen and back`);
+      await checkPlace(page,`${label} after Listen and back`);
+      // Changing the theme swaps her backdrop at once, and she stays in place.
+      if(mode==='motion'){
+        for(const theme of [1,2,0]){
+          await page.locator('#theme').selectOption(String(theme));
+          assert.equal(await page.locator('.lucy-hint img').getAttribute('src'),`../accounts/lucy/pointing/${pointing[name][theme]}.webp`,`${label}: theme ${theme} picture`);
+        }
+        await settle();await checkPlace(page,`${label} after theme changes`);
+      }
       await page.locator('[data-answer=B]').click();await screen('celebrate');await settle();
       // A new prompt starts without the hint.
       await page.keyboard.press('Escape');await screen('home');

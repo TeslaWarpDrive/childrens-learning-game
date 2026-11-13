@@ -1,12 +1,48 @@
 # Lucy points to the answer, grown-ups choose when, and collected letters play again
 
-Branch `claude/lucy-hint`, built on `claude/fullsite-redesign` (5e8992f). There have been three passes so far:
+Branch `claude/lucy-hint`, built on `claude/fullsite-redesign` (5e8992f). There have been four passes so far:
 
-- **Round 3 (this pass)** follows Bradley's answers to the three questions from round 2.
+- **Round 4 (this pass)** wires in the approved pointing-Lucy pictures, one per world and theme.
+- **Round 3** followed Bradley's answers to the three questions from round 2.
 - **Round 2** brought back the grown-ups' hint setting and added collection replay.
 - **Round 1** added the pointing hint and deleted the Ribbon Road lock test.
 
 Nothing was deployed or merged, and no live account or live data was touched. No sound was added or changed.
+
+## Round 4: the pointing Lucy, wired in
+
+Bradley approved the pointing pose ("This one nailed it") and all 9 on-brand backgrounds ("All 9 backgrounds are good"). He left the badge placement and the Moonboat sound-button overlap to Claude, with one hard rule: "if you're using an arrow, both the arrow and Lucy need to be pointing at the same thing."
+
+### The pictures
+
+- 9 new files in `accounts/lucy/pointing/`, 256 × 256 WebP, 8–12 KB each: `post-0-airmail`, `post-1-candy`, `post-2-dark`, `space-0-dark`, `space-1-cloud-day`, `space-2-plum-dusk`, `silk-0-pink`, `silk-1-purple`, `silk-2-yellow`.
+- Each is the same approved Lucy, pixel for pixel, on that world's own backdrop. No new image was generated for this pass.
+- `hint.js` picks the one for the current world and theme, and swaps it at once if the theme changes while Lucy is showing.
+- `accounts/lucy/wave.jpg` is untouched. It is still the header's brand picture, and the hint falls back to it only in a world with no pointing set.
+
+### Where Lucy sits: paw and arrow point at the same picture
+
+- Lucy's paw points up-left, so she now sits **just below and to the right of the right picture itself**, wherever the card layout puts that picture: under it in Letter Post and the tall Ribbon Road cards, and beside it in the Moonboat and phone Ribbon Road rows.
+- The arrow sits on her ring on the paw's side and is turned to the same up-left angle, so both point along one line. `hint.js` only uses spots where that line runs through the middle of the picture.
+- Among those spots it picks one that covers no word, sound button, other picture or feedback line and stays on screen. It then prefers the spot that covers the least of the drawing and stays closest.
+- It re-checks when Lucy appears, when the pictures come back after Listen, when the theme changes and when the card changes size (rotation or resizing).
+- **Moonboat's sound button:** Lucy now sits next to the picture at the left end of the row, far from the 🔊 at the right end, so they can no longer overlap.
+- **Tight cards:** on Letter Post phones and in Moonboat rows, the card's word steps aside a few pixels so that Lucy covers neither the picture nor the word. In Moonboat the word moves right and the 🔊 stays put. In Letter Post the word moves left. Only the card Lucy is on changes.
+
+![Round 4 contact sheet](lucy-hint/pointing-wired.jpg)
+
+### Files (round 4)
+
+| File | Change |
+|---|---|
+| `accounts/lucy/pointing/*.webp` | New. The 9 pointing-Lucy pictures. |
+| `v1-letter-post/hint.js` | Picks each world and theme's picture, places Lucy below-right of the right picture, and keeps her placed and in theme. |
+| `v1-letter-post/worlds.css` | The arrow points up-left like her paw; the fallback corner is now the card's bottom-right; the word can step aside. |
+| `sw-assets.js` | Rebuilt with `scripts/build-offline-manifest.py`, so the 9 pictures work offline. |
+| `tests/lucy_hint.cjs` | Checks the picture per world and theme (including theme changes), that Lucy is below-right with her pointing line through the picture, that the arrow points the same way, and that she covers nothing and stays on screen. |
+| `README.md`, `reports/lucy-hint.md`, `reports/lucy-hint/pointing-wired.jpg` | This note and its contact sheet. |
+
+No audio clip, `audio-map.js` or `voice-manifest.json` was touched.
 
 ## Round 3: Bradley's answers
 
@@ -252,14 +288,11 @@ All tests ran in a Linux container using Google Chrome and local fixtures or the
 
 ## AUDIO NEEDED
 
-None. The round's existing clips cover the new collection tap, and there is still no voice line for the hint.
+None. The round's existing clips cover the new collection tap, and there is still no voice line for the hint. Round 4 changes only pictures and placement.
 
 ## Questions for Bradley
 
-1. **Lucy-pointing pictures: still "not available in your region".** The VPN on your computer most likely doesn't change where the connector's requests come from, because they come from Anthropic's servers. Which would you like?
-   - **(a) Run it yourself in the browser with the VPN on.** Open flow `yuQAe0hoTg2oErjfSE3P` in ElevenLabs, select the node **"HINT paw-point A"** and generate 4 variations, about 212 credits each, about 848 in total. It is already set up with the recipe, the 9 approved references and the edit base. Then tell me, and I'll pull the 4 results through the connector, save them in `reports/lucy-hint/pointing-candidates/`, make the contact sheet, check each one for drift and recommend one.
-   - **(b) OK a different model** on the same references, edit only. Krea Flux Kontext was judged "not quite Lucy". I'd make 4 candidates and check them hard for drift before showing you.
-   - **(c) Keep the placeholder** (`accounts/lucy/wave.jpg`) for now.
+None open from earlier rounds. Round 3's picture question was settled when Bradley approved the pointing pose and the 9 backgrounds (round 4).
 
 ## Round 1
 

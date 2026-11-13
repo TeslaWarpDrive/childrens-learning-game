@@ -1,5 +1,5 @@
 self.OFFLINE_MANIFEST = {
-  "version": "303a6f697fc0675f",
+  "version": "16b533cf5681e0f0",
   "files": [
     "./accounts/client.js",
     "./accounts/config.js",
@@ -9,6 +9,15 @@ self.OFFLINE_MANIFEST = {
     "./accounts/lucy/headtilt.jpg",
     "./accounts/lucy/mailbox.jpg",
     "./accounts/lucy/nap.jpg",
+    "./accounts/lucy/pointing/post-0-airmail.webp",
+    "./accounts/lucy/pointing/post-1-candy.webp",
+    "./accounts/lucy/pointing/post-2-dark.webp",
+    "./accounts/lucy/pointing/silk-0-pink.webp",
+    "./accounts/lucy/pointing/silk-1-purple.webp",
+    "./accounts/lucy/pointing/silk-2-yellow.webp",
+    "./accounts/lucy/pointing/space-0-dark.webp",
+    "./accounts/lucy/pointing/space-1-cloud-day.webp",
+    "./accounts/lucy/pointing/space-2-plum-dusk.webp",
     "./accounts/lucy/wave.jpg",
     "./accounts/lucy-avatars.js",
     "./accounts/navigation.js",
