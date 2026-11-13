@@ -70,7 +70,7 @@ const completedCount=()=>pool.filter(letter=>visited.has(letter.letter)).length;
 const pickerLabel=letter=>'Play letter '+letter+(progressOwner&&visited.has(letter)?', completed':'');
 function badges(l){return visited.has(l.letter)?`<span class="visited" aria-label="${progressOwner?'completed':'played this visit'}">${ico('check')}</span>`:'';}
 function pickers(type){if(layout)return layout.pickers(type);return `<div class="picker-shelf ${type}-shelf" role="region" aria-label="${all?'Choose a letter, A to Z. Scroll for more letters.':'Choose a letter. '+pool.length+' chosen for today.'}"><div class="letter-list ${type}" aria-label="Choose a letter">${pool.map((l,i)=>`<button data-letter="${l.letter}" aria-label="${pickerLabel(l.letter)}" style="--i:${i};--tilt:${[-5,3,-2,4,-3,5][i%6]}deg"><span class="letter-decoration" aria-hidden="true"></span><span class="pick-glyph">${l.letter}<small>${l.letter.toLowerCase()}</small></span><span class="pick-caption">${C.kind==='post'?'OPEN ME':C.kind==='garden'?'plant me':C.kind==='silk'?'follow me':'explore'}</span>${badges(l)}</button>`).join('')}</div></div>`;}
-function collection(){if(layout)return layout.collection();return `<aside class="collection ${post?'stamp-album':'constellation'}" aria-label="${post?'Stamp collection':C.kind==='silk'?'Sound thread':'Sound constellation'}: ${progressScope()}"><div class="collection-heading"><strong>${post?'YOUR STAMP STRIP':C.kind==='silk'?'YOUR SOUND THREAD':'YOUR LITTLE CONSTELLATION'}</strong><span>${completedCount()} of ${pool.length} · ${progressScope()}</span></div><div class="collection-slots" role="region" tabindex="0" aria-label="${all?'All 26 letters':pool.length===1?'1 letter':'All '+pool.length+' letters'}. Scroll to see more.">${pool.map(l=>visited.has(l.letter)?`<button type="button" class="collection-slot collected" data-hear="${l.letter}" aria-label="${l.letter}, ${progressOwner?'completed':'collected this visit'}. Hear ${l.letter} again"><span class="collection-symbol" aria-hidden="true">${post?ico('paw'):ico('star')}</span><b>${l.letter}</b><span>${l.word}</span></button>`:`<div class="collection-slot" aria-label="${l.letter}, ready to explore"><span class="collection-symbol" aria-hidden="true">${ico('star')}</span><b>${l.letter}</b><span>·</span></div>`).join('')}</div><p>${post?'A stamp for each sound you deliver.':C.kind==='silk'?'A little sparkle for each sound you find.':'A star for each sound you explore.'} ${progressNote()}</p></aside>`;}
+function collection(){if(layout)return layout.collection();return `<aside class="collection ${post?'stamp-album':'constellation'}" aria-label="${post?'Stamp collection':C.kind==='silk'?'Sound thread':'Sound constellation'}: ${progressScope()}"><div class="collection-heading"><strong>${post?'YOUR STAMP STRIP':C.kind==='silk'?'YOUR SOUND THREAD':'YOUR LITTLE CONSTELLATION'}</strong><span>${completedCount()} of ${pool.length} · ${progressScope()}</span></div><div class="collection-slots" role="region" tabindex="0" aria-label="${all?'All 26 letters':pool.length===1?'1 letter':'All '+pool.length+' letters'}. Scroll to see more.">${pool.map(l=>visited.has(l.letter)?`<button type="button" class="collection-slot collected" data-again="${l.letter}" aria-label="${l.letter}, ${progressOwner?'completed':'collected this visit'}. Play ${l.letter} again"><span class="collection-symbol" aria-hidden="true">${post?ico('paw'):ico('star')}</span><b>${l.letter}</b><span>${l.word}</span></button>`:`<div class="collection-slot" aria-label="${l.letter}, ready to explore"><span class="collection-symbol" aria-hidden="true">${ico('star')}</span><b>${l.letter}</b><span>·</span></div>`).join('')}</div><p>${post?'A stamp for each sound you deliver.':C.kind==='silk'?'A little sparkle for each sound you find.':'A star for each sound you explore.'} ${progressNote()}</p></aside>`;}
 function renderProgress(){
  if(layout){layout.refresh();return;}
  main.querySelectorAll('.letter-list [data-letter]').forEach(button=>{
@@ -80,10 +80,10 @@ function renderProgress(){
  });
  const old=$('.collection');
  if(old){
-  const left=old.querySelector('.collection-slots').scrollLeft,heard=document.activeElement?.dataset.hear;
+  const left=old.querySelector('.collection-slots').scrollLeft,again=document.activeElement?.dataset.again;
   old.outerHTML=collection();
   $('.collection-slots').scrollLeft=left;
-  if(heard)$(`[data-hear="${heard}"]`)?.focus({preventScroll:true});
+  if(again)$(`[data-again="${again}"]`)?.focus({preventScroll:true});
  }
 }
 function refreshProgress(){
@@ -120,12 +120,6 @@ const retryClips = ['../audio/feedback/lucy-uh-oh.mp3','../audio/feedback/lucy-t
 let retryBag=[];
 // After two misses on one prompt (or as grown-ups set it), Lucy points to the right picture (v1-letter-post/hint.js).
 const hint=window.LucyHint, hinting=()=>Boolean(hint)&&hint.due(misses);
-// Replay from the collection: the same name, sound and word clips as the round.
-function hear(button){
- const l=letters.find(l=>l.letter===button.dataset.hear);if(!l||!visited.has(l.letter))return;
- if(!grown.calm&&!matchMedia('(prefers-reduced-motion: reduce)').matches)button.animate([{transform:'scale(1)'},{transform:'scale(1.1) rotate(-3deg)'},{transform:'scale(1)'}],{duration:360,easing:'ease-out'});
- voice([A.letters[l.letter].name,A.letters[l.letter].sound,300,wordAudio(l)]);
-}
 function nextRetry(){if(!retryBag.length)retryBag=shuffle(retryClips);return retryBag.pop();}
 async function answer(button){
  if(busy)return;
@@ -160,7 +154,8 @@ async function answer(button){
  if(newCompletion)layout?.complete(current.letter);
  visited.add(current.letter);go('celebrate',{keepVoice:true});
 }
-main.addEventListener('click',async e=>{const b=e.target.closest('button');if(!b||!main.contains(b)||b.getAttribute('aria-disabled')==='true'||(busy&&b.dataset.action!=='home'))return;if(layout?.click(b))return;if(b.dataset.hear){hear(b);return;}if(b.dataset.letter){start(b.dataset.letter);return;}if(b.dataset.answer){answer(b);return;}const a=b.dataset.action;if(a==='home')go('home');if(a==='start')start(pool[0].letter);if(a==='listen'){if(await go('listen'))replay();}if(a==='match'&&state==='listen')continueMatch(b);if(a==='replay')replay();if(a==='next')start(pool[(pool.indexOf(current)+1)%pool.length].letter);if(a==='reward-replay')replay(true);});
+// A collected letter in the collection (data-again) starts that letter's round again, like its shelf card.
+main.addEventListener('click',async e=>{const b=e.target.closest('button');if(!b||!main.contains(b)||b.getAttribute('aria-disabled')==='true'||(busy&&b.dataset.action!=='home'))return;if(layout?.click(b))return;if(b.dataset.again){start(b.dataset.again);return;}if(b.dataset.letter){start(b.dataset.letter);return;}if(b.dataset.answer){answer(b);return;}const a=b.dataset.action;if(a==='home')go('home');if(a==='start')start(pool[0].letter);if(a==='listen'){if(await go('listen'))replay();}if(a==='match'&&state==='listen')continueMatch(b);if(a==='replay')replay();if(a==='next')start(pool[(pool.indexOf(current)+1)%pool.length].letter);if(a==='reward-replay')replay(true);});
 main.addEventListener('keydown',e=>{if(layout?.keydown(e))return;if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key))return;const group=e.target.closest('.letter-list,.choices');if(!group)return;const buttons=[...group.querySelectorAll('button')];const i=buttons.indexOf(e.target);if(i<0)return;e.preventDefault();let jump=(e.key==='ArrowLeft'||e.key==='ArrowUp')?-1:1;buttons[(i+jump+buttons.length)%buttons.length].focus();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&state!=='home'){go('home');}});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)stopVoice();});

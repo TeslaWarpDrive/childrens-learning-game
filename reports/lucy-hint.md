@@ -1,11 +1,114 @@
 # Lucy points to the answer, grown-ups choose when, and collected letters play again
 
-Branch `claude/lucy-hint`, built on `claude/fullsite-redesign` (5e8992f). There have been two passes so far:
+Branch `claude/lucy-hint`, built on `claude/fullsite-redesign` (5e8992f). There have been three passes so far:
 
-- **Round 2 (this pass)** follows Bradley's answers to the seven questions from round 1.
+- **Round 3 (this pass)** follows Bradley's answers to the three questions from round 2.
+- **Round 2** brought back the grown-ups' hint setting and added collection replay.
 - **Round 1** added the pointing hint and deleted the Ribbon Road lock test.
 
 Nothing was deployed or merged, and no live account or live data was touched. No sound was added or changed.
+
+## Round 3: Bradley's answers
+
+| Question | Bradley's answer | What this pass did |
+|---|---|---|
+| 1. Lucy-pointing pictures | "Tell it to try again. I have turned on the VPN for china so it should work now." | Tried again. **Still refused:** "This model is not available in your region." Nothing was generated and no credits were spent. Per the instructions, no other model was tried. See question 1. |
+| 2. Old "off" hint values | "Claudes decision on what a game like this should do is fine" | Decided to **keep a grown-up's saved choice**. No code change. The reasons are below. |
+| 3. What a tap on a collected letter does | "Start that letter's round again" | Done. Tapping a collected letter in any world's collection now starts that letter's round, exactly like its card on the letter shelf. |
+
+### Lucy-pointing pictures: tried again, still blocked
+
+- **What I ran:** the ready node **"HINT paw-point A"** (node `wzfTeDWF1pXD9VAw6VOW` on flow `yuQAe0hoTg2oErjfSE3P`), through the "claude.ai ElevenLabs" connector only.
+  - Before running, I checked that the node was still exactly as round 2 left it: Seedream 5 Lite (`bytedance-seedream-5-lite`), 2K, 1:1, edit of `lucy-locked-garden-b`, all 9 approved references, and the recipe prompt.
+- **The result:**
+  - The cost check returned `blocking_errors: ["Node 'HINT paw-point A': This model is not available in your region."]`.
+  - I then started the real run once, for 4 variations, which is within what was approved. It was refused with the same message.
+- **Afterwards:** the node shows no generations, so nothing was made and nothing was charged. The node is unchanged and still ready to run.
+- **Why the VPN probably didn't help:** this is a likely cause, not a confirmed one. The connector's requests go to ElevenLabs from Anthropic's servers, not from Bradley's computer. A VPN on his machine changes where *his* browser appears to be, not where the connector's requests come from.
+  - Opening the flow in a browser while the VPN is on would send the request from his machine instead. That may work. See question 1.
+- **What did not happen:**
+  - No other model or connector was tried.
+  - No image was saved or wired in, and no Lucy file was touched.
+  - The game still uses the placeholder `accounts/lucy/wave.jpg`.
+  - `reports/lucy-hint/pointing-candidates/` was not created, because there is nothing to put in it.
+- **Recommendation:** none yet, because there are no candidates. When there are, I'll save each one as a new file in `reports/lucy-hint/pointing-candidates/` with a contact sheet next to the approved Lucy pile.
+  - I'll check each one for drift: a younger or rounder face, bigger eyes, a shorter muzzle, different fur or markings, a second puppy, accessories or an orange tint.
+  - I'll also check that the paw clearly reads as pointing inside a 60–88 px circle, and recommend one. Wiring it in stays a one-line change to `image` in `v1-letter-post/hint.js`, after Bradley picks.
+
+### Old "off" hint values: kept as the grown-up chose
+
+**The decision:** if a grown-up saved "off" for the old hint, it stays off until a grown-up changes it in Game settings → 02 Letters → **Help when stuck**. Everyone else gets the default, Lucy pointing after 2 misses. Nothing changed in the code. This is how round 2 already worked.
+
+**Why this is right for a children's learning game:**
+
+1. **It is the same choice.** The old setting was "Don't outline", which meant "don't show my child which picture is right." The new **Off** means the same thing: Lucy doesn't point to the answer. So the grown-up's saved choice still means what they chose.
+2. **Only a grown-up ever chose 0.** The default has always been 2, in every version of `grown-ups/settings.js` and in the database's starting value, so a stored 0 always means a grown-up deliberately chose it. Some grown-ups turn help off on purpose, for example a teacher checking what a child knows without help, or a child who taps through hints. A children's app shouldn't quietly undo a parent's or teacher's choice.
+3. **It is easy to see and change.** The choice now shows as **Off** in Game settings and can be changed with one tap. For chosen children it shows in "Review changes" like every other setting.
+4. **A reset would mean changing live accounts.** The stored value only allows 0, 1 or 2 (`supabase/migrations/20261019060259_accounts_sync.sql`), and the old and new "off" look the same. Telling them apart would need a one-time reset of every account's saved value, or a new database field. Both mean a database change on live accounts, which is outside this lane, for little gain.
+5. **No child is worse off than before.** While the setting was hidden (from the Oct 21 tidy-up until round 1), every child played with no hint at all. Children whose grown-ups never chose "off" now get Lucy's help. Children whose grown-ups did choose it play as they did before.
+
+### Collection tap starts the round again
+
+- **What it does:**
+  - In every world's collection, a collected letter is still a button.
+  - Tapping it now starts that letter's round: the listen screen, its name and sound, three pictures, the hint if the child gets stuck, and the reward.
+  - It is the same `start()` call the letter's card on the shelf uses, so the round is identical.
+- **Where it works:**
+  - **Letter Post and Moonboat:** the stamp album and the constellation, after tapping **Open**.
+  - **Ribbon Road:** the sound thread, on the home page and on the reward screen.
+- **Progress:** playing a collected letter again keeps it collected, and the count doesn't go up. The test checks it stays "1 of 26".
+  - For signed-in children, a replayed round saves like any replayed round from the shelf, which the existing `progress_sync` suite already covers.
+- **What's gone:** the in-place replay of name, sound and word, and the small stamp wiggle that went with it. The child now leaves the home page, so a wiggle would never be seen.
+- **Unchanged:**
+  - Letters not yet collected stay plain and can't be tapped.
+  - The collections look exactly the same, including the hover lift, the focus ring and the 60 px touch target from round 2. The round 2 replay screenshots still show them accurately.
+- **Keyboard and screen readers:** Tab to the letter and press Enter. Screen readers now hear, for example, "B, completed this visit. Play B again" (it used to say "Hear B again").
+- **Sounds:** only the round's existing clips. Nothing was added.
+
+### Files (round 3)
+
+| File | Change |
+|---|---|
+| `v1-letter-post/app.js`, `v3-moonboat/app.js` | A collected letter (`data-again`, renamed from `data-hear`) calls `start()`, like its shelf card. `hear()` and its wiggle are removed. The label is now "Play B again". |
+| `v1-letter-post/layout.js` | The Letter Post and Moonboat album uses the same `data-again` attribute and label. Its comment is updated. |
+| `v1-letter-post/worlds.css` | Comment only. |
+| `sw-assets.js` | Rebuilt offline list version (same files). |
+| `tests/collection_replay.cjs` | Now checks that a tap, and Enter, starts B's round, and that B stays counted once. |
+| `tests/verify-game/features/home.md` | Describes the new tap. |
+| `reports/lucy-hint.md` | This report. |
+
+**Locked and unchanged:** every audio clip, `audio-map.js`, `voice-manifest.json` and `approved/`. `git diff d429e5a -- audio audio-map.js voice-manifest.json approved '*.mp3'` is empty. Every Lucy and picture image is also unchanged.
+
+### Tests (round 3)
+
+All tests ran in a Linux container using Google Chrome (`CHROMIUM_EXECUTABLE=/usr/bin/google-chrome`) and local fixtures or the mock backend, with external requests blocked. No live account or data was touched. Heavy suites ran one at a time because of the shared 16 GB machine.
+
+- **`python3 tests/run_tests.py`** passed **6/6** strict checks: approved audio hashes, trim metadata, wiring, voice inventory, A–Z and themes.
+- **Audio lock:** `git diff d429e5a -- audio audio-map.js voice-manifest.json approved '*.mp3'` is empty.
+- **Updated `tests/collection_replay.cjs`** passes all **18** combinations: 3 worlds × 3 sizes (390×844, 1024×576, 1920×1080), each with and without calm. It passed in full twice. In each combination it checks that:
+  - nothing is replayable before a letter is collected
+  - the collected letter is a button labelled "B, … this visit. Play B again", and the other 25 stay plain
+  - nothing overflows sideways
+  - a tap opens **B's** listen screen and plays B's name and sound, exactly as any round starts
+  - the round then gives three pictures, a correct tap reaches the reward, and the count stays **1 of 26**
+  - the same is true with Enter from the keyboard
+  - there are no page errors
+- **Other suites that pass:** `lucy_hint` (33/33), `progress`, `progress_sync`, `fixlist`, `layout_build`, `silk_smoke` (including the 60 px touch targets), `offline_readiness`, `layout_offline`, `grown_ups_smoke`, `grown_ups_runtime`, `runtime_smoke`, `tidy_1`, `home_flow`.
+- **`browser_smoke`:** shards 1 and 5 pass. Shards 0, 2, 3 and 4 fail on this machine, and **the untouched round-2 commit `d429e5a` fails the same way**. I ran it in a separate worktree, and its shards 0, 2 and 4 failed with 0–1 cases passing.
+  - These shards play the real mp3 files, and every failure is either a "Stalled playback" wait or an "element is not stable" timeout on the shelf → listen → pictures → reward path. That path is unchanged in this pass, and the suite never taps a collected letter.
+  - The stalls land on a different clip each time: a retry clip, a word, a letter name or a cheer. In each case headless Chrome never reported the file as finished.
+  - Round 2 saw one such stall (`word-van.mp3`). Today it happens on most runs, so it looks like the machine's headless audio, not the code.
+- **My mistakes while running these:**
+  - The first `browser_smoke` loop was started without a long enough time limit, and it was stopped at 10 minutes.
+  - For about a minute, a second loop overlapped it before I stopped that one. Shard 1 passed during that overlap.
+  - Every result listed above comes from runs made one at a time after that.
+- **`collection_replay`** failed once on its very first run, with the same "element is not stable" timeout on the listen screen's "Find its picture" button. That was before any collection tap. It then passed in full twice.
+- **Not run**, as before:
+  - Suites that use real accounts: `*_live`, `*_hosted`, `portal_master*`, `portal_round2`, `child_settings_browser`, `accounts_selection`, `master_login`.
+  - The `*_database` and `*_edge` suites, which need `.job/db-tools`.
+  - `lucy_letters`, which ran out of memory before.
+  - The four suites that already failed on `cbf53f3`: `motion_smoke`, `confetti_smoke`, `tidy_1_update`, `call_list_browser`.
+- **Report artifacts:** suites rewrite old report screenshots and logs as they run. Those changes were thrown away and are not in this commit.
 
 ## Round 2: Bradley's answers
 
@@ -40,6 +143,8 @@ Nothing was deployed or merged, and no live account or live data was touched. No
 `v1-letter-post/hint.js` now has a `line` string set to `'Look where Lucy is pointing!'`. Both game engines read it. Setting it to `null` backs the line out, and the feedback goes back to "That's cat. Try another picture." Lucy still points either way.
 
 ### Collection replay
+
+> **Changed in round 3:** a tap now starts that letter's round again, rather than saying its sounds in place. See [Round 3](#round-3-bradleys-answers). This section records what round 2 built.
 
 - **What it does:**
   - In every world's collection, each collected letter is now a button.
@@ -147,20 +252,18 @@ All tests ran in a Linux container using Google Chrome and local fixtures or the
 
 ## AUDIO NEEDED
 
-None. Bradley said no voice line, so the optional "Look where I'm pointing!" clip from round 1 is dropped. The hint and collection replay use only existing clips.
+None. The round's existing clips cover the new collection tap, and there is still no voice line for the hint.
 
 ## Questions for Bradley
 
-1. **Lucy-pointing pictures: model not available.** Through the "claude.ai ElevenLabs" connector, Seedream 5 Lite (`bytedance-seedream-5-lite`) returns "This model is not available in your region", so I generated nothing. Which would you like?
-   - **(a)** Run the ready node yourself, or have it run from a place where Seedream works. That is node **"HINT paw-point A"** on flow `yuQAe0hoTg2oErjfSE3P`, already set to 4 variations at about 212 credits each. Then send me the results, or let me know and I'll download them and make the contact sheet.
-   - **(b)** OK a different model on the same references. The recipe notes that Krea Flux Kontext was judged "not quite Lucy". The connector's own suggestions for editing a character are `gemini-3-pro-image` and `gpt-image-2.5-sunburst`, but neither is proven on Lucy.
-   - **(c)** Keep the placeholder for now.
-2. **Old "Don't outline" choices.** Bringing back Help when stuck also brings back any value a grown-up saved before the tidy-up. A child whose grown-up chose "Don't outline" back then won't see Lucy point until it's changed. Is that right, or should every child start fresh at "after 2 misses"? Starting fresh would mean a one-time reset of everyone's stored value.
-3. **Collection replay plays the letter, not the round.** Tapping a collected letter replays its sounds right there: name, sound, then word. The usual way to play that letter's round again is its card on the letter shelf, which already works. If you meant that tapping it in the collection should start the round again, that is a one-line change.
+1. **Lucy-pointing pictures: still "not available in your region".** The VPN on your computer most likely doesn't change where the connector's requests come from, because they come from Anthropic's servers. Which would you like?
+   - **(a) Run it yourself in the browser with the VPN on.** Open flow `yuQAe0hoTg2oErjfSE3P` in ElevenLabs, select the node **"HINT paw-point A"** and generate 4 variations, about 212 credits each, about 848 in total. It is already set up with the recipe, the 9 approved references and the edit base. Then tell me, and I'll pull the 4 results through the connector, save them in `reports/lucy-hint/pointing-candidates/`, make the contact sheet, check each one for drift and recommend one.
+   - **(b) OK a different model** on the same references, edit only. Krea Flux Kontext was judged "not quite Lucy". I'd make 4 candidates and check them hard for drift before showing you.
+   - **(c) Keep the placeholder** (`accounts/lucy/wave.jpg`) for now.
 
 ## Round 1
 
-Round 1 answered the four questions from the [full-site redesign report](fullsite-redesign.md). New art: not for now. Gameplay: Lucy pointing, yes; calmer celebration, no. World names: no change. Ribbon Road test: delete it. Its AUDIO NEEDED and questions are answered in round 2 above.
+Round 1 answered the four questions from the [full-site redesign report](fullsite-redesign.md). New art: not for now. Gameplay: Lucy pointing, yes; calmer celebration, no. World names: no change. Ribbon Road test: delete it. Its AUDIO NEEDED and questions were answered in round 2.
 
 ### What changed
 
@@ -265,4 +368,4 @@ git checkout claude/lucy-hint
 python3 -m http.server 8000
 ```
 
-Open http://localhost:8000/, choose **Play without saving**, pick a world and a letter, then tap two wrong pictures. To try Help when stuck, open **Game settings** from the grown-ups' area (02 Letters). To try collection replay, finish a letter, go back home, open the collection and tap that letter.
+Open http://localhost:8000/, choose **Play without saving**, pick a world and a letter, then tap two wrong pictures. To try Help when stuck, open **Game settings** from the grown-ups' area (02 Letters). To try collection replay, finish a letter, go back home, open the collection and tap that letter to play its round again.

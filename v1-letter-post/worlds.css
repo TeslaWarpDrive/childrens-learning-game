@@ -259,8 +259,8 @@ html[data-calm] .app *:hover{translate:none!important;scale:none!important;rotat
 @media (prefers-reduced-motion:reduce){:root .lucy-hint,:root .lucy-hint-arrow{animation:none}}
 html[data-calm] .lucy-hint,html[data-calm] .lucy-hint-arrow{animation:none!important}
 
-/* ---------- Collection replay (app.js hear()) ----------
-   A collected letter in the collection is a button that says it again. It keeps
+/* ---------- Collection replay (app.js) ----------
+   A collected letter in the collection is a button that starts its round again. It keeps
    the game's 60px touch target, spilling evenly into the gaps where the grid is narrower. */
 :root button.collection-slot.collected{padding:0;min-width:60px;min-height:60px;margin-inline:min(0px,calc((100% - 60px)/2));cursor:pointer;text-align:center;transition:translate .3s var(--spring),box-shadow .3s ease}
 :root button.collection-slot.collected:hover{translate:0 -2px}
