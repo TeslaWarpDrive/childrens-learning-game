@@ -20,9 +20,10 @@ const image = () => {
 };
 // No voice line: the usual retry clip plays.
 const voice = null;
-// The on-screen line once Lucy points. To back it out, set this to null and the
-// line stays "Try another picture." as on any other miss.
-const line = 'Look where Lucy is pointing!';
+// The whole on-screen line once Lucy points. It names no picture, because the
+// tapped one is not the one Lucy points at. Set it to null to go back to
+// "That's <word>. Try another picture." as on any other miss.
+const line = 'Here’s a hint! Look where Lucy is pointing.';
 // Drawn pointing down-left; worlds.css turns it up-left, the way Lucy's paw points.
 const arrow = '<svg viewBox="0 0 24 24" fill="none"><path d="M17 5 7 17m0 0h8m-8 0V9" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const badge = () => `<span class="lucy-hint" aria-hidden="true"><span class="lucy-hint-photo"><img src="${image()}" alt="" draggable="false"></span><span class="lucy-hint-arrow">${arrow}</span></span>`;

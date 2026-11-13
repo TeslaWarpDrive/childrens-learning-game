@@ -74,7 +74,7 @@ assert(manifest.includes('"./v1-letter-post/hint.js"'),'hint.js is cached for of
       await wrong.nth(1).click();
       await page.locator('[data-answer=B].lucy-hinted .lucy-hint').waitFor();
       assert.equal(await page.locator('.lucy-hint').count(),1,`${label}: one pointing Lucy`);
-      assert.match(await page.locator('.feedback').innerText(),/Look where Lucy is pointing!$/);
+      assert.equal(await page.locator('.feedback').innerText(),'Here’s a hint! Look where Lucy is pointing.',`${label}: the hint line alone, naming no card`);
       assert.equal(await page.locator('[data-answer=B]').getAttribute('aria-label'),'ball','The card keeps its name');
       // The world's own pointing Lucy for its first theme, and it loads.
       const image=await page.locator('.lucy-hint img').evaluate(async img=>{await img.decode().catch(()=>{});return {src:img.getAttribute('src'),loaded:img.naturalWidth>0};});
@@ -139,14 +139,14 @@ assert(manifest.includes('"./v1-letter-post/hint.js"'),'hint.js is cached for of
       const screen=name=>page.waitForFunction(name=>document.body.dataset.screen===name,name);
       const settle=()=>page.waitForFunction(()=>!document.body.dataset.effect&&!document.body.classList.contains('talking'));
       await screen('home');
-      assert.equal(await page.evaluate(()=>LucyHint.line),'Look where Lucy is pointing!','The hint line is one string in hint.js');
+      assert.equal(await page.evaluate(()=>LucyHint.line),'Here’s a hint! Look where Lucy is pointing.','The hint line is one string in hint.js');
       await page.locator('[data-letter=B]').first().click();await screen('listen');await settle();
       await page.locator('[data-action=match]').click();await screen('match');await settle();
       const wrong=page.locator('.choice:not([data-answer=B])');
       await wrong.nth(0).click();await settle();
       if(hintAfter===1){
         assert.equal(await page.locator('[data-answer=B].lucy-hinted .lucy-hint').count(),1,`${label}: Lucy points after one miss`);
-        assert.match(await page.locator('.feedback').innerText(),/Look where Lucy is pointing!$/);
+        assert.equal(await page.locator('.feedback').innerText(),'Here’s a hint! Look where Lucy is pointing.',`${label}: the hint line alone, naming no card`);
       }else{
         await wrong.nth(1).click();await settle();
         assert.equal(await page.locator('.lucy-hint,.lucy-hinted').count(),0,`${label}: off never points`);

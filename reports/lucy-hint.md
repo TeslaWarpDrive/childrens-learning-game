@@ -1,13 +1,24 @@
 # Lucy points to the answer, grown-ups choose when, and collected letters play again
 
-Branch `claude/lucy-hint`, built on `claude/fullsite-redesign` (5e8992f). There have been four passes so far:
+Branch `claude/lucy-hint`, built on `claude/fullsite-redesign` (5e8992f). There have been five passes so far:
 
-- **Round 4 (this pass)** wires in the approved pointing-Lucy pictures, one per world and theme.
+- **Round 5 (this pass, Bradley's round 4 brief)** changes the hint's words and makes Lucy bigger on whiteboards.
+- **Round 4** wires in the approved pointing-Lucy pictures, one per world and theme.
 - **Round 3** followed Bradley's answers to the three questions from round 2.
 - **Round 2** brought back the grown-ups' hint setting and added collection replay.
 - **Round 1** added the pointing hint and deleted the Ribbon Road lock test.
 
 Nothing was deployed or merged, and no live account or live data was touched. No sound was added or changed.
+
+## Round 5: the hint's words and whiteboard Lucy
+
+Bradley on the old line, "That's moon. Look where Lucy is pointing!": "This text here for hints. Get rid of it." / "It says moon" / "But thats a ball", then "You can keep the text, just make it say Hint or heres a hint but give claude the freedom to choose how thats worded". On whiteboard size: "Claudes choice". On the word stepping aside: "The word shift is fine". On the tidy_1 test: "Skip the test fix".
+
+- **The line.** Once Lucy points, the feedback line is only **"Here’s a hint! Look where Lucy is pointing."** It no longer starts with "That’s <tapped word>.", because the tapped card is never the one Lucy points at. It is the same in every world and theme, and it fits on one line on a 390 px phone. Before Lucy points (the first miss, or with Help when stuck off), the line is unchanged: "That’s moon. Try another picture." The wording is the `line` string in `v1-letter-post/hint.js`, and both game engines (`v1-letter-post/app.js`, `v3-moonboat/app.js`) now show it on its own.
+- **Whiteboard size.** Lucy's ring is now `clamp(60px, min(6vw, 11vh), 120px)`: about 115–119 px on a 1920 × 1080 whiteboard (it was capped at 88 px), and unchanged on phones (60 px), small laptops (61–64 px) and laptops (77–79 px). The height term keeps her from growing on short, wide screens. Placement still keeps her paw and arrow on one line through the right picture, covering nothing.
+- **Word shift** and `tests/tidy_1.cjs` are unchanged, as Bradley said.
+- **Tests:** `runtime_smoke`, `grown_ups_runtime` and `lucy_hint` now require the hint line exactly, so a card name can't creep back in.
+- Checked in all 9 world/theme combinations at 1280 × 800, 390 × 844, 1024 × 576 and 1920 × 1080: the line names no card, and Lucy overlaps nothing and causes no sideways scroll.
 
 ## Round 4: the pointing Lucy, wired in
 
@@ -288,11 +299,14 @@ All tests ran in a Linux container using Google Chrome and local fixtures or the
 
 ## AUDIO NEEDED
 
-None. The round's existing clips cover the new collection tap, and there is still no voice line for the hint. Round 4 changes only pictures and placement.
+None from rounds 1–4. Round 5 changed no sound, but one spoken word now differs from the text. After a wrong tap the game still says the tapped word ("moon") and then a retry clip, while the hint text no longer names it. Two options: (a) a new clip `audio/feedback/lucy-heres-a-hint.mp3` saying "Here’s a hint! Look where Lucy is pointing.", or (b) no new audio, with the game skipping the tapped word once Lucy points. That is a code change to what plays, so it waits for Bradley.
 
 ## Questions for Bradley
 
-None open from earlier rounds. Round 3's picture question was settled when Bradley approved the pointing pose and the 9 backgrounds (round 4).
+Round 5:
+
+1. **The spoken word on a hinted miss.** Should the game stop saying the tapped word ("moon") once Lucy is pointing (option b above, no new audio), or wait for a "Here’s a hint!" clip (option a)?
+2. **Feedback line below the fold at 1024 × 576.** In Moonboat and Ribbon Road on a small 1024 × 576 screen, the feedback line sits at the bottom edge or just below it, so the child may have to scroll to read it. This was already so before round 5. Fix it in a later round?
 
 ## Round 1
 

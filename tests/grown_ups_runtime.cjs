@@ -141,7 +141,7 @@ async function worldChecks(name) {
     button.dataset.answer = wrong.letter;
     await t.app.answer(button); await t.flush();
     assert(t.getNode('[data-answer="S"]').classList.values.has('lucy-hinted'), `${name}: "Help when stuck: after 1 miss" points after one miss`);
-    assert.match(t.getNode('.feedback').textContent, /Look where Lucy is pointing!$/);
+    assert.equal(t.getNode('.feedback').textContent, 'Here’s a hint! Look where Lucy is pointing.', `${name}: the hint line alone, naming no card`);
     const correct = t.getNode('[data-answer="S"]'); correct.dataset.answer = 'S';
     await t.app.answer(correct); await t.flush();
     assert(t.main().includes('1 of 6 · this visit'));

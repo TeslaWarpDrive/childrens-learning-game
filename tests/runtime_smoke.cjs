@@ -114,7 +114,8 @@ async function smoke(game) {
         assert.equal(document.body.dataset.screen, 'match');
         // Lucy points to the right picture from the second miss, and never before it.
         assert.equal(correct.classList.values.has('lucy-hinted'), miss >= 1, `Lucy's hint after ${miss + 1} miss(es)`);
-        assert.equal(getNode('.feedback').textContent.includes('Look where Lucy is pointing!'), miss >= 1);
+        // Once Lucy points the line is only the hint, so it never names the tapped card.
+        assert.equal(getNode('.feedback').textContent, miss >= 1 ? 'Here’s a hint! Look where Lucy is pointing.' : `That’s ${choice.word}. Try another picture.`);
       }
       assert.equal((correct.innerHTML.match(/class="lucy-hint"/g) || []).length, 1, 'One pointing Lucy');
       assert(!getNode('.feedback').textContent.includes(app.current.sound));

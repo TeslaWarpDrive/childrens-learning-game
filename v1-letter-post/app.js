@@ -129,7 +129,8 @@ async function answer(button){
   misses++;
   button.classList.add('tried');
   if(hinting())hint.show($(`[data-answer="${current.letter}"]`));
-  $('.feedback').textContent=`That’s ${selected.word}. ${hinting()&&hint.line||'Try another picture.'}`;
+  // Once Lucy points, the line is only the hint: it never names the tapped card, which Lucy is not pointing at.
+  $('.feedback').textContent=hinting()&&hint.line||`That’s ${selected.word}. Try another picture.`;
   F.wrong(button);
   await voice([wordAudio(selected),200,hinting()&&hint.voice?hint.voice:nextRetry()]);
   return;
