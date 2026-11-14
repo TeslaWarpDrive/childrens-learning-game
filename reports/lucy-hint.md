@@ -17,10 +17,10 @@ Bradley: "Lucy can point with her paw, but she doesn't have a long finger to poi
 
 - **How:** one Seedream 5 Lite edit per picture (flow `yuQAe0hoTg2oErjfSE3P`, new "Paw fix …" nodes; no existing node changed). Each edit used that picture's round-2 master as its reference and the same paw-only prompt Bradley approved on the first picture. The runs went from Bradley's Mac Chrome with his VPN on, because the connector itself is region-blocked.
 - **In the game now (7):** `post-0-airmail-paw`, `post-2-dark-paw`, `space-0-dark-paw`, `space-1-cloud-day-paw`, `space-2-plum-dusk-paw`, `silk-0-pink-paw`, `silk-2-yellow-paw`. Each is a new 256 × 256 WebP in `accounts/lucy/pointing/`, 7–10 KB. Lucy's paw still points up-left. The finger is gone and the pads are the same.
-- **Retakes:** Bradley approved one retake each for candy, purple and yellow, with the same prompt. Yellow came out clean on the second take: its first take left a short thumb-like stub.
+- **Retakes:** Bradley approved one retake each for candy, purple and yellow, then a third take for candy and purple, all with the same prompt. Yellow came out clean on the second take: its first take left a short thumb-like stub.
 - **Not used yet (2):** each of these keeps its current picture until a better take exists.
-  - `post-1-candy`: on take 1 her arm dropped and her paw no longer pointed up-left. On take 2 the finger is still there.
-  - `silk-1-purple`: on take 1 the finger was still there. Take 2 removed it, but it left a dark streak between the top toes and a dark spot on the paw's edge.
+  - `post-1-candy`: on take 1 her arm dropped and her paw no longer pointed up-left. Take 2 still had the finger. Take 3 left a short thumb-like stub with a dark tip.
+  - `silk-1-purple`: on take 1 the finger was still there. Take 2 removed it, but it left a dark streak between the top toes and a dark spot on the paw's edge. Take 3 left a thumb-like bump.
 - **Kept:** the old pictures stay in place, and nothing was overwritten.
 - **Changed files:** `v1-letter-post/hint.js` (the picture list), `tests/lucy_hint.cjs` (the expected names) and `sw-assets.js` (rebuilt so the new pictures work offline).
 
