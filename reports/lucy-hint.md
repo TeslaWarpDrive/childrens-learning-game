@@ -1,14 +1,30 @@
 # Lucy points to the answer, grown-ups choose when, and collected letters play again
 
-Branch `claude/lucy-hint`, built on `claude/fullsite-redesign` (5e8992f). There have been five passes so far:
+Branch `claude/lucy-hint`, built on `claude/fullsite-redesign` (5e8992f). There have been five passes so far, plus a paw fix on its own branch:
 
-- **Round 5 (this pass, Bradley's round 4 brief)** changes the hint's words and makes Lucy bigger on whiteboards.
+- **Paw fix (branch `claude/lucy-paw-fix`, from `claude/lucy-hint` 12e1853)** takes the human-style finger off Lucy's pointing paw in 6 of the 9 pictures.
+- **Round 5 (Bradley's round 4 brief)** changes the hint's words and makes Lucy bigger on whiteboards.
 - **Round 4** wires in the approved pointing-Lucy pictures, one per world and theme.
 - **Round 3** followed Bradley's answers to the three questions from round 2.
 - **Round 2** brought back the grown-ups' hint setting and added collection replay.
 - **Round 1** added the pointing hint and deleted the Ribbon Road lock test.
 
 Nothing was deployed or merged, and no live account or live data was touched. No sound was added or changed.
+
+## Paw fix: a dog paw, not a finger
+
+Bradley: "Lucy can point with her paw, but she doesn't have a long finger to point. She's not a human. So it just needs to be the paw."
+
+- **How:** one Seedream 5 Lite edit per picture (flow `yuQAe0hoTg2oErjfSE3P`, new "Paw fix …" nodes; no existing node changed). Each edit used that picture's round-2 master as its reference and the same paw-only prompt Bradley approved on the first picture. The runs went from Bradley's Mac Chrome with his VPN on, because the connector itself is region-blocked.
+- **In the game now (6):** `post-0-airmail-paw`, `post-2-dark-paw`, `space-0-dark-paw`, `space-1-cloud-day-paw`, `space-2-plum-dusk-paw`, `silk-0-pink-paw`. Each is a new 256 × 256 WebP in `accounts/lucy/pointing/`, 7–10 KB. Lucy's paw still points up-left. The finger is gone and the pads are the same.
+- **Not used yet (3):** each of these keeps its current picture until a better take exists.
+  - `post-1-candy`: her arm dropped and her paw no longer points up-left.
+  - `silk-1-purple`: the finger is still there.
+  - `silk-2-yellow`: a short thumb-like stub is left.
+- **Kept:** the old pictures stay in place, and nothing was overwritten.
+- **Changed files:** `v1-letter-post/hint.js` (the picture list), `tests/lucy_hint.cjs` (the expected names) and `sw-assets.js` (rebuilt so the new pictures work offline).
+
+![Paw fix before and after](lucy-hint/paw-fix-sheet.jpg)
 
 ## Round 5: the hint's words and whiteboard Lucy
 
