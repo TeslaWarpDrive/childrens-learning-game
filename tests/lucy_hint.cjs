@@ -14,7 +14,7 @@ const root=path.resolve(__dirname,'..');
 const shots=process.env.HINT_SHOTS||'';
 const manifest=fs.readFileSync(path.join(root,'sw-assets.js'),'utf8');
 const games=[['v4-silk-thread','ribbon-road'],['v1-letter-post','letter-post'],['v3-moonboat','moonboat']];
-const pointing={'ribbon-road':['silk-0-pink-paw','silk-1-purple','silk-2-yellow'],'letter-post':['post-0-airmail-paw','post-1-candy','post-2-dark-paw'],'moonboat':['space-0-dark-paw','space-1-cloud-day-paw','space-2-plum-dusk-paw']};
+const pointing={'ribbon-road':['silk-0-pink-paw','silk-1-purple','silk-2-yellow-paw'],'letter-post':['post-0-airmail-paw','post-1-candy','post-2-dark-paw'],'moonboat':['space-0-dark-paw','space-1-cloud-day-paw','space-2-plum-dusk-paw']};
 for(const names of Object.values(pointing))for(const file of names){
   assert(fs.existsSync(path.join(root,'accounts/lucy/pointing',file+'.webp')),`${file}.webp exists`);
   assert(manifest.includes(`"./accounts/lucy/pointing/${file}.webp"`),`${file}.webp is cached for offline play`);

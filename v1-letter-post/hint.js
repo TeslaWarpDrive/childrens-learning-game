@@ -9,11 +9,11 @@
 // One pointing Lucy per world and theme (same Lucy, the world's own backdrop),
 // in the order of each world's theme menu (config.js). Her paw points up-left.
 // "-paw" pictures are the fixed ones: a plain dog paw, no human-style finger.
-// post-1-candy, silk-1-purple and silk-2-yellow still wait for a good fix.
+// post-1-candy and silk-1-purple still wait for a good fix.
 const pictures = {
   post: ['post-0-airmail-paw', 'post-1-candy', 'post-2-dark-paw'],
   space: ['space-0-dark-paw', 'space-1-cloud-day-paw', 'space-2-plum-dusk-paw'],
-  silk: ['silk-0-pink-paw', 'silk-1-purple', 'silk-2-yellow']
+  silk: ['silk-0-pink-paw', 'silk-1-purple', 'silk-2-yellow-paw']
 };
 const image = () => {
   const set = pictures[window.CONCEPT?.kind];

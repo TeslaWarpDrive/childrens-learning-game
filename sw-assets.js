@@ -1,5 +1,5 @@
 self.OFFLINE_MANIFEST = {
-  "version": "237c104e8cd78f9a",
+  "version": "399dcf05a7094061",
   "files": [
     "./accounts/client.js",
     "./accounts/config.js",
@@ -17,6 +17,7 @@ self.OFFLINE_MANIFEST = {
     "./accounts/lucy/pointing/silk-0-pink-paw.webp",
     "./accounts/lucy/pointing/silk-0-pink.webp",
     "./accounts/lucy/pointing/silk-1-purple.webp",
+    "./accounts/lucy/pointing/silk-2-yellow-paw.webp",
     "./accounts/lucy/pointing/silk-2-yellow.webp",
     "./accounts/lucy/pointing/space-0-dark-paw.webp",
     "./accounts/lucy/pointing/space-0-dark.webp",
