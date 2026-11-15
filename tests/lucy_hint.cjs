@@ -12,12 +12,10 @@ const {pathToFileURL}=require('node:url');
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'/usr/local/lib/pnpm/5/.pnpm/node_modules/playwright');
 const root=path.resolve(__dirname,'..');
 const shots=process.env.HINT_SHOTS||'';
-const manifest=fs.readFileSync(path.join(root,'sw-assets.js'),'utf8');
 const games=[['v4-silk-thread','ribbon-road'],['v1-letter-post','letter-post'],['v3-moonboat','moonboat']];
 const pointing={'ribbon-road':['silk-0-pink-paw','silk-1-purple-paw','silk-2-yellow-paw'],'letter-post':['post-0-airmail-paw','post-1-candy-paw','post-2-dark-paw'],'moonboat':['space-0-dark-paw','space-1-cloud-day-paw','space-2-plum-dusk-paw']};
 for(const names of Object.values(pointing))for(const file of names){
   assert(fs.existsSync(path.join(root,'accounts/lucy/pointing',file+'.webp')),`${file}.webp exists`);
-  assert(manifest.includes(`"./accounts/lucy/pointing/${file}.webp"`),`${file}.webp is cached for offline play`);
 }
 // Where Lucy sits against the right picture, and what she covers.
 const geometry=()=>{
@@ -43,7 +41,6 @@ const checkPlace=async(page,label)=>{
 };
 const sizes=[[390,844],[1024,576],[1920,1080]];
 const modes=['motion','reduced','calm'];
-assert(manifest.includes('"./v1-letter-post/hint.js"'),'hint.js is cached for offline play');
 (async()=>{
   const browser=await chromium.launch({executablePath:process.env.CHROMIUM_EXECUTABLE||'/usr/bin/google-chrome',args:['--no-sandbox']});
   try {

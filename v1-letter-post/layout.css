@@ -30,7 +30,7 @@
 .layout-built[data-screen="home"] .pager strong{font-size:21px;line-height:1.2}
 .layout-built[data-screen="home"] .pager span{font-size:11px;font-weight:800;color:var(--muted)}
 .layout-built[data-screen="home"] .pager button{width:60px;height:60px;border:2px solid var(--line);border-radius:50%;background:var(--surface);display:grid;place-items:center;box-shadow:0 3px 0 var(--shadow)}
-.layout-built[data-screen="home"] .pager button:disabled{opacity:.3;cursor:default;box-shadow:none}
+.layout-built[data-screen="home"] .pager button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none;color:var(--muted)}
 .layout-built[data-screen="home"] .pager .icon{width:26px;height:26px}
 .layout-built[data-screen="home"] .captain{width:150px;max-width:none;margin:52px 0 0 34px}
 .layout-built[data-screen="home"] .captain .speech{font-size:12px;padding:9px;white-space:nowrap;left:-30px;right:-30px}
@@ -213,7 +213,7 @@
 .layout-built .done-badge svg{width:24px;height:24px;display:block}
 .layout-built.space .letter-list .done-badge{top:-12px;right:-10px}
 .layout-built .letter-list button{position:relative}
-.layout-built .pick-caption{font-size:12px;line-height:1.2;letter-spacing:.04em;font-weight:900}
+.layout-built .pick-caption{font-size:12px;line-height:1.2;letter-spacing:0;font-weight:900}
 .layout-built .planets .pick-caption{font-size:12px;margin-top:4px}
 .layout-built .album-slot .done-badge{position:static;width:24px;height:24px;border-width:2px}
 .layout-built .album-slot .done-badge svg{width:18px;height:18px}

@@ -118,7 +118,7 @@ const assert = require('node:assert/strict');
   await assert.rejects(db.query('select public.reset_child_progress($1,$2)',[stranger,child]),/Linked grown-up/);
   await caller(child);
   await sync(child,batch);
-  assert.equal((await db.query("select count(*)::int n from public.operations where kind='round'")).rows[0].n,0,'Old offline rounds cannot return after reset');
+  assert.equal((await db.query("select count(*)::int n from public.operations where kind='round'")).rows[0].n,0,'Old queued rounds cannot return after reset');
   await assert.rejects(db.query('select public.reset_child_progress($1,$2)',[adult,child]),/permission denied/);
   await assert.rejects(db.query("select public.edit_grownup_profile($1,'forged','Forged','⭐')",[adult]),/permission denied/);
   await assert.rejects(db.query("insert into public.operations(id,user_id,kind,payload) values(gen_random_uuid(),$1,'round',$2)",[child,JSON.stringify(batch[0].payload)]),/Progress was reset/);

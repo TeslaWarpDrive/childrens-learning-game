@@ -351,7 +351,7 @@ async function sync() {
     if (navigator.onLine && records.some(r=>r.pending && r.user_id===owner?.id)) return sync();
     return;
   }
-  if (!navigator.onLine) { message('Offline. Your play is saved here and will sync when connected.'); return; }
+  if (!navigator.onLine) { message('Connection lost. This play will be sent when the connection is back.'); return; }
   const account = owner.id, actor = self.id;
   syncing = (async()=>{
     try {

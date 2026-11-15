@@ -42,9 +42,9 @@ async function quiet(page){await page.waitForFunction(()=>!document.body.classLi
    const context=await browser.newContext({viewport,reducedMotion:viewport.width===768?'reduce':'no-preference'});let blocked=0;
    await context.route('**/*',r=>{if(!r.request().url().startsWith(local.url+'/')){blocked++;return r.abort();}return r.continue();});await observe(context);
    const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
-   await page.goto(local.url+'/');await page.locator('#play-unsaved').click();await page.evaluate(()=>navigator.serviceWorker.ready);await page.waitForFunction(()=>Boolean(navigator.serviceWorker.controller));
-   for(const offline of [false,true]){
-    await context.setOffline(offline);
+   await page.goto(local.url+'/');await page.locator('#play-unsaved').click();
+   // Online-only: no service worker, no offline pass.
+   for(const offline of [false]){
     for(const dir of dirs){
      await page.goto(local.url+'/'+dir+'/');await page.waitForFunction(()=>document.body.dataset.screen==='home');await match(page,`${out}/${offline?'offline':'online'}-listen-${dir}-${viewport.width}.png`);
      if(!offline){

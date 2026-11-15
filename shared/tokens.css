@@ -1,0 +1,46 @@
+:root {
+  color-scheme: light;
+  --space-3xs: 2px; --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px; --space-lg: 24px; --space-xl: 40px; --space-2xl: 64px; --space-3xl: 96px; --space-4xl: 144px;
+  --text-xs: 0.8125rem; --text-sm: 0.875rem; --text-md: 1rem; --text-lg: 1.25rem; --text-xl: 1.5625rem; --text-2xl: 1.953rem; --text-3xl: 2.441rem;
+  --text-display-s: clamp(2.25rem, 4vw + 0.5rem, 3.75rem); --text-display: clamp(2.75rem, 5vw + 1rem, 5.25rem);
+  --text-section: clamp(2rem, 2.5vw + 1rem, 3.5rem); --text-title: clamp(1.25rem, 0.75vw + 0.875rem, 1.625rem); --text-lead: clamp(1.125rem, 0.35vw + 1rem, 1.375rem);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); --ease-in: cubic-bezier(0.7, 0, 0.84, 0); --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms; --dur-short: 220ms; --dur-long: 420ms;
+  --color-error: oklch(52% 0.19 27); --color-success: oklch(50% 0.12 150);
+  --container: 1440px; --gutter: 64px; --gap-columns: 32px; --section-gap-s: 120px; --section-gap: 144px; --section-gap-l: 176px;
+  --z-base: 1; --z-raised: 10; --z-dropdown: 100; --z-sticky: 200; --z-sticky-nav: 300; --z-modal: 400; --z-toast: 500; --z-tooltip: 600;
+  --color-paper: oklch(97% 0.012 95); --color-paper-2: oklch(94.5% 0.018 95); --color-paper-3: oklch(91% 0.022 95);
+  --color-ink: oklch(20% 0.014 255); --color-ink-2: oklch(29% 0.014 255); --color-muted: oklch(47% 0.014 255);
+  --color-rule: oklch(87% 0.016 95);
+  --color-accent: oklch(87% 0.175 96); --color-accent-deep: oklch(72% 0.16 92); --color-accent-ink: oklch(20% 0.014 255);
+  --color-accent-2: oklch(50% 0.17 250); --color-accent-3: oklch(70% 0.2 22);
+  --color-mint: oklch(82% 0.15 152); --color-mint-deep: oklch(48% 0.12 155); --color-focus: oklch(50% 0.17 250);
+  --color-card: oklch(98.8% 0.007 95); --color-edge: oklch(83% 0.04 88); --color-fringe: oklch(99.2% 0.006 95);
+  --color-kraft: oklch(63% 0.085 62); --color-sand: oklch(77% 0.1 76); --color-sugar: oklch(89% 0.035 236);
+  --color-hill-1: oklch(94.5% 0.03 118); --color-hill-2: oklch(91.5% 0.045 135); --color-leaf: oklch(64% 0.15 150);
+  --font-display: "Chillax", ui-rounded, ui-sans-serif, sans-serif; --font-body: var(--font-display);
+  --font-outlier: "Geist Mono", ui-monospace, monospace;
+  --radius-card: 24px; --radius-stock: 16px; --radius-input: 14px; --radius-pill: 999px; --rule-hair: 1px;
+  --shadow-card: 0 1px 2px oklch(20% 0.014 255 / 0.06), 0 12px 28px -14px oklch(20% 0.014 255 / 0.22);
+  --shadow-paper: drop-shadow(0 0 0.6px oklch(20% 0.014 255 / 0.32)) drop-shadow(1.5px 2.5px 1.5px oklch(20% 0.014 255 / 0.1)) drop-shadow(6px 14px 16px oklch(20% 0.014 255 / 0.13));
+  --tracking-display: -0.03em; --display-weight: 600;
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); --ease-snap: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Letters with Lucy: the face, the paper and the torn edges every page shares. */
+@font-face { font-family: "Chillax"; src: url("./fonts/Chillax-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Chillax"; src: url("./fonts/Chillax-Semibold.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+:root {
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .2  0 0 0 0 .18  0 0 0 0 .12  0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  --fibre: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='turbulence' baseFrequency='.012 .09' numOctaves='3' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 .96  0 0 0 .11 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+  --tear-bottom: polygon(0% 0%,100% 0%,100.00% calc(100% - 6.0px),97.92% calc(100% - 1.9px),95.83% calc(100% - 3.7px),93.75% calc(100% - 4.2px),91.67% calc(100% - 3.8px),89.58% calc(100% - 2.3px),87.50% calc(100% - 3.5px),85.42% calc(100% - 8.5px),83.33% calc(100% - 6.9px),81.25% calc(100% - 5.9px),79.17% calc(100% - 6.2px),77.08% calc(100% - 1.9px),75.00% calc(100% - 2.4px),72.92% calc(100% - 1.7px),70.83% calc(100% - 2.0px),68.75% calc(100% - 4.6px),66.67% calc(100% - 6.9px),64.58% calc(100% - 4.4px),62.50% calc(100% - 6.4px),60.42% calc(100% - 9.7px),58.33% calc(100% - 8.6px),56.25% calc(100% - 6.5px),54.17% calc(100% - 7.2px),52.08% calc(100% - 7.5px),50.00% calc(100% - 7.4px),47.92% calc(100% - 4.3px),45.83% calc(100% - 3.9px),43.75% calc(100% - 8.3px),41.67% calc(100% - 7.5px),39.58% calc(100% - 4.4px),37.50% calc(100% - 4.7px),35.42% calc(100% - 2.4px),33.33% calc(100% - 6.5px),31.25% calc(100% - 5.5px),29.17% calc(100% - 3.6px),27.08% calc(100% - 4.6px),25.00% calc(100% - 8.0px),22.92% calc(100% - 6.7px),20.83% calc(100% - 6.8px),18.75% calc(100% - 6.2px),16.67% calc(100% - 7.0px),14.58% calc(100% - 5.7px),12.50% calc(100% - 3.5px),10.42% calc(100% - 4.9px),8.33% calc(100% - 4.7px),6.25% calc(100% - 1.9px),4.17% calc(100% - 3.6px),2.08% calc(100% - 5.5px),0.00% calc(100% - 0.9px));
+  --tear-top: polygon(0.00% 1.3px,2.08% 1.8px,4.17% 1.9px,6.25% 4.2px,8.33% 7.4px,10.42% 6.2px,12.50% 3.0px,14.58% 3.0px,16.67% 2.1px,18.75% 2.2px,20.83% 2.7px,22.92% 2.3px,25.00% 3.5px,27.08% 4.8px,29.17% 2.7px,31.25% 6.5px,33.33% 5.3px,35.42% 7.5px,37.50% 7.1px,39.58% 6.9px,41.67% 5.9px,43.75% 5.3px,45.83% 6.3px,47.92% 8.7px,50.00% 6.0px,52.08% 6.9px,54.17% 4.0px,56.25% 4.9px,58.33% 3.6px,60.42% 2.8px,62.50% 2.8px,64.58% 5.7px,66.67% 7.9px,68.75% 3.6px,70.83% 6.3px,72.92% 2.4px,75.00% 2.7px,77.08% 1.0px,79.17% -0.5px,81.25% 5.3px,83.33% 2.9px,85.42% 4.6px,87.50% 2.0px,89.58% 2.8px,91.67% 4.2px,93.75% 1.7px,95.83% 6.0px,97.92% 8.1px,100.00% 9.3px,100% 100%,0% 100%);
+  --tear-sheet: polygon(0.00% 3.8px,2.78% 4.7px,5.56% 4.6px,8.33% 2.9px,11.11% 1.0px,13.89% 0.8px,16.67% 0.1px,19.44% -0.6px,22.22% 1.2px,25.00% 0.9px,27.78% 2.4px,30.56% 2.4px,33.33% 3.1px,36.11% 1.9px,38.89% 3.5px,41.67% 2.1px,44.44% 1.9px,47.22% 3.5px,50.00% 1.7px,52.78% 2.0px,55.56% 0.5px,58.33% 2.8px,61.11% 3.2px,63.89% 4.3px,66.67% 1.8px,69.44% 3.5px,72.22% 2.0px,75.00% 3.9px,77.78% 3.5px,80.56% 3.7px,83.33% 2.3px,86.11% 1.4px,88.89% 0.9px,91.67% 1.8px,94.44% 0.6px,97.22% 2.4px,100.00% 3.1px,calc(100% - 3.4px) 8.33%,calc(100% - 2.5px) 16.67%,calc(100% - 3.4px) 25.00%,calc(100% - 1.3px) 33.33%,calc(100% - 1.2px) 41.67%,calc(100% - 1.9px) 50.00%,calc(100% - 1.1px) 58.33%,calc(100% - 2.5px) 66.67%,calc(100% - 1.8px) 75.00%,calc(100% - 1.2px) 83.33%,calc(100% - 2.3px) 91.67%,100.00% calc(100% - 2.9px),97.22% calc(100% - 5.2px),94.44% calc(100% - 4.8px),91.67% calc(100% - 4.2px),88.89% calc(100% - 4.8px),86.11% calc(100% - 3.5px),83.33% calc(100% - 1.3px),80.56% calc(100% - 1.5px),77.78% calc(100% - 2.7px),75.00% calc(100% - 3.3px),72.22% calc(100% - 2.5px),69.44% calc(100% - 3.5px),66.67% calc(100% - 2.9px),63.89% calc(100% - 2.4px),61.11% calc(100% - 3.2px),58.33% calc(100% - 3.5px),55.56% calc(100% - 1.8px),52.78% calc(100% - 1.9px),50.00% calc(100% - 3.1px),47.22% calc(100% - 4.2px),44.44% calc(100% - 3.2px),41.67% calc(100% - 2.3px),38.89% calc(100% - 3.7px),36.11% calc(100% - 5.1px),33.33% calc(100% - 5.6px),30.56% calc(100% - 5.2px),27.78% calc(100% - 4.2px),25.00% calc(100% - 3.4px),22.22% calc(100% - 1.6px),19.44% calc(100% - 3.9px),16.67% calc(100% - 2.5px),13.89% calc(100% - 1.4px),11.11% calc(100% - 2.8px),8.33% calc(100% - 0.4px),5.56% calc(100% - 1.1px),2.78% calc(100% - 2.9px),0.00% calc(100% - 3.2px),2.5px 91.67%,2.3px 83.33%,1.1px 75.00%,2.0px 66.67%,2.0px 58.33%,3.6px 50.00%,4.6px 41.67%,3.4px 33.33%,2.4px 25.00%,1.9px 16.67%,1.5px 8.33%);
+
+  --color-danger: oklch(50% 0.17 27); --color-danger-soft: oklch(94% 0.035 27);
+  --color-ink-paper: oklch(96% 0.014 95); --color-ink-muted: oklch(80% 0.018 95);
+  --color-mint-soft: oklch(94% 0.05 152); --color-accent-soft: oklch(95% 0.07 96); --color-sugar-soft: oklch(95.5% 0.02 236);
+  --color-scrim: oklch(20% 0.014 255 / 0.42);
+  --radius-kid: 32px;
+  --control-app: 44px;
+}

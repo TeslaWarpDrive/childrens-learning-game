@@ -4,17 +4,17 @@ Little Sounds Big Discovery.
 
 The home page opens a child-first sign-in dialog. Sign in, continue a previously signed-in child, or choose **Play without saving**. Then choose **Ribbon Road**, highlighted first by default, **Letter Post**, or **Moonboat**. The small **Are you a grown-up?** link opens the separate grown-up area. Grown-ups manage kids; additional administrator accounts require an existing grown-up to sign in.
 
-The sign-in and picker share a glowing dusk sky: drifting light beams, rising letter lanterns, Lucy in an orbiting halo, and three animated world windows that tilt toward the pointer. The look lives in `home/home.css`; decorative motion lives in `home/effects.js`, which never touches account logic. Reduced motion and the grown-ups' calm setting show the same scene standing still. See the [landing redesign report](reports/landing-redesign.md).
+The sign-in is a desk of grained paper: Lucy on a torn sheet with three card-stock letter tiles, the sign-in card beside her, a **Play without saving** door with a play triangle a pre-reader can find, and the classroom alphabet strip along the bottom. The picker shows a real capture of each world on a paper card. The look lives in `home/home.css`, on the shared system in `shared/` and [DESIGN.md](DESIGN.md). Reduced motion and the grown-ups' calm setting keep everything still.
 
-Every world and the grown-up area share that design language. `v1-letter-post/worlds.css` and `worlds.js` give each world its own sky, materials and motion: satin ribbons for Ribbon Road, an airmail sky for Letter Post, and a night voyage for Moonboat. `grown-ups/dusk.css` brings the dusk sky to the portal and game settings. Both load last, so the shared layout, IDs, sounds and pictures are unchanged. See the [full-site redesign report](reports/fullsite-redesign.md).
+Every world and the grown-up area share that system (Hum: cut paper, card-stock buttons that press in, Chillax throughout). `v1-letter-post/worlds.css` prints each world's own palette on that paper and `worlds.js` adds its torn ground bands: an airmail edge for Letter Post and pinprick stars for Moonboat. The nine world palettes are unchanged because Lucy's pointing pictures were painted for them. `grown-ups/grown-ups.css` styles the portal and game settings. The shared layout, IDs, sounds and pictures are unchanged. See the [Hallmark redesign report](reports/hallmark-redesign.md).
 
-After two wrong picks on one prompt, Lucy points to the right picture: a glowing ring circles that card, and Lucy (in a picture made for each world and theme) sits just below and to the right of its picture, with her paw and a small arrow both pointing up-left at it. The feedback line then says only "Here’s a hint! Look where Lucy is pointing." and does not name the card that was tapped. The sounds are unchanged. Reduced motion and the calm setting show the same hint standing still. The hint lives in `v1-letter-post/hint.js`; the pictures are in `accounts/lucy/pointing/`. See the [Lucy hint report](reports/lucy-hint.md).
+After two wrong picks on one prompt, Lucy points to the right picture: a ring in the world's colour circles that card, and Lucy (in a picture made for each world and theme) sits just below and to the right of its picture, with her paw and a small arrow both pointing up-left at it. The feedback line then says only "Here’s a hint! Look where Lucy is pointing." and does not name the card that was tapped. The sounds are unchanged. Reduced motion and the calm setting show the same hint standing still. The hint lives in `v1-letter-post/hint.js`; the pictures are in `accounts/lucy/pointing/`. See the [Lucy hint report](reports/lucy-hint.md).
 
 Unsaved play never reads or changes saved preferences and never records rounds or achievements. Its colors and sound choices last only for the current page. A small Sign in to save link stays beside the game controls. Existing grown-up layout visibility choices still apply to signed-in accounts; unsaved play always offers all three layouts.
 
 Open [index.html](index.html) directly, or serve the repository root with
 `python3 -m http.server 8000` and visit `/`.
-All three games work offline from local files, without a build step.
+Letters with Lucy is online-only and is never available offline. It needs no build step.
 Vanilla HTML, CSS, and JavaScript; no dependencies.
 
 All three games cover A–Z with their screens, typography, palettes, Lucy
@@ -51,7 +51,7 @@ Strict mode should pass **6/6** groups: approved audio, trim metadata,
 wiring, voice inventory, A–Z word/audio/SVG coverage, and light and dark
 themes for Letter Post and Moonboat. Failures exit nonzero.
 
-Offline runtime and browser checks:
+Runtime and browser checks:
 
 ```sh
 node tests/runtime_smoke.cjs
@@ -78,7 +78,7 @@ CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/grown_ups_smoke.cjs
   sizes with real interactions, normal and reduced motion, and no network.
   Screenshots go to `/tmp/lpmb-motion-shots`.
 - `silk_smoke.cjs` checks all 26 Ribbon Road rounds, palette persistence,
-  60px touch targets, reduced motion and offline resources at widths 390,
+  60px touch targets and reduced motion at widths 390,
   1180 and 1920. Screenshots go to `/tmp/silk-shots`.
 - `confetti_smoke.cjs` checks continuous confetti in all three games and
   themes at phone and whiteboard sizes. Screenshots go to
@@ -96,7 +96,7 @@ CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/grown_ups_smoke.cjs
 
 Set `PLAYWRIGHT_MODULE` and/or `CHROMIUM_EXECUTABLE` if needed. The
 [verification skill](tests/verify-game/SKILL.md) documents repeatable home,
-play, and reward journeys. Hosted pages install a service worker and cache all game assets for offline use. `file://` play keeps the original local behavior.
+play, and reward journeys. `file://` play keeps the original local behavior.
 
 ## Motion
 
@@ -142,13 +142,13 @@ Wrong taps play only the tapped word, a 200 ms pause, and one existing Lucy retr
 
 `grown-ups/settings.js` is the shared, validated store. `grown-ups/in-game.css`
 mirrors the reduced-motion rules for calm motion. The defaults leave every
-world exactly as it was. Grown-up pages use the same cream background, ink and
-dotted texture as child sign-in, including on devices that prefer dark mode. Design notes are in
-[grown-ups/DESIGN.md](grown-ups/DESIGN.md). Opened straight from `file://`,
+world exactly as it was. Grown-up pages use the same paper, ink and
+card-stock controls as child sign-in. The locked design system is
+[DESIGN.md](DESIGN.md). Opened straight from `file://`,
 some browsers (Firefox, for example) may keep separate storage for each page. Serve the
 folder (see above) to share settings in every browser.
 
-The focused tidy-up checks are `node tests/tidy_1.cjs` for native audio and menus, and `node tests/tidy_1_update.cjs` for real old-to-new worker upgrades and offline play. Both use isolated local browsers and block live account requests. Run `node scripts/build-tidy-1-preview.cjs` to rebuild the visual comparisons for items 6 and 8. See [the tidy-up report](reports/tidy-1.md) for results and links.
+The focused tidy-up checks are `node tests/tidy_1.cjs` for native audio and menus,. It uses isolated local browsers and block live account requests. Run `node scripts/build-tidy-1-preview.cjs` to rebuild the visual comparisons for items 6 and 8. See [the tidy-up report](reports/tidy-1.md) for results and links.
 
 ## Rules
 
@@ -156,7 +156,7 @@ The focused tidy-up checks are `node tests/tidy_1.cjs` for native audio and menu
 - No new audio unless explicitly requested; any new voice is Lucy / `eleven_v4`.
 
 
-## Accounts and offline sync
+## Accounts and sync
 
 Serve the repository on HTTPS, or use `python3 -m http.server 8000` for localhost testing. Start at `/` for child sign-in. The grown-up link opens `/accounts/` through the protected settings area; sign in with an existing grown-up account, then make child logins or link an existing child's account. Everyone signs in with a unique login name and a password of at least six characters. A child uses the same login wherever they play. The portal manages kids, offers profile icons or picture uploads when creating a child, and manages child settings. The progress page shows lasting rounds and milestones, and offers an explicit **Sign out** for shared computers.
 
@@ -164,11 +164,10 @@ Grown-ups manage their own profile, password and game progress through **My acco
 
 The in-game profile menu includes a **Grown-up portal** link only for grown-ups. It closes on screen changes and outside taps.
 
-The header says **Games ready for offline play** after the whole game is cached. Online loads request the current build; updates replace the offline copy and refresh open game pages without closing tabs or clearing cache. Open account and settings pages stay in place. A previously signed-in person can reopen and play offline. A new sign-in requires a connection. Completed rounds and field-level setting edits wait in IndexedDB until reconnecting; repeated delivery cannot count a round twice. Settings include every grown-up option, sound choice and each world's theme. Opening a new world uses the latest synchronized choices. Signed-in letter collections use saved correct answers across all games, including pending offline rounds. Guest collections last for the current visit; the progress page keeps round history.
+The games load from the network every time; there is no offline copy. `sw.js` exists only to retire the offline worker that earlier versions installed: on its next visit a device deletes the old caches and unregisters it. Sign-in and play need a connection. If the connection drops mid-round, completed rounds and field-level setting edits wait in IndexedDB and are sent when it returns; repeated delivery cannot count a round twice. Settings include every grown-up option, sound choice and each world's theme. Opening a new world uses the latest synchronized choices. Signed-in letter collections use saved correct answers across all games. Guest collections last for the current visit; the progress page keeps round history.
 
 Only the publishable client key is in `accounts/config.js`. The database and account-provisioning function are recorded in [supabase/](supabase/README.md). [Build report](reports/accounts-build.md) and [design notes](reports/accounts-design.md) explain the choices and limits.
 
-After editing game assets, run `python3 scripts/build-offline-manifest.py` and commit the generated `sw-assets.js`.
 
 Run account checks with:
 
@@ -185,9 +184,9 @@ The SQL checks need the pinned local test tools documented in `supabase/README.m
 
 ## Verify the home flow
 
-Run `CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/home_flow.cjs` for login-first behavior, role separation, the Ribbon Road default, the unsaved warning, guest isolation, offline reload and branding at phone, tablet and desktop sizes. It uses a labelled protocol fixture; the separate account helper's `--live` mode still verifies the real project.
+Run `CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/home_flow.cjs` for login-first behavior, role separation, the Ribbon Road default, the unsaved warning, guest isolation, reload and branding at phone, tablet and desktop sizes. It uses a labelled protocol fixture; the separate account helper's `--live` mode still verifies the real project.
 
-The old database world identifier `silk`, existing asset URLs and storage identifiers stay stable so prior logins, offline outboxes, progress and themes continue to work. These are compatibility identifiers; the visible layout is Ribbon Road. Historical account-build reports remain an audit record.
+The old database world identifier `silk`, existing asset URLs and storage identifiers stay stable so prior logins, pending sync, progress and themes continue to work. These are compatibility identifiers; the visible layout is Ribbon Road. Historical account-build reports remain an audit record.
 
 ## Fix-list verification
 

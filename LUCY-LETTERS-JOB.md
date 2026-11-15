@@ -12,7 +12,7 @@ Letter Post's listen page round portrait (today `v1-letter-post/app.js` `pic()` 
 - Visual reference: `letter-post.html` on that branch (how the cutout sits in the circle):
   https://raw.githack.com/TeslaWarpDrive/childrens-learning-game/test/lucy-letters-preview/letter-post.html
 - Must look right on every Letter Post theme / color mode, at tablet, Chromebook, and 1920x1080 whiteboard sizes.
-- Ship the assets in the app's normal Letter Post asset folder (WebP primary; keep sizes sane). If the PWA (`sw.js`) precaches images, precache these too and bump the cache version.
+- Ship the assets in the app's normal Letter Post asset folder (WebP primary; keep sizes sane).
 - Do not alter the images themselves (Lucy's look/size and the letters are approved as-is).
 
 ## Out of scope — leave unchanged

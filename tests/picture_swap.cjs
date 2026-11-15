@@ -7,8 +7,6 @@ const games = ['v1-letter-post', 'v3-moonboat', 'v4-silk-thread'];
 const words = 'apple ball cat duck egg fish goat hat insect jellyfish kite leaf moon nest octopus pig quilt rabbit sun tiger umbrella van web fox yak zebra'.split(' ');
 const out = 'reports/picture-swap';
 fs.mkdirSync(out, {recursive:true});
-const manifest = {};
-vm.runInNewContext(fs.readFileSync('sw-assets.js', 'utf8'), {self:manifest});
 for (const game of games) {
   const source = fs.readFileSync(`${game === games[2] ? games[0] : game}/app.js`, 'utf8');
   const rows = JSON.parse(source.match(/const letters=(\[.*?\])\.map\(/s)[1]);
@@ -17,7 +15,6 @@ for (const game of games) {
   for (const word of words) {
     const file = `${game}/pictures/${word}.webp`;
     assert(fs.existsSync(file), file);
-    assert(manifest.OFFLINE_MANIFEST.files.includes('./'+file), `Precached: ${file}`);
   }
 }
 (async () => {
@@ -37,15 +34,8 @@ for (const game of games) {
       page.on('request', req => {if(req.url().includes('/pictures/')) pictureRequests.push(new URL(req.url()).pathname);});
       await page.goto(local.url+'/');
       await page.locator('#play-unsaved').click();
-      await page.evaluate(() => navigator.serviceWorker.ready);
-      await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
-      const cached = await page.evaluate(async () => {
-        const keys = await caches.keys();
-        return (await Promise.all(keys.map(async key => (await (await caches.open(key)).keys()).map(req => new URL(req.url).pathname)))).flat();
-      });
-      for (const game of games) for (const word of words) assert(cached.includes(`/${game}/pictures/${word}.webp`));
-      for (const offline of [false,true]) {
-        await context.setOffline(offline);
+      // Online-only: the game is never cached for offline play, so only the online pass runs.
+      for (const offline of [false]) {
         for (const game of games) {
           pictureRequests.length = 0;
           await page.goto(`${local.url}/${game}/`);

@@ -128,7 +128,7 @@ async function worldChecks(name) {
     assert.deepEqual([...t.main().matchAll(/data-letter="([A-Z])"/g)].map(m => m[1]), pool, `${name}: pickers show only the chosen letters, A-Z`);
     assert(t.main().includes('0 of 6 · this visit'), `${name}: collection counts the chosen letters`);
     assert(!t.main().includes('undefined'), `${name}: invalid markup`);
-    if (name === 'v3-moonboat') assert(t.main().includes('6 LITTLE WORLDS'));
+    if (name === 'v3-moonboat') assert(t.main().includes('6 little worlds'));
     if (name === 'v4-silk-thread') assert(t.main().includes('6 letters chosen for today'));
     const header = t.getNode('#header').innerHTML;
     assert(header.includes('class="controls" hidden'), `${name}: children's buttons hidden`);
@@ -178,7 +178,7 @@ async function worldChecks(name) {
     const t = await game(name, {letters: ['Q']});
     await t.app.go('home');
     assert(t.main().includes('0 of 1 · this visit'));
-    if (name === 'v3-moonboat') assert(t.main().includes('1 LITTLE WORLD<'));
+    if (name === 'v3-moonboat') assert(t.main().includes('1 little world<'));
     await t.app.start('Q'); await t.flush();
     const next = t.makeNode(); next.dataset.action = 'next';
     t.getNode('#main').listeners.click({target: next}); await t.flush();

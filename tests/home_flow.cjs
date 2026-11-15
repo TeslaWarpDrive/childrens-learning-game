@@ -38,7 +38,6 @@ async function run(){
       assert.equal(await page.evaluate(()=>localStorage.getItem('little-woof-silk-theme')),'2');
       const rows=await page.evaluate(async()=>{await ACCOUNTS.ready;return new Promise((resolve,reject)=>{const request=indexedDB.open('little-woof-accounts');request.onsuccess=()=>{const db=request.result;const read=db.transaction('operations').objectStore('operations').getAll();read.onsuccess=()=>{db.close();resolve(read.result);};read.onerror=()=>reject(read.error);};});});
       assert.deepEqual(rows,[],'No guest operations enter IndexedDB');
-      await page.waitForFunction(()=>Boolean(navigator.serviceWorker.controller));await context.setOffline(true);
       await page.reload();await settle(page);
       assert.equal(await page.locator('#theme').inputValue(),'0','Guest choices do not survive reload');
       assert.equal(await page.evaluate(()=>ACCOUNTS.snapshot.count),0);
@@ -59,7 +58,7 @@ async function run(){
         await page.getByRole('link',{name:'Choose a world'}).click();await page.waitForFunction(()=>document.body.dataset.homeStep==='layouts');
       }
       assert.deepEqual(errors,[]);
-      await context.close();console.log(`PASS ${viewport.width}: login-first, default Ribbon Road, unsaved warning, no persisted play/preferences, cached offline reload, branding and fit`);
+      await context.close();console.log(`PASS ${viewport.width}: login-first, default Ribbon Road, unsaved warning, no persisted play/preferences, reload, branding and fit`);
     }
     const context=await browser.newContext({reducedMotion:'reduce'});await context.route('https://*.supabase.co/**',fixture.route);
     const page=await context.newPage(),errors=[];page.on('pageerror',error=>errors.push(error.message));

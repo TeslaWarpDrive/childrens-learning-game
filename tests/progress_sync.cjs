@@ -3,8 +3,8 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('n
 const {staticServer,backend,playwright}=require('./accounts_sync.cjs');
 const {screen,settled,login,open,home,round,signedOut,badge}=require('./progress.cjs');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'reports/progress'),results=[];
-async function device(browser,local,fixture,{offlineCache=false}={}){
- const context=await browser.newContext({viewport:{width:1024,height:576},reducedMotion:'reduce',...(offlineCache?{}:{serviceWorkers:'block'})});
+async function device(browser,local,fixture,{workerAllowed=false}={}){
+ const context=await browser.newContext({viewport:{width:1024,height:576},reducedMotion:'reduce',...(workerAllowed?{}:{serviceWorkers:'block'})});
  await context.route('**/*',route=>{const url=new URL(route.request().url());if(url.origin===local.url)return route.continue();if(url.hostname.endsWith('.supabase.co'))return fixture.route(route);return route.abort();});
  await context.addInitScript(()=>{
   window.badgeAnimations=[];const animate=Element.prototype.animate;
@@ -87,24 +87,5 @@ async function newCompletion(page,letter){
    results.push({crossDeviceAutomaticSync:true,normalMotionLoadedSettle:false,newCorrectSettle:true,repeatedCorrectSettle:false,pagerAlbumAndFocusPreserved:true,lessonPreserved:true,rewardCollectionRefreshed:true,ownerScoped:true,pendingAnswerOwnerIsolation:true,restrictedPoolCount:true,liveDatabaseRequestsSent:0});
    console.log('PASS live sync, new-only settle, pager/album/focus, active lesson, Ribbon Road reward, selected child, owner-change cancellation, restricted pools');
   }finally{await a.context.close();await b.context.close();}
-  const offlineFixture=backend();offlineFixture.seed('fixture_admin','fixture7234');offlineFixture.seed('offline_progress','fixture7234','Offline player');
-  const offline=await device(browser,local,offlineFixture,{offlineCache:true});
-  try{
-   await login(offline.page,local.url,'offline_progress','grownup');await open(offline.page,local.url,'v1-letter-post');
-   await offline.page.evaluate(()=>navigator.serviceWorker.ready);await offline.page.waitForFunction(()=>Boolean(navigator.serviceWorker.controller));await offline.page.evaluate(()=>ACCOUNTS.sync());
-   await offline.context.setOffline(true);await round(offline.page,'B');
-   assert(await offline.page.evaluate(()=>ACCOUNTS.pending>0));
-   assert.equal([...offlineFixture.events.values()].filter(e=>e.kind==='round').length,0);
-   for(const game of ['v1-letter-post','v3-moonboat','v4-silk-thread']){
-    await open(offline.page,local.url,game);assert.equal(await badge(offline.page,game,'B'),1,'Offline pending progress survives reload and crosses games');
-    assert.equal(await offline.page.evaluate(()=>ACCOUNTS.snapshot.rounds.length),1);
-   }
-   await offline.page.screenshot({path:path.join(out,'offline-shared-pending-round.png'),fullPage:true});
-   await offline.context.setOffline(false);await offline.page.evaluate(()=>ACCOUNTS.sync());
-   assert.equal([...offlineFixture.events.values()].filter(e=>e.kind==='round').length,1,'Reconnect uploads the existing round once');
-   assert.equal(await badge(offline.page,'v4-silk-thread','B'),1);assert.deepEqual(offline.errors,[]);
-   results.push({offlinePendingSaved:true,offlineReloadSharedGames:3,reconnectOneRound:true,liveDatabaseRequestsSent:0});
-   console.log('PASS offline correct answer: pending round survives reload in all three games and reconnects once');
-  }finally{await offline.context.close();}
  }finally{await browser.close();local.server.close();fs.writeFileSync(path.join(out,'sync-animation-offline.json'),JSON.stringify(results,null,2)+'\n');}
 })().catch(e=>{console.error(e);process.exitCode=1;});

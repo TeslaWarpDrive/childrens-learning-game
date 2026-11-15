@@ -11,7 +11,7 @@ function openLogin(){
 }
 function showLayouts(){
   if(!A?.guest && !A?.session)return openLogin();
-  document.getElementById('change-player').textContent=A.session?'👋 Not me? Sign out':'Sign in to save';
+  document.getElementById('change-player').textContent=A.session?'Not you? Sign out':'Sign in to save';
   layouts.hidden=false;dialog.close();document.body.dataset.homeStep='layouts';
   const games=window.GROWN_UPS.load().games;
   const cards=[...document.querySelectorAll('[data-world]')];

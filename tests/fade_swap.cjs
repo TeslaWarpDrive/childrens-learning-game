@@ -25,8 +25,7 @@ const words = fs.readdirSync('v3-moonboat/pictures').map(name => name.replace('.
       page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
       await page.goto(local.url);
       await page.locator('#play-unsaved').click();
-      await page.evaluate(()=>navigator.serviceWorker.ready);
-      await page.waitForFunction(()=>!!navigator.serviceWorker.controller);
+      // Online-only: no service worker takes control of the page.
       for(const [game,names] of [['v4-silk-thread',['Pink','Purple','Yellow']],['v3-moonboat',['Dark','Cloud day','Plum dusk']]]) {
         await page.goto(`${local.url}/${game}/`);
         await page.waitForFunction(()=>document.body.dataset.screen==='home');
@@ -68,13 +67,7 @@ const words = fs.readdirSync('v3-moonboat/pictures').map(name => name.replace('.
           results.push({game,theme:name,width,decoded,styles,letterCircle:game==='v3-moonboat'?'letter only, screenshot':'not applicable',errors:[...errors]});
           console.log(`PASS ${game} ${name} ${width}`);
         }
-        await context.setOffline(true);
-        const cached=await page.evaluate(async ({game,words})=>{
-          for(const word of words){const response=await fetch(`pictures/${word}.webp`);if(!response.ok)throw Error(`${game}/${word}`);const blob=await response.blob();await createImageBitmap(blob);}
-          return words.length;
-        },{game,words});
-        assert.equal(cached,26);
-        await context.setOffline(false);
+        // Online-only: no offline fetch of the pictures (the game is never cached for offline play).
       }
       assert.deepEqual(errors,[]);
       await context.close();

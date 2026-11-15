@@ -33,7 +33,7 @@ function scopeValues(){
 function renderScope(){
   if(!hosted||A.profile?.role!=='grownup')return;
   const custom=targets.filter(id=>Object.keys(A.childOverrides[id]||{}).length).length;
-  $('#scope-state').textContent=targets.length?`Editing: ${children.filter(child=>targets.includes(child.id)).map(child=>child.display_name+' ('+child.handle+')').join(', ')} · ${targets.length} ${targets.length===1?'child':'children'} · ${custom===0?'Using game defaults':custom===targets.length?'Custom for '+(targets.length===1?'this child':'these children'):`${custom} custom; ${targets.length-custom} using game defaults`}`:(A.profile.is_master?'Editing: Game defaults (everyone)':'Choose linked kids in Kids. Only the master grown-up can change game defaults.');
+  $('#scope-state').textContent=targets.length?`Editing: ${children.filter(child=>targets.includes(child.id)).map(child=>child.display_name+' ('+child.handle+')').join(', ')}. ${targets.length} ${targets.length===1?'child':'children'}, ${custom===0?'Using game defaults':custom===targets.length?'Custom for '+(targets.length===1?'this child':'these children'):`${custom} custom; ${targets.length-custom} using game defaults`}`:(A.profile.is_master?'Editing: Game defaults (everyone)':'Tick your kids below to change their settings. Only the master grown-up can change game defaults.');
   const remaining=[...mixed].filter(key=>!(key in patch));
   $('#mixed-summary').textContent=remaining.length?'Mixed: '+remaining.map(key=>LABELS[key]).join(', ')+'. Only settings you change will be applied.':'';
   $('#apply-children').hidden=!targets.length;$('#apply-children').disabled=!Object.keys(patch).length||applying;
@@ -59,15 +59,32 @@ async function setupScope(){
   $('[name=scope][value=defaults]').closest('label').hidden=!A.profile.is_master;
   $('#settings-children').hidden=!targets.length;
   $('#settings-child-list').textContent=children.filter(child=>targets.includes(child.id)).map(child=>child.display_name+' ('+child.handle+')').join(', ');
+  $('#adults-link').hidden=!A.profile.is_master;
+  // Choosing children happens here: tick linked kids, then open their settings.
+  const picker=$('#scope-picker'),pickList=$('#scope-picker-list'),pick=$('#scope-pick');
+  pickList.replaceChildren(...children.map(child=>{
+    const label=document.createElement('label'),box=document.createElement('input'),name=document.createElement('span');
+    box.type='checkbox';box.value=child.id;box.checked=targets.includes(child.id);
+    name.textContent=child.display_name+' ('+child.handle+')';label.append(box,name);return label;
+  }));
+  if(!children.length){const empty=document.createElement('p');empty.className='help';empty.textContent='No kids are linked to you yet. Add a child in Kids first.';pickList.append(empty);}
+  const picked=()=>$$('#scope-picker-list input:checked').map(box=>box.value);
+  pickList.addEventListener('change',()=>{pick.disabled=!picked().length;});
+  pick.disabled=!picked().length;
+  pick.addEventListener('click',()=>{const target=new URL('index.html',location.href);for(const id of picked())target.searchParams.append('child',id);location.href=target.href;});
+  const showPicker=()=>{picker.hidden=!$('[name=scope][value=children]').checked||(Boolean(targets.length)&&!picker.dataset.open);};
+  $('#settings-children').addEventListener('click',()=>{picker.dataset.open='true';picker.hidden=false;});
   $$('[name=scope]').forEach(input=>input.addEventListener('change',()=>{
-    if(input.value==='children'){location.href='../accounts/index.html#kids';return;}
+    if(input.value==='children'){picker.dataset.open='true';showPicker();pickList.querySelector('input')?.focus();return;}
     location.href='index.html';
   }));
+  showPicker();
   const noTarget=!targets.length&&!A.profile.is_master;
   if(noTarget){
-    $('#scope-state').textContent='Choose linked kids in the Kids view. Only the master grown-up can change game defaults.';
-    $$('#sheet button, #sheet input').forEach(node=>{node.disabled=true;});
+    $('#scope-state').textContent='Tick your kids below to change their settings. Only the master grown-up can change game defaults.';
+    $$('#sheet button, #sheet input').forEach(node=>{if(!node.closest('#settings-scope'))node.disabled=true;});
     $('[name=scope][value=children]').disabled=false;
+    pick.disabled=!picked().length;
   }
   $('#discard-settings').addEventListener('click',scopeValues);
   $('#apply-children').addEventListener('click',()=>{

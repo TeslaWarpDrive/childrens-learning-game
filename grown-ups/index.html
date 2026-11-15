@@ -2,52 +2,61 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#160f33">
+<meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="../shared/icon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#f8f5ec">
 <meta name="robots" content="noindex">
+<meta name="description" content="Game settings for Letters with Lucy: sound, letters, help, motion and worlds.">
 <title>Game settings · Letters with Lucy</title>
 <link rel="stylesheet" href="grown-ups.css">
-<link rel="stylesheet" href="dusk.css">
 <script src="../accounts/config.js" defer></script><script src="../accounts/client.js" defer></script><script src="../accounts/navigation.js" defer></script><script src="settings.js" defer></script>
 <script src="../audio-map.js" defer></script>
 <script src="editor.js" defer></script>
 </head>
-<body>
-<div class="page">
-  <header class="masthead">
-    <div>
-      <p class="label">Letters with Lucy<small class="brand-tagline">Little Sounds Big Discovery</small></p>
-      <h1 class="title" id="title">Game settings</h1>
-    </div>
-    <a class="fill-button" id="leave" href="../index.html"><span class="fill-label">Back to the games</span><span class="fill-layer" aria-hidden="true"><span class="fill-label">Back to the games</span></span><span class="fill-dot" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
-    <a class="quiet-button" id="portal-link" href="../accounts/index.html">Grown-up portal</a>
-  </header>
+<body class="grown-app" data-app="settings">
+<a class="skip" href="#sheet">Skip to settings</a>
+<header class="masthead">
+  <a class="brand" href="../index.html" aria-label="Letters with Lucy, back to the games"><img src="../accounts/lucy/wave.jpg" width="40" height="40" alt=""><span>Letters with Lucy</span></a>
+  <h1 class="title" id="title">Game settings</h1>
+  <a class="back-link" id="leave" href="../index.html"><span class="fill-label">Back to the games</span></a>
+</header>
+<nav class="tabs" aria-label="Portal views">
+  <a id="portal-link" href="../accounts/index.html">Kids</a>
+  <a id="adults-link" href="../accounts/index.html#adults" hidden>Grown-ups</a>
+  <a href="index.html" aria-current="page">Game settings</a>
+  <a class="me-tab" href="../accounts/index.html#account"><img class="child-avatar" src="../accounts/lucy/garden.jpg" width="36" height="36" alt="">My account</a>
+</nav>
 
+<div class="page">
   <div id="settings" class="settings" hidden>
     <nav class="index" aria-label="Settings sections">
       <ol>
-        <li><a href="#sound"><span>01</span>Sound</a></li>
-        <li><a href="#letters"><span>02</span>Letters</a></li>
-        <li><a href="#motion"><span>03</span>Motion</a></li>
-        <li><a href="#worlds"><span>04</span>Worlds &amp; buttons</a></li>
-        <li><a href="#about"><span>05</span>About the game</a></li>
+        <li><a href="#sound">Sound</a></li>
+        <li><a href="#letters">Letters</a></li>
+        <li><a href="#help">Help when stuck</a></li>
+        <li><a href="#motion">Motion</a></li>
+        <li><a href="#worlds">Worlds and buttons</a></li>
+        <li><a href="#about">About the game</a></li>
       </ol>
     </nav>
     <main class="sheet" id="sheet" tabindex="-1" aria-label="Game settings">
-      <section id="settings-scope" hidden aria-labelledby="scope-title">
-        <h2 id="scope-title">Who are these settings for?</h2><a class="quiet-button" href="../accounts/index.html#kids">Choose kids in the portal</a>
-        <label class="row"><span class="row-text"><strong>Game defaults</strong><small>For children using defaults and play without saving.</small></span><input type="radio" name="scope" value="defaults" checked></label>
-        <label class="row"><span class="row-text"><strong>Choose children</strong><small>Choose one child or apply a change to several at once.</small></span><input type="radio" name="scope" value="children"></label>
+      <section id="settings-scope" class="scope" hidden aria-labelledby="scope-title">
+        <h2 id="scope-title">Who are these settings for?</h2>
+        <p id="scope-state" class="scope-state" role="status"></p>
+        <div class="scope-choice" role="radiogroup" aria-labelledby="scope-title">
+          <label class="choice"><input type="radio" name="scope" value="defaults" checked><span><strong>Game defaults</strong><small>Everyone using defaults, and play without saving.</small></span></label>
+          <label class="choice"><input type="radio" name="scope" value="children"><span><strong>Choose children</strong><small>One child, or several at once.</small></span></label>
+        </div>
+        <fieldset id="scope-picker" class="scope-picker" hidden><legend>Your kids</legend><div id="scope-picker-list" class="picker-list"></div><button id="scope-pick" class="solid-button" type="button" disabled>Edit settings for these kids</button></fieldset>
         <fieldset id="settings-children" hidden><legend>Selected children</legend><div id="settings-child-list"></div></fieldset>
-        <p id="scope-state" role="status"></p><p id="mixed-summary"></p>
+        <p id="mixed-summary" class="help"></p>
         <div class="scope-actions"><button id="apply-children" class="solid-button" type="button" hidden>Review changes</button><button id="discard-settings" class="quiet-button" type="button" hidden>Discard changes</button></div>
       </section>
-      <p class="intro">Game defaults save as you change them. For children, review and apply your changes below. Settings apply the next time a world opens.</p>
+      <p class="intro">Game defaults save as you change them. For children, review and apply your changes. Settings apply the next time a world opens.</p>
 
       <section id="sound" aria-labelledby="sound-title">
-        <h2 id="sound-title"><span>01</span>Sound</h2>
+        <h2 id="sound-title">Sound</h2>
         <label class="row">
-          <span class="row-text"><strong>Lucy's voice</strong><small>Lucy says each letter, sound and word. When it's off, the games start quiet.</small></span>
+          <span class="row-text"><strong>Lucy’s voice</strong><small>Lucy says each letter, sound and word. When it’s off, the games start quiet.</small></span>
           <input type="checkbox" role="switch" data-setting="voice">
         </label>
         <div class="row stack">
@@ -64,8 +73,8 @@
       </section>
 
       <section id="letters" aria-labelledby="letters-title">
-        <h2 id="letters-title"><span>02</span>Letters</h2>
-        <p class="section-help">Choose which letters appear in every world. Use a small set to focus on today's sounds. Wrong-answer pictures can still come from any letter.</p>
+        <h2 id="letters-title">Letters</h2>
+        <p class="section-help">Choose which letters appear in every world. Use a small set to focus on today’s sounds. Wrong-answer pictures can still come from any letter.</p>
         <div class="presets" role="group" aria-label="Quick letter sets">
           <button type="button" data-preset="all" aria-pressed="false">All 26</button>
           <button type="button" data-preset="starter" aria-pressed="false">Starter <span>s a t p i n</span></button>
@@ -73,8 +82,12 @@
         </div>
         <div class="letter-grid" id="letter-grid" role="group" aria-label="Letters to include"></div>
         <p class="count" id="letter-count" aria-live="polite"></p>
+      </section>
+
+      <section id="help" aria-labelledby="help-title">
+        <h2 id="help-title">Help when stuck</h2>
         <fieldset class="group" id="hint" aria-describedby="hint-help">
-          <legend>Help when stuck</legend>
+          <legend class="visually-hidden">When Lucy points to the right picture</legend>
           <p class="section-help" id="hint-help">After wrong pictures, Lucy points to the right one. Choose when that happens, or turn it off.</p>
           <div class="segments">
             <span class="pill" aria-hidden="true"></span>
@@ -86,7 +99,7 @@
       </section>
 
       <section id="motion" aria-labelledby="motion-title">
-        <h2 id="motion-title"><span>03</span>Motion</h2>
+        <h2 id="motion-title">Motion</h2>
         <label class="row">
           <span class="row-text"><strong>Calm motion</strong><small>Turns off confetti, bouncing and drifting backgrounds. Devices set to reduce motion are always calm.</small></span>
           <input type="checkbox" role="switch" data-setting="calm">
@@ -94,7 +107,7 @@
       </section>
 
       <section id="worlds" aria-labelledby="worlds-title">
-        <h2 id="worlds-title"><span>04</span>Worlds &amp; buttons</h2>
+        <h2 id="worlds-title">Worlds and buttons</h2>
         <fieldset class="group" id="games">
           <legend>Worlds on the home page</legend>
           <label class="row"><span class="row-text"><strong><i class="swatch post" aria-hidden="true"></i>Letter Post</strong></span><input type="checkbox" role="switch" data-game="post"></label>
@@ -102,15 +115,15 @@
           <label class="row"><span class="row-text"><strong><i class="swatch silk" aria-hidden="true"></i>Ribbon Road</strong></span><input type="checkbox" role="switch" data-game="silk"></label>
         </fieldset>
         <label class="row">
-          <span class="row-text"><strong>Children's buttons</strong><small>Shows the sound and color buttons at the top of each world. Turn off so your sound choices stay put.</small></span>
+          <span class="row-text"><strong>Children’s buttons</strong><small>Shows the sound and colour buttons at the top of each world. Turn off so your sound choices stay put.</small></span>
           <input type="checkbox" role="switch" data-setting="kidControls">
         </label>
       </section>
 
       <section id="about" aria-labelledby="about-title">
-        <h2 id="about-title"><span>05</span>About the game</h2>
+        <h2 id="about-title">About the game</h2>
         <dl class="notes">
-          <div><dt>Each round</dt><dd>Children hear a letter's name and sound, find the picture that starts with it, then celebrate. X is the exception: fox <em>ends</em> with x.</dd></div>
+          <div><dt>Each round</dt><dd>Children hear a letter’s name and sound, find the picture that starts with it, then celebrate. X is the exception: fox ends with x.</dd></div>
           <div><dt>Collections</dt><dd>Signed-in collections use saved correct answers across all games. Play without saving lasts for this visit.</dd></div>
           <div><dt>Privacy</dt><dd>Signed-in progress and child settings sync to their account. Play without saving uses game defaults and keeps no progress.</dd></div>
           <div><dt>Shortcuts</dt><dd>In a world, Esc goes back to its home and arrow keys move between letters.</dd></div>
@@ -128,10 +141,10 @@
 <span class="stamp" id="stamp" aria-hidden="true">Saved</span>
 <dialog id="confirm" aria-labelledby="confirm-title" aria-describedby="confirm-text">
   <h2 id="confirm-title">Reset all settings?</h2>
-  <p id="confirm-text">Sound, letters, help, motion and worlds go back to how they started. This can't be undone.</p>
+  <p id="confirm-text">Sound, letters, help, motion and worlds go back to how they started. This can’t be undone.</p>
   <form method="dialog" class="dialog-actions">
     <button value="cancel" class="quiet-button">Keep my settings</button>
-    <button value="reset" class="solid-button" id="confirm-reset">Reset settings</button>
+    <button value="reset" class="solid-button danger-fill" id="confirm-reset">Reset settings</button>
   </form>
 </dialog>
 <noscript><p class="noscript">Game settings needs JavaScript enabled in your browser.</p></noscript>

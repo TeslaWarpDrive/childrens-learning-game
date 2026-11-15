@@ -81,20 +81,20 @@ const {staticServer,playwright,form,round}=require('./accounts_sync.cjs');
       await a.locator('#reset-progress').click();await a.locator('#cancel-child').click();
       assert.equal(await a.locator('#round-count').innerText(),'1','Cancel keeps progress');
       const missingConfirm=await a.evaluate(async id=>{try{await ACCOUNTS.manage('reset-child-progress',{child_id:id});return 200;}catch(e){return e.status;}},childId);assert.equal(missingConfirm,400);
-      // Keep an offline round pending across the server reset.
+      // Keep a queued round pending across the server reset (connection dropped).
       await contexts[2].setOffline(true);await c.evaluate(()=>ACCOUNTS.recordRound('post','C',0));
       await a.locator('#reset-progress').click();await a.locator('#confirm-child-count').fill('1');await a.locator('#confirm-child-action').click();await a.locator('#confirm-child').waitFor({state:'hidden'});
       assert.equal(await a.evaluate(async id=>(await ACCOUNTS.readProgress(id)).snapshot.count,childId),0);
       await contexts[2].setOffline(false);await c.evaluate(()=>ACCOUNTS.sync());
-      assert.equal(await c.evaluate(()=>ACCOUNTS.snapshot.count),0,'Offline rounds from before reset are discarded');
+      assert.equal(await c.evaluate(()=>ACCOUNTS.snapshot.count),0,'Queued rounds from before reset are discarded');
       assert.equal(await c.evaluate(()=>ACCOUNTS.snapshot.settings.volume),35,'Settings survive reset');
       await c.evaluate(()=>ACCOUNTS.recordRound('post','D',0));await c.evaluate(()=>ACCOUNTS.sync());
       await a.reload();await a.locator('#children-list li').filter({hasText:kid}).waitFor();
       assert.match(await a.locator('#children-list li').filter({hasText:kid}).innerText(),/1 rounds/);
       await contexts[0].setOffline(true);await a.reload();await a.locator('#children-list li').filter({hasText:kid}).waitFor();
-      assert.match(await a.locator('#children-list li').filter({hasText:kid}).innerText(),/Last known.*offline/);
+      assert.match(await a.locator('#children-list li').filter({hasText:kid}).innerText(),/Last known; connection unavailable/);
       await contexts[0].setOffline(false);await a.reload();await a.locator('#children-list li').filter({hasText:kid}).waitFor();
-      console.log(`PASS LIVE ${width}: real game round read on portal entry, confirmed reset, cancelled reset, settings kept, stale offline uploads discarded, new progress saves, offline cache labelled`);
+      console.log(`PASS LIVE ${width}: real game round read on portal entry, confirmed reset, cancelled reset, settings kept, stale queued uploads discarded, new progress saves, last-known progress labelled`);
       await a.locator('#children-list li').filter({hasText:kid}).locator('button').click();await a.waitForFunction(()=>!document.getElementById('settings-link').inert);
       await a.locator('#child-management').evaluate(el=>el.open=true);await a.locator('#delete-child').click();await a.locator('#cancel-child').click();
       assert.equal(await a.locator('#children-list li').filter({hasText:kid}).count(),1);

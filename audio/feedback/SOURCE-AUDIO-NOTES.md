@@ -16,6 +16,6 @@ Pitch measurements decode each file to 16 kHz mono and use Praat autocorrelation
 
 The previous clips used `[gently]` and one take each. Their generation IDs were `LxzWnFPI8KG0NbuhllVx`, `sPRqdT5rMLwV6nfHJD7t`, and `q7enl15zmQTFJl1XrOmx`, in that file order. They cost 59 credits in the earlier job, excluded from this pass's 248-credit spend.
 
-The existing handler still cycles through the same filenames and retains volume, mute, visibility, and route cancellation behavior. Rebuilding `sw-assets.js` changed the content-derived cache version from `9fcdd52ea893fcd7` to `3123469b05cfd921`. The service worker installs the new cache and removes the old cache on activation.
+The existing handler still cycles through the same filenames and retains volume, mute, visibility, and route cancellation behavior.
 
 See `reports/feedback-voice-pass.md` for the reference measurements, all accepted and rejected takes, measurement code, validation, and implementation commit. No database changes or live account operations were performed.

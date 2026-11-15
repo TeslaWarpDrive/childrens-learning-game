@@ -1,0 +1,33 @@
+[
+ {
+  "mode": "redesign",
+  "depth": "full",
+  "scope": "site",
+  "shape": "Workbench (landing), app screen (portal, settings), kept (worlds)",
+  "theme": "hum",
+  "axes": "light/rounded-sans/chromatic-yellow",
+  "hero": "Settled (sign-in), Stage (picker)",
+  "nav": "wordmark and one grown-ups door; app top bar over tabs",
+  "footer": "classroom alphabet strip",
+  "imagery": "Lucy photographs, captures of the three worlds",
+  "photos": [],
+  "entry": "sign-in desk",
+  "fingerprint": "desk/stage/shelf/ledger/record/sheet",
+  "sections": [
+   "sign-in desk",
+   "world shelf",
+   "kids ledger",
+   "child record",
+   "grown-ups",
+   "game settings sheet",
+   "world skins"
+  ],
+  "signature": "Lucy on a torn sheet with card-stock letter tiles over the classroom alphabet strip",
+  "waived": [
+   "12",
+   "39b"
+  ],
+  "prompt": "pre-K phonics game with Lucy; grown-up portal and settings",
+  "date": "2026-11-15"
+ }
+]

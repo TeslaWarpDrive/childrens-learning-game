@@ -11,7 +11,6 @@ const baseline=execFileSync('git',['show','56c396e78eddfbb3eed013a03e1cedfbc8603
 for(const letter of 'abcdefghijklmnopqrstuvwxyz'){
  const name=`lucy-letter-${letter}.webp`;
  assert.deepEqual(fs.readFileSync(path.join(root,'v1-letter-post/assets',name)),execFileSync('git',['show',`57ce4ce:letter-post/cutout/${name}`],{cwd:root}));
- assert.ok(fs.readFileSync(path.join(root,'sw-assets.js'),'utf8').includes(`./v1-letter-post/assets/${name}`));
 }
 for(const game of ['v3-moonboat','v4-silk-thread'])assert.equal(execFileSync('git',['diff','56c396e78eddfbb3eed013a03e1cedfbc86038a3','--',game],{cwd:root,encoding:'utf8'}),'');
 (async()=>{

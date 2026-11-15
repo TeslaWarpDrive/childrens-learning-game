@@ -198,15 +198,10 @@ async function run() {
       assert.deepEqual(denial,{profiles:[],rounds:[],writeRejected:true},'Child cannot read another child profile/play or write their progress');
       console.log('PASS LIVE SUPABASE: RLS rejects cross-child reads and unauthorized progress write');
     }
-    console.log('Accounts browser: opening game and preparing offline cache');
+    console.log('Accounts browser: opening game, then losing the connection mid-play');
     await a.goto(url+'/v1-letter-post/');await settle(a);
-    await a.waitForFunction(()=>navigator.serviceWorker.controller || document.querySelector('#offline-status')?.textContent.includes('not ready'));
-    assert(!((await a.locator('#offline-status').textContent()).includes('not ready')), 'Offline installation failed');
-    await a.waitForFunction(()=>Boolean(navigator.serviceWorker.controller));
-    await a.locator('#mute').click();
-    console.log('Accounts browser: offline reload and actual B round');
+    await a.locator('#mute').click();await a.evaluate(()=>ACCOUNTS.sync());
     await contexts[0].setOffline(true);
-    await a.reload();await settle(a);
     assert.equal(await a.evaluate(()=>navigator.onLine),false);
     // Muting is a real game control, and avoids audio timing influencing the test.
     if(await a.locator('#mute').getAttribute('aria-pressed')!=='true')await a.locator('#mute').click();
@@ -214,7 +209,7 @@ async function run() {
     await a.evaluate(()=>ACCOUNTS.setSetting('calm',true));
     await round(a,'B');
     await a.waitForFunction(()=>ACCOUNTS.snapshot.count===1);
-    assert((await a.evaluate(()=>ACCOUNTS.pending))>=3,'Offline play and settings must be durable pending writes');
+    assert((await a.evaluate(()=>ACCOUNTS.pending))>=3,'Play and settings during a dropped connection must be durable pending writes');
     await b.evaluate(()=>ACCOUNTS.setSetting('volume',35));await b.evaluate(()=>ACCOUNTS.sync());
     console.log('Accounts browser: reconnecting both profiles');
     await contexts[0].setOffline(false);await a.evaluate(()=>ACCOUNTS.sync());await b.reload();await b.evaluate(()=>ACCOUNTS.ready);
@@ -228,7 +223,7 @@ async function run() {
     await b.goto(url+'/v1-letter-post/');await settle(b);
     assert.equal(await b.locator('#theme').inputValue(),'2','Theme renders on second device');
     assert.equal(await b.locator('html').getAttribute('data-calm'),'','Synced calm setting renders');
-    console.log(`PASS ${live?'LIVE SUPABASE':'MOCK TRANSPORT'}: two isolated profiles; offline game round, cache reload, settings, theme, milestone, concurrent fields, duplicate prevention`);
+    console.log(`PASS ${live?'LIVE SUPABASE':'MOCK TRANSPORT'}: two isolated profiles; round during a dropped connection, settings, theme, milestone, concurrent fields, duplicate prevention`);
     if(!live) {
       await contexts[0].setOffline(true);
       await a.evaluate(async()=>{

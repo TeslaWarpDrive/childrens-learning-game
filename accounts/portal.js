@@ -106,7 +106,7 @@ function wireForm(id, action, success) {
 function riskyAction(title, people, action) {
   const dialog = $('risky-password-dialog'), form = $('risky-password-form');
   $('risky-password-title').textContent = title;
-  $('risky-password-people').replaceChildren(...people.map(person => element('li', `${person.display_name} · Login: ${person.handle}`)));
+  $('risky-password-people').replaceChildren(...people.map(person => element('li', `${person.display_name} (login ${person.handle})`)));
   $('risky-password').value = ''; $('risky-password-result').textContent = '';
   return new Promise((resolve, reject) => {
     let completed = false, busy = false;
@@ -161,15 +161,15 @@ function renderRoster() {
     const copy = element('div');
     copy.append(element('strong', child.display_name), element('small', `Login: ${child.handle}`));
     if(A.profile.is_master)copy.append(element('p','Linked to: '+assignment(child.grownups||[]),'assignments'));
-    copy.append(element('small', child.progress ? `${child.progress.snapshot.count} rounds · ${new Set(child.progress.snapshot.rounds.map(r=>r.letter)).size} letters · ${freshness === 'live' ? 'Last activity synced at '+new Date(child.progress.checkedAt).toLocaleString() : 'Last known · offline or connection unavailable'}` : 'Progress unavailable · connection needed'));
-    const open = element('button', 'Open progress page', 'quiet-button');
+    copy.append(element('small', child.progress ? `${child.progress.snapshot.count} rounds, ${new Set(child.progress.snapshot.rounds.map(r=>r.letter)).size} letters. ${freshness === 'live' ? 'Last activity synced at '+new Date(child.progress.checkedAt).toLocaleString() : 'Last known; connection unavailable'}` : 'Progress unavailable until the connection is back'));
+    const open = element('button', 'Open', 'quiet-button open-button');
     open.type = 'button'; open.setAttribute('aria-label', `Open ${child.display_name}'s progress page`);
     open.addEventListener('click', async () => {
       if (switchingOwner) return;
       switchingOwner = true; open.disabled = true;
       $('settings-link').inert = true;
       $('settings-link').setAttribute('aria-disabled', 'true');
-      try { await loadRoster({fresh:true}); await A.selectOwner(child); portalView='kids'; location.hash='kids'; render(); await loadChildGrownups(); $('progress').scrollIntoView({block: 'start'}); notice(`Opened ${child.display_name}'s progress page.`); }
+      try { await loadRoster({fresh:true}); await A.selectOwner(child); portalView='kids'; location.hash='kids'; render(); await loadChildGrownups(); $('progress').scrollIntoView({block: 'start'}); notice(''); }
       catch (error) { notice(errorText(error), true); }
       finally {
         switchingOwner = false; open.disabled = false;
@@ -177,11 +177,11 @@ function renderRoster() {
         $('settings-link').removeAttribute('aria-disabled');
       }
     });
-    const avatar = element('span', child.avatar || '🐶', 'child-avatar');
+    const avatar = element('span', '', 'child-avatar');
     profilePicture(avatar, child.avatar);
     item.append(avatar, copy, open); list.append(item);
   }
-  $('roster-status').textContent = roster.length ? `${roster.length} ${profileLabel()}${roster.length === 1 ? 'child' : 'children'}` : 'No children linked yet. Make a login below, or link an existing child.';
+  $('roster-status').textContent = roster.length ? `${roster.length} ${profileLabel()}${roster.length === 1 ? 'child' : 'children'}` : 'No children linked yet. Add a child to make their login.';
 }
 function loadRoster({fresh=false}={}) {
   if(rosterRequest)return fresh ? rosterRequest.then(()=>loadRoster({fresh:true})) : rosterRequest;
@@ -216,7 +216,7 @@ async function fetchRoster() {
       freshness = 'offline';
       if(!roster.length)try {roster=JSON.parse(localStorage.getItem(cacheKey(profile.id)))||[];} catch {}
       renderRoster(); render();
-      $('roster-status').textContent = `Last-known data · offline or connection unavailable. ${errorText(error)}`;
+      $('roster-status').textContent = `Showing the last-known list; the connection is unavailable. ${errorText(error)}`;
     }
   }
 }
@@ -232,7 +232,7 @@ function render() {
     selectedKids.clear();selectedGrownups.clear();
     rosterFor = null; profileFor = null; pictureFor = null; roster = []; rosterVersion++; freshness='checking';
     document.querySelector('.title').textContent = 'Grown-up portal';
-    notice('Sign in to manage your kids.');
+    notice('');
     return;
   }
   const owner = A.owner || profile;
@@ -243,7 +243,7 @@ function render() {
   document.querySelector('.title').textContent = adult ? 'Grown-up portal' : 'Your progress page';
   $('progress').hidden = adult && owner.id === profile.id;
   $('child-settings-link').href='../grown-ups/index.html?child='+encodeURIComponent(owner.id);
-  $('back-to-me').textContent = adult ? '← Back to Kids' : 'Back to my progress page';
+  $('back-to-me').textContent = adult ? 'Back to Kids' : 'Back to my progress page';
   const child = roster.find(child=>child.id===owner.id);
   const snapshot = adult && owner.id!==profile.id ? child?.progress?.snapshot || {} : A.snapshot || {};
   $('child-management').hidden = !adult || owner.id===profile.id;
@@ -267,8 +267,8 @@ function render() {
   $('identity-title').textContent = profile.display_name;
   const identityAvatar=$('identity-avatar');identityAvatar.replaceChildren();
   profilePicture(identityAvatar, profile.avatar);
-  $('login-name').textContent = `Login: ${profile.handle} · ${profile.role === 'child' ? 'Child' : 'Grown-up'}`;
-  $('owner-label').textContent = owner.id === profile.id ? `This progress page belongs to ${profile.display_name}.` : `Viewing ${owner.display_name}'s progress page · login ${owner.handle}`;
+  $('login-name').textContent = `Login: ${profile.handle} (${profile.role === 'child' ? 'child' : 'grown-up'})`;
+  $('owner-label').textContent = owner.id === profile.id ? `This progress page belongs to ${profile.display_name}.` : `Login: ${owner.handle}`;
   $('progress-title').textContent = owner.id === profile.id ? 'Your progress' : `${owner.display_name}'s progress`;
   $('back-to-me').hidden = owner.id === profile.id;
   $('round-count').textContent = adult && owner.id!==profile.id && !child?.progress ? '—' : String(snapshot.count ?? rounds.length);
@@ -281,7 +281,7 @@ function render() {
   }
   const achievements = $('achievements'); achievements.replaceChildren();
   (snapshot.achievements?.length ? snapshot.achievements : [adult && owner.id!==profile.id && !child?.progress ? 'Checking milestones…' : 'Your first milestone is waiting. Play a round to begin.']).forEach(text => achievements.append(element('li', text)));
-  $('sync-status').textContent = adult && owner.id!==profile.id ? (child?.progress ? `${freshness === 'live' ? 'Last activity synced at' : 'Last-known activity · connection unavailable · synced at'} ${new Date(child.progress.checkedAt).toLocaleString()}. Updates automatically.` : 'Checking server progress…') : A.status || 'Your progress page is open.';
+  $('sync-status').textContent = adult && owner.id!==profile.id ? (child?.progress ? `${freshness === 'live' ? 'Last activity synced at' : 'Last-known activity, synced at'} ${new Date(child.progress.checkedAt).toLocaleString()}. Updates automatically.` : 'Checking server progress…') : A.status || 'Your progress page is open.';
   if (rosterFor !== profile.id && profile.role === 'grownup') { rosterFor = profile.id; loadRoster({fresh:true}); }
   const passwordChild=$('reset-password-form').elements.child_id;if(passwordChild&&owner.role==='child')passwordChild.value=owner.id;
   applyView();
@@ -327,6 +327,7 @@ wireForm('link-child-form', async () => {
 wireForm('reset-password-form', fields => riskyAction('Change this child’s password?', [roster.find(child=>child.id===fields.child_id)||A.owner], current_password => A.manage('reset-child-password', {...fields,current_password})), 'Password changed. Use the new password next time this child signs in.');
 wireForm('own-password-form', fields => riskyAction('Change your password?', [A.profile], current_password => A.changePassword(fields.password,current_password)), 'Your password changed. Use the new password next time you sign in.');
 $('back-to-me').addEventListener('click', async () => {
+  notice('');
   try { await A.selectOwner(A.profile); render(); }
   catch (error) { notice(errorText(error), true); }
 });
@@ -396,8 +397,8 @@ function renderGrownups(){
     const list = $('grownups-list'); list.replaceChildren();
     for (const person of grownupRoster.filter(person=>matches(person,'grownup-search'))) {
       const item = element('li'), copy = element('div');
-      copy.append(element('strong', person.display_name), element('small', `Login: ${person.handle}${person.is_master ? ' · Master' : ''}`));
-      const avatar = element('span', person.avatar || '🐶', 'child-avatar');
+      copy.append(element('strong', person.display_name), element('small', `Login: ${person.handle}${person.is_master ? ' (master)' : ''}`));
+      const avatar = element('span', '', 'child-avatar');
       profilePicture(avatar, person.avatar);
       const edit=element('button',person.id===A.profile.id?'Edit my profile':'Edit profile','quiet-button');edit.type='button';
       edit.setAttribute('aria-label',`Edit ${person.display_name} (${person.handle})`);
@@ -458,7 +459,7 @@ function confirmPeople(kind, people, reset=false) {
   title.textContent=`${reset?'Reset progress for':'Delete'} ${people.length} ${kid?'kid':'grown-up'}${people.length===1?'':'s'}?`;
   $(kid?'confirm-copy':'confirm-grownup-copy').textContent=reset?'Completed rounds and milestones are erased for every linked grown-up. Logins and game settings stay. This cannot be undone.':kid?'Their logins, pictures and all progress are deleted for every linked grown-up. This cannot be undone.':'Their logins are deleted. Kids and their progress stay. Kids without another linked grown-up stay linked to the master account.';
   const names=$(kid?'confirm-child-names':'confirm-grownup-names');names.replaceChildren();
-  people.forEach(person=>names.append(element('li',`${person.display_name} · Login: ${person.handle}`)));
+  people.forEach(person=>names.append(element('li',`${person.display_name} (login ${person.handle})`)));
   const input=$(kid?'confirm-child-password':'confirm-grownup-password');input.value='';
   const button=$(kid?'confirm-child-action':'confirm-grownup-action');button.disabled=true;button.textContent=reset?'Reset all progress':'Permanently delete';
   $(kid?'confirm-result':'confirm-grownup-result').textContent='';
@@ -494,7 +495,7 @@ window.addEventListener('offline',()=>{freshness='offline';renderRoster();render
 window.addEventListener('focus',refreshRoster);
 document.addEventListener('visibilitychange',refreshRoster);
 setInterval(refreshRoster,15000);
-function assignment(people){return people.length?[...people].sort((a,b)=>Number(b.id===A.profile.id)-Number(a.id===A.profile.id)||a.display_name.localeCompare(b.display_name)).map(person=>person.id===A.profile.id?'You':`${person.display_name} (${person.handle})`).join(' · '):'No grown-up assigned';}
+function assignment(people){return people.length?[...people].sort((a,b)=>Number(b.id===A.profile.id)-Number(a.id===A.profile.id)||a.display_name.localeCompare(b.display_name)).map(person=>person.id===A.profile.id?'You':`${person.display_name} (${person.handle})`).join(', '):'No grown-up assigned';}
 function matches(person,id){const term=$(id).value.trim().toLocaleLowerCase();return `${person.display_name} ${person.handle} ${(person.grownups||[]).map(adult=>adult.display_name+' '+adult.handle).join(' ')}`.toLocaleLowerCase().includes(term);}
 function updateBatch(){
   $('kid-batch').hidden=!selectedKids.size;$('grownup-batch').hidden=!selectedGrownups.size;
@@ -524,6 +525,7 @@ const createAdult=$('create-grownup-form').closest('details');
 function applyView(){
   const adult=A.profile?.role==='grownup', child=adult&&A.owner?.id!==A.profile.id;
   $('delete-child-shortcut').hidden=!adult||!child;
+  $('child-settings-link').hidden=!adult||!child;
   $('transfer-child').hidden=!A.profile?.is_master||!child;
   $('share-child').hidden=!A.profile?.is_master||!child;
   if(portalView==='adults'&&!A.profile?.is_master)portalView='kids';
@@ -541,6 +543,7 @@ function applyView(){
 }
 async function navigate(view){
   document.querySelectorAll('dialog[open]').forEach(dialog=>dialog.close());
+  notice('');
   portalView=view;location.hash=view;
   if(view==='account')await A.selectOwner(A.profile);
   render();
@@ -577,7 +580,7 @@ async function loadChildGrownups(){
 }
 $('delete-child-shortcut').addEventListener('click',()=>confirmPeople('child',[A.owner]));
 $('reset-own-progress').addEventListener('click', () => {
-  $('confirm-own-identity').textContent = `${A.profile.display_name} · Login: ${A.profile.handle}`;
+  $('confirm-own-identity').textContent = `${A.profile.display_name} (login ${A.profile.handle})`;
   $('confirm-own-result').textContent = ''; $('confirm-own-password').value = '';
   $('confirm-own-reset-dialog').showModal(); $('cancel-own-reset').focus();
 });

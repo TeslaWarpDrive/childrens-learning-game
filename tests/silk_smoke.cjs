@@ -120,7 +120,7 @@ async function run() {
           assert.deepEqual(errors, [], `${prefix}: browser errors`);
           assert.deepEqual(network, [], `${prefix}: attempted network requests`);
           assert.deepEqual(missing, [], `${prefix}: missing local assets`);
-          console.log(`PASS ${prefix}: palette persistence, home/activity/reward, 60px targets, offline, reduced motion`);
+          console.log(`PASS ${prefix}: palette persistence, home/activity/reward, 60px targets, no network, reduced motion`);
         } finally {await context.close();}
       }
     }

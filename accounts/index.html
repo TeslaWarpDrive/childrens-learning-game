@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#160f33">
+<meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="../shared/icon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#f8f5ec">
 <meta name="robots" content="noindex">
+<meta name="description" content="The grown-up portal for Letters with Lucy: kids, grown-ups, progress and game settings.">
 <title>Grown-up portal · Letters with Lucy</title>
 <link rel="stylesheet" href="../grown-ups/grown-ups.css">
 <link rel="stylesheet" href="portal.css">
-<link rel="stylesheet" href="../grown-ups/dusk.css">
 <script src="config.js" defer></script>
 <script src="client.js" defer></script>
 <script src="navigation.js" defer></script>
@@ -16,127 +16,195 @@
 <script src="lucy-avatars.js" defer></script>
 <script src="portal.js" defer></script>
 </head>
-<body>
+<body class="grown-app" data-app="portal">
 <a class="skip" href="#account-main">Skip to account</a>
+<header class="masthead">
+  <a class="brand" href="../index.html" aria-label="Letters with Lucy, back to the games"><img src="lucy/wave.jpg" width="40" height="40" alt=""><span>Letters with Lucy</span></a>
+  <h1 class="title">Grown-up portal</h1>
+  <a class="back-link" href="../index.html"><span class="fill-label">Back to the games</span></a>
+</header>
 <div class="page">
-  <header class="masthead">
-    <div><p class="label">Letters with Lucy<small class="brand-tagline">Little Sounds Big Discovery</small></p><h1 class="title">Grown-up portal</h1></div>
-    <a class="fill-button" href="../index.html"><span class="fill-label">Back to the games</span><span class="fill-layer" aria-hidden="true"><span class="fill-label">Back to the games</span></span><span class="fill-dot" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
-  </header>
   <main id="account-main" tabindex="-1">
     <p id="account-status" class="notice" role="status" aria-live="polite">Opening the portal…</p>
+
     <div id="signed-out" hidden>
-      <div class="welcome"><h2>Welcome, grown-ups.</h2><p>Sign in to manage your kids. Ask the master grown-up if you need an account.</p></div>
-      <div class="progress-grid">
-        <section class="panel" aria-labelledby="signin-title">
-          <h2 id="signin-title"><span>01</span>Grown-up sign-in</h2>
-          <form id="signin-form">
-            <label>Username<input name="handle" autocomplete="username" autocapitalize="none" spellcheck="false" required></label>
-            <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
-            <button class="solid-button" type="submit">Sign in</button>
-            <p class="form-result" role="status" aria-live="polite"></p>
-          </form>
-        </section>
-      </div>
+      <section class="signin-card" aria-labelledby="signin-title">
+        <img class="signin-lucy" src="lucy/headtilt.jpg" width="96" height="96" alt="">
+        <h2 id="signin-title">Welcome, grown-ups.</h2>
+        <p class="help">Sign in to manage your kids. Ask the master grown-up if you need an account.</p>
+        <form id="signin-form">
+          <label>Username<input name="handle" autocomplete="username" autocapitalize="none" spellcheck="false" required></label>
+          <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
+          <button class="solid-button" type="submit">Sign in</button>
+          <p class="form-result" role="status" aria-live="polite"></p>
+        </form>
+      </section>
     </div>
+
     <div id="signed-in" hidden>
-      <button id="my-account" type="button" class="quiet-button"><span id="identity-avatar" class="child-avatar" aria-hidden="true"></span><span id="identity-title"></span> · My account</button>
-      <p id="login-name" class="help" hidden></p><button id="sign-out" class="quiet-button" type="button">Sign out</button>
-      <nav class="portal-views" aria-label="Portal views" data-adult><button type="button" id="kids-view" aria-pressed="true">Kids</button><button type="button" id="adults-view" data-master aria-pressed="false">Grown-ups</button><a class="quiet-button" href="../grown-ups/index.html" id="settings-link">Game settings</a></nav>
-      <div id="my-account-page" hidden><h2>My account</h2>
-      <details data-adult class="password-panel"><summary>Edit my profile</summary><form id="profile-form">
-        <label>Display name<input name="display_name" maxlength="60" required autocomplete="name"></label>
-        <label>Username<input name="handle" required autocomplete="username" autocapitalize="none" spellcheck="false"></label>
+      <nav class="portal-views tabs" aria-label="Portal views" data-adult>
+        <button type="button" id="kids-view" aria-pressed="true">Kids</button>
+        <button type="button" id="adults-view" data-master aria-pressed="false">Grown-ups</button>
+        <a href="../grown-ups/index.html" id="settings-link">Game settings</a>
+        <button id="my-account" type="button" class="me-tab"><span id="identity-avatar" class="child-avatar" aria-hidden="true"></span><span id="identity-title" class="visually-hidden"></span>My account</button>
+      </nav>
+      <p id="login-name" class="help" hidden></p>
+      <button id="sign-out" class="quiet-button" type="button">Sign out</button>
+
+      <!-- My account ---------------------------------------------------- -->
+      <div id="my-account-page" hidden>
+        <h2 class="view-title">My account</h2>
+        <div class="account-forms">
+          <details data-adult class="password-panel"><summary>Edit my profile</summary><form id="profile-form">
+            <label>Display name<input name="display_name" maxlength="60" required autocomplete="name"></label>
+            <label>Username<input name="handle" required autocomplete="username" autocapitalize="none" spellcheck="false"></label>
             <fieldset class="avatar-options"><legend>Choose a Lucy picture</legend></fieldset>
-            <label>Or upload a picture<input id="profile-avatar-upload" name="avatar_file" type="file" accept="image/*" aria-describedby="profile-avatar-help"></label><p id="profile-avatar-help" class="help">Choose a photo or any picture. We save a small profile copy.</p><img id="profile-avatar-preview" class="child-avatar" alt="Your chosen picture" hidden>
-        <button type="submit" class="quiet-button">Save my profile</button><p class="form-result" role="status" aria-live="polite"></p>
-      </form></details>
-      <details class="password-panel"><summary>Change my password</summary><form id="own-password-form">
-        <label>New password<input name="password" type="password" minlength="6" autocomplete="new-password" required></label>
-        <p class="help">At least 6 characters. This changes your own password on every device.</p>
-        <button type="submit" class="quiet-button">Change my password</button><p class="form-result" role="status" aria-live="polite"></p>
-      </form></details>
+            <label>Or upload a picture<input id="profile-avatar-upload" name="avatar_file" type="file" accept="image/*" aria-describedby="profile-avatar-help"></label><p id="profile-avatar-help" class="help">Choose a photo or any picture. We save a small profile copy.</p><img id="profile-avatar-preview" src="lucy/garden.jpg" class="child-avatar" alt="Your chosen picture" hidden>
+            <button type="submit" class="solid-button">Save my profile</button><p class="form-result" role="status" aria-live="polite"></p>
+          </form></details>
+          <details class="password-panel"><summary>Change my password</summary><form id="own-password-form">
+            <label>New password<input name="password" type="password" minlength="6" autocomplete="new-password" required></label>
+            <p class="help">At least 6 characters. This changes your own password on every device.</p>
+            <button type="submit" class="solid-button">Change my password</button><p class="form-result" role="status" aria-live="polite"></p>
+          </form></details>
+        </div>
       </div>
+
+      <!-- A child's own picture (child logins) ---------------------------- -->
       <section id="my-picture" class="panel" data-child hidden aria-labelledby="my-picture-title">
         <h2 id="my-picture-title">My picture</h2>
-        <img id="my-picture-preview" class="child-avatar" alt="Your picture">
+        <img id="my-picture-preview" src="lucy/garden.jpg" class="child-avatar big" alt="Your picture">
         <form id="my-picture-form">
           <fieldset class="avatar-options"><legend>Pick a Lucy picture</legend></fieldset>
           <label>Or use your own picture<input id="my-picture-upload" name="avatar_file" type="file" accept="image/*"></label>
           <button type="submit" class="solid-button">Save my picture</button><p class="form-result" role="status" aria-live="polite"></p>
         </form>
       </section>
-      <section id="progress" class="panel" aria-labelledby="progress-title">
-        <h2 id="progress-title">Your progress</h2>
-        <button id="reset-own-progress" type="button" class="quiet-button" hidden>Reset my game progress…</button>
-        <div class="owner-line"><div class="actions"><button id="delete-child-shortcut" class="quiet-button" type="button" hidden>Delete child…</button><button id="transfer-child" class="quiet-button" type="button" hidden>Transfer child…</button><button id="share-child" class="quiet-button" type="button" hidden>Share child…</button></div><p id="owner-label"></p><button id="back-to-me" type="button" class="quiet-button" hidden>Back to my progress page</button></div>
-        <div class="totals"><p><strong id="round-count">0</strong><span>rounds completed</span></p><p><strong id="letter-total">0</strong><span>letters explored</span></p></div>
-        <ul id="world-progress" class="world-progress" aria-label="Rounds by world"></ul>
-        <h3>Little milestones</h3><ul id="achievements" class="milestones"></ul>
-        <div class="sync-row"><p id="sync-status" role="status" aria-live="polite"></p></div>
+
+      <!-- Progress: a child's record, or your own -------------------------- -->
+      <section id="progress" class="record" aria-labelledby="progress-title">
+        <div class="record-head">
+          <button id="back-to-me" type="button" class="back-button" hidden>Back to my progress page</button>
+          <h2 id="progress-title">Your progress</h2>
+          <p id="owner-label" class="help"></p>
+          <div class="owner-line actions">
+            <a id="child-settings-link" class="solid-button" href="../grown-ups/index.html">Game settings for this child</a>
+            <button id="share-child" class="quiet-button" type="button" hidden>Share child…</button>
+            <button id="transfer-child" class="quiet-button" type="button" hidden>Transfer child…</button>
+            <button id="delete-child-shortcut" class="quiet-button danger" type="button" hidden>Delete child…</button>
+          </div>
+        </div>
+
+        <div class="figures">
+          <div class="totals"><p><strong id="round-count">0</strong><span>rounds completed</span></p><p><strong id="letter-total">0</strong><span>letters explored</span></p></div>
+          <ul id="world-progress" class="world-progress" aria-label="Rounds by world"></ul>
+        </div>
+        <div class="milestones-block">
+          <h3>Little milestones</h3>
+          <ul id="achievements" class="milestones"></ul>
+        </div>
+        <div class="sync-row"><p id="sync-status" role="status" aria-live="polite"></p><button id="reset-own-progress" type="button" class="quiet-button danger" hidden>Reset my game progress…</button></div>
+
         <details id="child-management" data-adult class="child-management" open hidden><summary>Manage this child</summary>
           <p id="management-child" class="help"></p>
-          <form id="child-profile-form"><label>Child's display name<input name="display_name" maxlength="60" required></label><label>Child's username<input name="handle" minlength="3" maxlength="32" required autocapitalize="none" spellcheck="false"></label>            <fieldset class="avatar-options"><legend>Choose a Lucy picture</legend></fieldset>
-            <label>Or upload a picture<input id="child-avatar-upload" name="avatar_file" type="file" accept="image/*" aria-describedby="child-avatar-help"></label><p id="child-avatar-help" class="help">Choose a photo or any picture. We save a small profile copy.</p><img id="child-avatar-preview" class="child-avatar" alt="Chosen picture" hidden>
-<p class="help">The old username stops working when you save. Their progress stays with them.</p><button class="quiet-button" type="submit">Save child profile</button><p class="form-result" role="status"></p></form>
-          <a id="child-settings-link" class="quiet-button" href="../grown-ups/index.html">Game settings for this child</a>
-          <div id="child-password-slot"></div><h3>Linked grown-ups</h3><ul id="child-grownups" class="children-list"></ul>
-          <p class="help">These actions affect this child for every linked grown-up.</p>
-          <div class="actions"><button type="button" id="reset-progress" class="quiet-button">Reset all progress…</button><button type="button" id="delete-child" class="quiet-button">Delete child account…</button></div>
+          <div class="manage-grid">
+            <form id="child-profile-form" class="manage-card">
+              <h3>Profile</h3>
+              <label>Child’s display name<input name="display_name" maxlength="60" required></label>
+              <label>Child’s username<input name="handle" minlength="3" maxlength="32" required autocapitalize="none" spellcheck="false"></label>
+              <fieldset class="avatar-options"><legend>Choose a Lucy picture</legend></fieldset>
+              <label>Or upload a picture<input id="child-avatar-upload" name="avatar_file" type="file" accept="image/*" aria-describedby="child-avatar-help"></label><p id="child-avatar-help" class="help">Choose a photo or any picture. We save a small profile copy.</p><img id="child-avatar-preview" src="lucy/garden.jpg" class="child-avatar" alt="Chosen picture" hidden>
+              <p class="help">The old username stops working when you save. Their progress stays with them.</p>
+              <button class="solid-button" type="submit">Save child profile</button><p class="form-result" role="status"></p>
+            </form>
+            <div class="manage-side">
+              <div class="manage-card">
+                <h3>Password</h3>
+                <div id="child-password-slot"></div>
+              </div>
+              <div class="manage-card">
+                <h3>Linked grown-ups</h3>
+                <ul id="child-grownups" class="linked-list"></ul>
+              </div>
+              <div class="manage-card danger-zone">
+                <h3>Start over</h3>
+                <p class="help">These actions affect this child for every linked grown-up.</p>
+                <div class="actions"><button type="button" id="reset-progress" class="quiet-button danger">Reset all progress…</button><button type="button" id="delete-child" class="quiet-button danger">Delete child account…</button></div>
+              </div>
+            </div>
+          </div>
           <p id="management-result" role="status"></p>
         </details>
-        <p class="help">Play keeps working offline after the first visit. New play is saved here and sent when you're online again. Sign in online first when using a new device.</p>
       </section>
-      <details data-master hidden class="password-panel"><summary>Add a grown-up</summary><p class="help">Only the master can create grown-up accounts.</p><form id="create-grownup-form">
-        <label>Name<input name="display_name" autocomplete="off" required></label>
-        <label>Login name<input name="handle" autocomplete="off" autocapitalize="none" required></label>
-        <label>Password<input name="password" type="password" minlength="6" autocomplete="new-password" required></label>
-        <button type="submit" class="quiet-button">Create grown-up account</button><p class="form-result" role="status" aria-live="polite"></p>
-      </form></details>
+
+      <!-- Grown-ups (master) ----------------------------------------------- -->
       <section id="grownups" class="panel" data-master hidden aria-labelledby="grownups-title">
-        <h2 id="grownups-title">Grown-ups</h2>
-        <p class="help">Open a grown-up to edit their profile, reset their password or delete. Check several to delete together.</p>
-        <label>Find a grown-up<input id="grownup-search" type="search" placeholder="Name or login"></label><div class="actions batch-actions" id="grownup-batch" hidden><span id="grownup-selected-count"></span><button id="delete-selected-grownups" class="quiet-button" type="button">Delete selected grown-ups…</button><button id="select-all-grownups" class="quiet-button" type="button">Select all results</button><button id="clear-grownups" class="quiet-button" type="button">Clear</button></div><button id="select-grownups" class="quiet-button" type="button">Select all results</button><p id="grownups-status" role="status"></p>
-        <ul id="grownups-list" class="children-list"></ul>
-        <details><summary>Reset a grown-up's password</summary><form id="reset-grownup-password-form">
+        <div class="view-head">
+          <h2 id="grownups-title" class="view-title">Grown-ups</h2>
+          <p id="grownups-status" role="status"></p>
+        </div>
+        <div class="add-row">
+          <details data-master hidden class="add-panel"><summary>Add a grown-up</summary><p class="help">Only the master can create grown-up accounts.</p><form id="create-grownup-form">
+            <label>Name<input name="display_name" autocomplete="off" required></label>
+            <label>Login name<input name="handle" autocomplete="off" autocapitalize="none" required></label>
+            <label>Password<input name="password" type="password" minlength="6" autocomplete="new-password" required></label>
+            <button type="submit" class="solid-button">Create grown-up account</button><p class="form-result" role="status" aria-live="polite"></p>
+          </form></details>
+        </div>
+        <div class="toolbar">
+          <label class="search">Find a grown-up<input id="grownup-search" type="search" placeholder="Name or login"></label>
+          <button id="select-grownups" class="quiet-button" type="button">Select all results</button>
+        </div>
+        <div class="actions batch-actions" id="grownup-batch" hidden><span id="grownup-selected-count"></span><button id="delete-selected-grownups" class="quiet-button danger" type="button">Delete selected grown-ups…</button><button id="select-all-grownups" class="quiet-button" type="button">Select all results</button><button id="clear-grownups" class="quiet-button" type="button">Clear</button></div>
+        <p class="help">Open a grown-up to edit their profile, reset their password or delete them.</p>
+        <ul id="grownups-list" class="people-list"></ul>
+        <details><summary>Reset a grown-up’s password</summary><form id="reset-grownup-password-form">
           <label>Grown-up<select id="grownup-choice" name="grownup_id" required><option value="">Choose a grown-up</option></select></label>
           <label>New password<input name="password" type="password" minlength="6" autocomplete="new-password" required></label>
-          <button type="submit" class="quiet-button">Set new password</button><p class="form-result" role="status" aria-live="polite"></p>
+          <button type="submit" class="solid-button">Set new password</button><p class="form-result" role="status" aria-live="polite"></p>
         </form></details>
       </section>
       <dialog id="edit-grownup" aria-labelledby="edit-grownup-title"><div class="dialog-header"><h2 id="edit-grownup-title">Edit grown-up</h2><button id="close-edit-grownup" type="button" class="quiet-button">Close</button></div><p id="edit-grownup-login" class="help"></p><form id="grownup-profile-form">
         <label>Display name<input name="display_name" maxlength="60" required autocomplete="name"></label>
         <label>Username<input name="handle" required autocomplete="username" autocapitalize="none" spellcheck="false"></label>
-            <fieldset class="avatar-options"><legend>Choose a Lucy picture</legend></fieldset>
-            <label>Or upload a picture<input id="grownup-avatar-upload" name="avatar_file" type="file" accept="image/*" aria-describedby="grownup-avatar-help"></label><p id="grownup-avatar-help" class="help">Choose a photo or any picture. We save a small profile copy.</p><img id="grownup-avatar-preview" class="child-avatar" alt="Chosen picture" hidden>
-        <button type="submit" class="quiet-button">Save grown-up profile</button><p class="form-result" role="status" aria-live="polite"></p>
-      </form><div id="grownup-password-slot"></div><p id="grownup-linked-kids" class="help"></p><button id="reset-grownup-progress" type="button" class="quiet-button">Reset game progress…</button><button id="delete-edit-grownup" type="button" class="quiet-button">Delete grown-up…</button></dialog>
+        <fieldset class="avatar-options"><legend>Choose a Lucy picture</legend></fieldset>
+        <label>Or upload a picture<input id="grownup-avatar-upload" name="avatar_file" type="file" accept="image/*" aria-describedby="grownup-avatar-help"></label><p id="grownup-avatar-help" class="help">Choose a photo or any picture. We save a small profile copy.</p><img id="grownup-avatar-preview" src="lucy/garden.jpg" class="child-avatar" alt="Chosen picture" hidden>
+        <button type="submit" class="solid-button">Save grown-up profile</button><p class="form-result" role="status" aria-live="polite"></p>
+      </form><div id="grownup-password-slot"></div><p id="grownup-linked-kids" class="help"></p><div class="actions danger-row"><button id="reset-grownup-progress" type="button" class="quiet-button danger">Reset game progress…</button><button id="delete-edit-grownup" type="button" class="quiet-button danger">Delete grown-up…</button></div></dialog>
+
+      <!-- Kids -------------------------------------------------------------- -->
       <section id="people" class="panel" data-adult aria-labelledby="people-title">
-        <h2 id="people-title">Kids</h2>
-        <p class="help">Open a child to manage them. Select kids for game settings, progress reset, transfer or delete.</p>
-        <label>Find a child<input id="kid-search" type="search" placeholder="Name or login"></label><p id="roster-status" role="status" aria-live="polite"></p>
-        <button id="select-kids" class="quiet-button" type="button">Select all results</button><p class="help">Select kids to show game settings, reset progress and delete actions.</p><div class="actions batch-actions" id="kid-batch" hidden><span id="kid-selected-count"></span><button id="select-all-kids" class="quiet-button" type="button">Select all kids</button><button id="edit-selected-kids" class="quiet-button" type="button" disabled>Settings for selected kids</button><button id="reset-selected-kids" class="quiet-button" type="button">Reset progress…</button><button id="delete-selected-kids" class="quiet-button" type="button">Delete selected kids…</button><button id="transfer-selected-kids" class="quiet-button" type="button" data-master>Transfer…</button><button id="clear-kids" class="quiet-button" type="button">Clear</button></div>
-        <ul id="children-list" class="children-list"></ul>
-        <div class="progress-grid manage-grid">
-          <details><summary>Make a child's login</summary><form id="create-child-form">
-            <label>Child's name<input name="display_name" required autocomplete="off"></label>
+        <div class="view-head">
+          <h2 id="people-title" class="view-title">Kids</h2>
+          <p id="roster-status" role="status" aria-live="polite"></p>
+        </div>
+        <div class="add-row manage-grid-row">
+          <details class="add-panel add-primary"><summary>Add a child</summary><form id="create-child-form">
+            <label>Child’s name<input name="display_name" required autocomplete="off"></label>
             <label>Choose their login name<input name="handle" required autocomplete="off" autocapitalize="none" spellcheck="false"></label>
             <label>Choose their password<input name="password" type="password" minlength="6" autocomplete="new-password" required></label>
             <p class="help">At least 6 characters. Keep their login name and password wherever they play.</p>
             <fieldset class="avatar-options"><legend>Choose a Lucy picture</legend></fieldset>
-            <label>Or upload a picture<input id="avatar-upload" name="avatar_file" type="file" accept="image/*" aria-describedby="avatar-help"></label><p id="avatar-help" class="help">Choose a photo or any picture. We save a small profile copy.</p><img id="avatar-preview" class="child-avatar" alt="Child’s chosen picture" hidden>
-            <button class="solid-button" type="submit">Create child's account</button><p class="form-result" role="status" aria-live="polite"></p>
+            <label>Or upload a picture<input id="avatar-upload" name="avatar_file" type="file" accept="image/*" aria-describedby="avatar-help"></label><p id="avatar-help" class="help">Choose a photo or any picture. We save a small profile copy.</p><img id="avatar-preview" src="lucy/garden.jpg" class="child-avatar" alt="Child’s chosen picture" hidden>
+            <button class="solid-button" type="submit">Create child’s account</button><p class="form-result" role="status" aria-live="polite"></p>
           </form></details>
-          <details data-master><summary>Link an existing child</summary><p class="help">Choose kids and the grown-up to assign them to. Existing links and progress stay. No child password is needed.</p><form id="link-child-form"><label>Assign to grown-up<select id="link-grownup-choice" required><option value="">Choose a grown-up</option></select></label>
+          <details data-master class="add-panel"><summary>Link an existing child</summary><p class="help">Choose kids and the grown-up to assign them to. Existing links and progress stay. No child password is needed.</p><form id="link-child-form"><label>Assign to grown-up<select id="link-grownup-choice" required><option value="">Choose a grown-up</option></select></label>
             <label>Children<select id="link-child-choice" name="child_id" multiple size="6" required></select></label>
             <button class="solid-button" type="submit">Link selected children</button><p class="form-result" role="status" aria-live="polite"></p>
           </form></details>
-          <details><summary>Reset a child's password</summary><p class="help">This changes the child's login password everywhere. Share the new one with the grown-ups who help them sign in.</p><form id="reset-password-form">
+          <details><summary>Reset a child’s password</summary><p class="help">This changes the child’s login password everywhere. Share the new one with the grown-ups who help them sign in.</p><form id="reset-password-form">
             <label>Child<select name="child_id" class="child-choice" required><option value="">Choose a child</option></select></label>
             <label>New password<input name="password" type="password" minlength="6" autocomplete="new-password" required></label>
-            <button class="quiet-button" type="submit">Set new password</button><p class="form-result" role="status" aria-live="polite"></p>
+            <button class="solid-button" type="submit">Set new password</button><p class="form-result" role="status" aria-live="polite"></p>
           </form></details>
         </div>
+        <div class="toolbar">
+          <label class="search">Find a child<input id="kid-search" type="search" placeholder="Name or login"></label>
+          <button id="select-kids" class="quiet-button" type="button">Select all results</button>
+        </div>
+        <p class="help">Tick kids to change their game settings, reset progress or delete them together.</p>
+        <div class="actions batch-actions" id="kid-batch" hidden><span id="kid-selected-count"></span><button id="edit-selected-kids" class="solid-button" type="button" disabled>Settings for selected kids</button><button id="reset-selected-kids" class="quiet-button" type="button">Reset progress…</button><button id="transfer-selected-kids" class="quiet-button" type="button" data-master>Transfer…</button><button id="delete-selected-kids" class="quiet-button danger" type="button">Delete selected kids…</button><button id="select-all-kids" class="quiet-button" type="button">Select all kids</button><button id="clear-kids" class="quiet-button" type="button">Clear</button></div>
+        <ul id="children-list" class="people-list"></ul>
       </section>
     </div>
   </main>
@@ -145,20 +213,21 @@
 <dialog id="confirm-child" aria-labelledby="confirm-title" aria-describedby="confirm-copy">
   <h2 id="confirm-title"></h2><p id="confirm-copy"></p>
   <ul id="confirm-child-names" class="confirm-names"></ul><label>Your current password<input id="confirm-child-password" type="password" autocomplete="current-password" required></label><p id="confirm-result" role="status"></p>
-  <div class="actions"><button type="button" id="cancel-child" class="quiet-button">Cancel</button><button type="button" id="confirm-child-action" class="solid-button"></button></div>
+  <div class="actions"><button type="button" id="cancel-child" class="quiet-button">Cancel</button><button type="button" id="confirm-child-action" class="solid-button danger-fill"></button></div>
 </dialog>
 <dialog id="confirm-grownup" aria-labelledby="confirm-grownup-title" aria-describedby="confirm-grownup-copy">
   <h2 id="confirm-grownup-title"></h2>
   <p id="confirm-grownup-copy">Their login and guardian links will be permanently deleted. Kids and their progress stay. Kids with no other grown-up will be linked to the master.</p>
   <ul id="confirm-grownup-names" class="confirm-names"></ul><label>Your current password<input id="confirm-grownup-password" type="password" autocomplete="current-password" required></label><p id="confirm-grownup-result" role="status"></p>
-  <div class="actions"><button type="button" id="cancel-grownup" class="quiet-button" autofocus>Cancel</button><button type="button" id="confirm-grownup-action" class="solid-button">Permanently delete grown-up</button></div>
+  <div class="actions"><button type="button" id="cancel-grownup" class="quiet-button" autofocus>Cancel</button><button type="button" id="confirm-grownup-action" class="solid-button danger-fill">Permanently delete grown-up</button></div>
 </dialog>
-<dialog id="transfer-dialog" aria-labelledby="transfer-title"><h2 id="transfer-title">Transfer kids</h2><p id="transfer-names"></p><p>Move the source grown-up's link to the destination. Other grown-up links, logins, settings and progress stay. Kids not linked to the source are skipped.</p><button id="cancel-transfer" class="quiet-button" type="button">Cancel</button><form id="transfer-form"><label>From<select id="transfer-source" name="source_id" required><option value="">Choose source</option></select></label><label>To<select id="transfer-destination" name="destination_id" required><option value="">Choose destination</option></select></label><button class="solid-button" type="submit">Confirm transfer</button><p class="form-result" role="status"></p></form></dialog><dialog id="confirm-own-reset-dialog" aria-labelledby="confirm-own-title" aria-describedby="confirm-own-copy">
+<dialog id="transfer-dialog" aria-labelledby="transfer-title"><h2 id="transfer-title">Transfer kids</h2><p id="transfer-names"></p><p class="help">Move the source grown-up’s link to the destination. Other grown-up links, logins, settings and progress stay. Kids not linked to the source are skipped.</p><form id="transfer-form"><label>From<select id="transfer-source" name="source_id" required><option value="">Choose source</option></select></label><label>To<select id="transfer-destination" name="destination_id" required><option value="">Choose destination</option></select></label><div class="actions"><button id="cancel-transfer" class="quiet-button" type="button">Cancel</button><button class="solid-button" type="submit">Confirm transfer</button></div><p class="form-result" role="status"></p></form></dialog>
+<dialog id="confirm-own-reset-dialog" aria-labelledby="confirm-own-title" aria-describedby="confirm-own-copy">
   <h2 id="confirm-own-title">Reset my game progress?</h2>
   <p id="confirm-own-identity"></p>
   <p id="confirm-own-copy">Your completed rounds and milestones will be erased. Your login, picture, password, game settings, and linked kids stay. This cannot be undone.</p>
   <label>Your current password<input id="confirm-own-password" type="password" autocomplete="current-password" required></label><p id="confirm-own-result" role="status"></p>
-  <div class="actions"><button id="cancel-own-reset" type="button" class="quiet-button" autofocus>Cancel</button><button id="confirm-own-reset" type="button" class="solid-button">Reset my game progress</button></div>
+  <div class="actions"><button id="cancel-own-reset" type="button" class="quiet-button" autofocus>Cancel</button><button id="confirm-own-reset" type="button" class="solid-button danger-fill">Reset my game progress</button></div>
 </dialog>
 <dialog id="risky-password-dialog" aria-labelledby="risky-password-title">
   <h2 id="risky-password-title"></h2><ul id="risky-password-people" class="confirm-names"></ul>

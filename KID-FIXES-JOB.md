@@ -27,7 +27,7 @@ Game screens and layouts, Lucy letters, grown-up flows other than the sign-out d
 - Never delete or restore pre-existing accounts. Use only disposable test accounts (delete only the ones you made).
 
 ## Lean testing (Bradley 2026-11-01)
-Test only what changed: kid sign-out lands on the home screen (and grown-up sign-out still works), a kid can pick a Lucy picture and upload one and it sticks after reload. Plus the quick existing static/unit checks. NO full browser suites, shards or live-site runs. If any cached files change, rebuild the offline manifest with `python3 scripts/build-offline-manifest.py`.
+Test only what changed: kid sign-out lands on the home screen (and grown-up sign-out still works), a kid can pick a Lucy picture and upload one and it sticks after reload. Plus the quick existing static/unit checks. NO full browser suites, shards or live-site runs.
 
 ## Delivery
 Commit and push your own branch only. No merge to main, no deploy, no PRs to main.

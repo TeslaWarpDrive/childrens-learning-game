@@ -1,5 +1,5 @@
 /* Local Playwright check of the grown-ups' corner: the reading gate, every setting,
- * and their effect on the chooser and all three worlds. Offline, file URLs only.
+ * and their effect on the chooser and all three worlds. No network, file URLs only.
  * Screenshots go to /tmp/grown-ups-shots. */
 'use strict';
 const assert = require('node:assert/strict');
@@ -150,7 +150,7 @@ async function run() {
       await page.goto(url('grown-ups/index.html'));
       await unlock(page);assert(await page.locator('#settings').isVisible(),'Local settings open without a keypad');
       await done(label);
-      console.log(`PASS ${label}: portal door, no keypad, every setting, guards, reset, layout and offline`);
+      console.log(`PASS ${label}: portal door, no keypad, every setting, guards, reset, layout and no network`);
     }
 
     // Settings reach the chooser and every world.
@@ -221,7 +221,7 @@ async function run() {
       await unlock(page);
       await page.waitForFunction(() => getComputedStyle(document.querySelector('#settings')).opacity === '1');
       if (options.reducedMotion) assert.equal(await page.locator('.stamp').evaluate(n => getComputedStyle(n).display), 'none');
-      else assert.equal(await page.evaluate(() => getComputedStyle(document.body).backgroundColor), 'rgb(22, 15, 51)');
+      else assert.equal(await page.evaluate(() => getComputedStyle(document.body).backgroundColor), 'oklch(0.97 0.012 95)');
       if (!process.env.NO_SCREENSHOTS) await page.screenshot({path: path.join(shots, `${label}.png`), fullPage: true});
       await done(label);
       console.log(`PASS ${label}: unlock and settings render`);

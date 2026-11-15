@@ -45,12 +45,11 @@ const fs = require('node:fs');
       await page.waitForFunction(()=>document.body.dataset.homeStep==='layouts');
       const fit = await page.evaluate(()=>{
         const button = document.querySelector('#change-player'), box = button.getBoundingClientRect();
-        const status = document.querySelector('#offline-status').getBoundingClientRect();
-        return {height:document.documentElement.scrollHeight,width:document.documentElement.scrollWidth,buttonHeight:box.height,font:getComputedStyle(button).fontSize,bottom:box.bottom,statusBottom:status.bottom};
+        return {height:document.documentElement.scrollHeight,width:document.documentElement.scrollWidth,buttonHeight:box.height,font:getComputedStyle(button).fontSize,bottom:box.bottom};
       });
       assert(fit.height<=viewport.height,JSON.stringify(fit));
       assert(fit.width<=viewport.width,JSON.stringify(fit));
-      assert(fit.bottom<=viewport.height && fit.statusBottom<=viewport.height,JSON.stringify(fit));
+      assert(fit.bottom<=viewport.height,JSON.stringify(fit));
       assert(fit.buttonHeight>=64); assert.equal(fit.font,'20px');
       await page.screenshot({path:`${shots}/picker-${viewport.width}.png`});
       console.log(`PASS picker ${viewport.width}x${viewport.height}: ${JSON.stringify(fit)}`);

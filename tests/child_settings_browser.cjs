@@ -141,7 +141,7 @@ async function run(){
       await admin.locator('#sign-out').click();await admin.waitForURL(url+'/accounts/index.html');
       assert.equal(await kid.evaluate(()=>ACCOUNTS.profile.id),sally.id,'Grown-up signout does not sign out another child device');
 
-      // Complete a real offline round, sign out in-game, and recover its outbox.
+      // Complete a real round with the connection dropped, sign out in-game, and recover its outbox.
       await kid.goto(url+'/v1-letter-post/');await settle(kid);
       await kid.waitForFunction(()=>Boolean(navigator.serviceWorker.controller));
       await contexts[1].setOffline(true);
@@ -150,12 +150,12 @@ async function run(){
       await kid.locator('#account-strip summary').click();
       assert.match(await kid.locator('#account-strip button').innerText(),/Sign out/);
       await kid.locator('#account-strip button').click();await kid.waitForURL(url+'/index.html');
-      assert((await queued(kid,sally.id))>0,'Manual child signout keeps offline round queued');
+      assert((await queued(kid,sally.id))>0,'Manual child signout keeps the queued round');
       await contexts[1].setOffline(false);
       await signin(kid,url,require('./master_login.cjs').handle,require('./master_login.cjs').password,true);await kid.locator('#sign-out').click();await kid.waitForURL(url+'/accounts/index.html');
       assert((await queued(kid,sally.id))>0,'Grown-up signout on the shared device preserves child outbox');
       await signin(kid,url,sally.handle);await kid.evaluate(()=>ACCOUNTS.sync());
-      assert.equal(await kid.evaluate(()=>ACCOUNTS.snapshot.count),before,'Re-login synchronizes retained offline round');
+      assert.equal(await kid.evaluate(()=>ACCOUNTS.snapshot.count),before,'Re-login synchronizes the retained queued round');
       assert.match(await kid.locator('#change-player').innerText(),/Sign out/);
 
       // Clock changes exercise the shipped expiry timer while no server is reachable.
@@ -163,7 +163,7 @@ async function run(){
       await kid.evaluate(async()=>{await ACCOUNTS.recordRound('post','E',0);const now=Date.now;Date.now=()=>now()+6*60*60*1000+1000;});
       await kid.waitForURL(url+'/index.html?expired=1');
       assert.match(await kid.locator('#login-status').innerText(),/signed out for safety/i);
-      assert((await queued(kid,sally.id))>0,'Child expiry retains offline progress');
+      assert((await queued(kid,sally.id))>0,'Child expiry retains queued progress');
       await contexts[1].setOffline(false);await signin(kid,url,sally.handle);await kid.evaluate(()=>ACCOUNTS.sync());
       assert.equal(await kid.evaluate(()=>ACCOUNTS.pending),0);
       await signin(admin,url,require('./master_login.cjs').handle,require('./master_login.cjs').password,true);
@@ -174,7 +174,7 @@ async function run(){
       assert.equal(await admin.evaluate(()=>ACCOUNTS.session),null);
       await contexts[0].setOffline(false);
       assert.deepEqual(errors,[],'No browser exceptions');
-      console.log('PASS '+width+': defaults/reset/guest, visible adult and child signout, offline progress recovery, six-hour child and inactive adult expiry');
+      console.log('PASS '+width+': defaults/reset/guest, visible adult and child signout, queued progress recovery, six-hour child and inactive adult expiry');
       for(const context of contexts)await context.close();
     }
     save();console.log('PASS child_settings_browser: phone and desktop live contracts; retained logins '+reportPath);

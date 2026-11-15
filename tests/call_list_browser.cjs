@@ -18,7 +18,7 @@ const {staticServer,backend,playwright,form,settle}=require('./accounts_sync.cjs
    assert.equal(await page.locator('#children-list li').count(),2);
    for(const row of await page.locator('#children-list li').all())assert.equal(await row.getByRole('button',{name:/progress page/}).count(),1);
    const sign=await page.locator('#sign-out').boundingBox(),list=await page.locator('#children-list').boundingBox();assert(sign.y+sign.height<=list.y,'Sign out precedes the roster');
-   assert.equal(await page.locator('#settings-link').evaluate(e=>getComputedStyle(e).color),'rgb(37, 63, 101)');
+   assert.equal(await page.locator('#settings-link').evaluate(e=>getComputedStyle(e).color),'oklch(0.29 0.014 255)');
   }
   await page.locator('#adults-view').click();await page.locator('#grownups-list li input').check();await page.locator('#delete-selected-grownups').click();await shot('delete-dialog');
   if(!before){
