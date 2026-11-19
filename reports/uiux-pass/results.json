@@ -1,0 +1,1025 @@
+{
+  "backend": "isolated Supabase protocol fixture; no live database writes",
+  "results": [
+    {
+      "width": 320,
+      "screen": "child-signin",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "child-signin-error",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "world-picker",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "v1-letter-post-0-home",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "v1-letter-post-listen",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "v1-letter-post-hint",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "v1-letter-post-reward",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "v1-letter-post-1-home",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "v1-letter-post-2-home",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "v3-moonboat-0-home",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "v3-moonboat-listen",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "v3-moonboat-hint",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "v3-moonboat-reward",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "v3-moonboat-1-home",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "v3-moonboat-2-home",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "v4-silk-thread-0-home",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "v4-silk-thread-listen",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "v4-silk-thread-hint",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "v4-silk-thread-reward",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "v4-silk-thread-1-home",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "v4-silk-thread-2-home",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "grownup-signin",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "grownup-signin-error",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "kids",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "kids-selected",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "child-progress",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "delete-confirmation",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "my-account",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "grownups",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "edit-grownup",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "child-settings",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "settings-review",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "game-defaults",
+      "fit": true
+    },
+    {
+      "width": 320,
+      "screen": "kid-profile",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "child-signin",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "child-signin-error",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "world-picker",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "v1-letter-post-0-home",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "v1-letter-post-listen",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "v1-letter-post-hint",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "v1-letter-post-reward",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "v1-letter-post-1-home",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "v1-letter-post-2-home",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "v3-moonboat-0-home",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "v3-moonboat-listen",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "v3-moonboat-hint",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "v3-moonboat-reward",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "v3-moonboat-1-home",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "v3-moonboat-2-home",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "v4-silk-thread-0-home",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "v4-silk-thread-listen",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "v4-silk-thread-hint",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "v4-silk-thread-reward",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "v4-silk-thread-1-home",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "v4-silk-thread-2-home",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "grownup-signin",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "grownup-signin-error",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "kids",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "kids-selected",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "child-progress",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "delete-confirmation",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "my-account",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "grownups",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "edit-grownup",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "child-settings",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "settings-review",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "game-defaults",
+      "fit": true
+    },
+    {
+      "width": 390,
+      "screen": "kid-profile",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "child-signin",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "child-signin-error",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "world-picker",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "v1-letter-post-0-home",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "v1-letter-post-listen",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "v1-letter-post-hint",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "v1-letter-post-reward",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "v1-letter-post-1-home",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "v1-letter-post-2-home",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "v3-moonboat-0-home",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "v3-moonboat-listen",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "v3-moonboat-hint",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "v3-moonboat-reward",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "v3-moonboat-1-home",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "v3-moonboat-2-home",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "v4-silk-thread-0-home",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "v4-silk-thread-listen",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "v4-silk-thread-hint",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "v4-silk-thread-reward",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "v4-silk-thread-1-home",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "v4-silk-thread-2-home",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "grownup-signin",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "grownup-signin-error",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "kids",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "kids-selected",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "child-progress",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "delete-confirmation",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "my-account",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "grownups",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "edit-grownup",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "child-settings",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "settings-review",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "game-defaults",
+      "fit": true
+    },
+    {
+      "width": 768,
+      "screen": "kid-profile",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "child-signin",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "child-signin-error",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "world-picker",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "v1-letter-post-0-home",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "v1-letter-post-listen",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "v1-letter-post-hint",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "v1-letter-post-reward",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "v1-letter-post-1-home",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "v1-letter-post-2-home",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "v3-moonboat-0-home",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "v3-moonboat-listen",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "v3-moonboat-hint",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "v3-moonboat-reward",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "v3-moonboat-1-home",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "v3-moonboat-2-home",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "v4-silk-thread-0-home",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "v4-silk-thread-listen",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "v4-silk-thread-hint",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "v4-silk-thread-reward",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "v4-silk-thread-1-home",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "v4-silk-thread-2-home",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "grownup-signin",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "grownup-signin-error",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "kids",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "kids-selected",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "child-progress",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "delete-confirmation",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "my-account",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "grownups",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "edit-grownup",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "child-settings",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "settings-review",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "game-defaults",
+      "fit": true
+    },
+    {
+      "width": 1024,
+      "screen": "kid-profile",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "child-signin",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "child-signin-error",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "world-picker",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "v1-letter-post-0-home",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "v1-letter-post-listen",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "v1-letter-post-hint",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "v1-letter-post-reward",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "v1-letter-post-1-home",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "v1-letter-post-2-home",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "v3-moonboat-0-home",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "v3-moonboat-listen",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "v3-moonboat-hint",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "v3-moonboat-reward",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "v3-moonboat-1-home",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "v3-moonboat-2-home",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "v4-silk-thread-0-home",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "v4-silk-thread-listen",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "v4-silk-thread-hint",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "v4-silk-thread-reward",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "v4-silk-thread-1-home",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "v4-silk-thread-2-home",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "grownup-signin",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "grownup-signin-error",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "kids",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "kids-selected",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "child-progress",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "delete-confirmation",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "my-account",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "grownups",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "edit-grownup",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "child-settings",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "settings-review",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "game-defaults",
+      "fit": true
+    },
+    {
+      "width": 1366,
+      "screen": "kid-profile",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "child-signin",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "child-signin-error",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "world-picker",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "v1-letter-post-0-home",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "v1-letter-post-listen",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "v1-letter-post-hint",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "v1-letter-post-reward",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "v1-letter-post-1-home",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "v1-letter-post-2-home",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "v3-moonboat-0-home",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "v3-moonboat-listen",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "v3-moonboat-hint",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "v3-moonboat-reward",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "v3-moonboat-1-home",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "v3-moonboat-2-home",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "v4-silk-thread-0-home",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "v4-silk-thread-listen",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "v4-silk-thread-hint",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "v4-silk-thread-reward",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "v4-silk-thread-1-home",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "v4-silk-thread-2-home",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "grownup-signin",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "grownup-signin-error",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "kids",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "kids-selected",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "child-progress",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "delete-confirmation",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "my-account",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "grownups",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "edit-grownup",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "child-settings",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "settings-review",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "game-defaults",
+      "fit": true
+    },
+    {
+      "width": 1920,
+      "screen": "kid-profile",
+      "fit": true
+    }
+  ]
+}

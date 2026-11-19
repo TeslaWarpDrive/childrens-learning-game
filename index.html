@@ -12,6 +12,9 @@
 <script src="accounts/navigation.js" defer></script>
 <script src="home/home.js" defer></script>
 <script src="home/effects.js" defer></script>
+<link rel="stylesheet" href="accounts/forms.css">
+<script src="accounts/forms.js" defer></script>
+<link rel="stylesheet" href="accounts/navigation.css">
 </head>
 <body data-page="home" data-home-step="login">
 <div class="sky" id="sky" aria-hidden="true">
@@ -148,7 +151,7 @@
   </nav>
   <footer><button type="button" id="change-player">Change player</button></footer>
 </section>
-<p id="offline-status" class="offline-status" role="status"></p>
+
 </main>
 <dialog id="login-dialog" open aria-labelledby="login-title" aria-describedby="login-help">
   <div class="welcome">
@@ -161,14 +164,14 @@
     </div>
     <div class="welcome-words">
       <p class="eyebrow"><i aria-hidden="true"></i>Letters with Lucy</p>
-      <h1 id="login-title">Hello, little explorer<span class="dot">.</span></h1>
+      <h1 id="login-title" tabindex="-1" autofocus>Hello, little explorer<span class="dot">.</span></h1>
       <p id="login-help">Sign in to keep your discoveries.</p>
     </div>
   </div>
   <div class="panel">
     <form id="child-signin-form">
       <label>Username<input name="handle" autocomplete="username" autocapitalize="none" spellcheck="false" required></label>
-      <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
+      <div class="password-control"><label for="child-signin-password">Password</label><div class="password-field"><input id="child-signin-password" name="password" type="password" autocomplete="current-password" required><button type="button" class="password-toggle quiet-button" data-password-toggle="child-signin-password" aria-controls="child-signin-password" aria-pressed="false" aria-label="Show password">Show</button></div></div>
       <button class="primary" type="submit">Sign in and play</button>
       <p id="login-status" class="form-result" role="status" aria-live="polite"></p>
     </form>

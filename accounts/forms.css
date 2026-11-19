@@ -1,0 +1,7 @@
+.password-control{display:grid;gap:6px;min-width:0}
+.password-field{position:relative;min-width:0}
+.password-field input{width:100%;padding-right:88px!important}
+.password-field .password-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);min-height:44px;min-width:64px;margin:0;padding:8px 10px;border:1px solid rgb(255 255 255/.3)!important;border-radius:12px!important;background:#35245b!important;color:#fff7ea!important;font:700 15px/1.2 Nunito,system-ui,sans-serif;box-shadow:none!important;cursor:pointer}
+.password-field .password-toggle:hover{background:#4b3479!important}
+.password-field .password-toggle:focus-visible{outline:3px solid #7ff3e1;outline-offset:2px}
+form[aria-busy=true] button[type=submit]{cursor:wait}

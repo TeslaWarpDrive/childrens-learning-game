@@ -127,7 +127,8 @@ async function run() {
             await page.locator('[data-letter="B"]').click(); await screen('listen'); await settled();
             await page.locator('.listen-letter').click();
             await page.emulateMedia({reducedMotion: 'reduce'});
-            await page.waitForTimeout(80); await animations('live reduced toggle', false);
+            await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+            await animations('live reduced toggle', false);
             assert.equal(await page.locator('[data-particle]').count(), 0, 'Reduce toggle must clear decorative particles');
             await page.locator('[data-action="match"]').click(); await screen('match');
             await animations('reduced choices', false);

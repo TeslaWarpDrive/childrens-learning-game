@@ -18,7 +18,7 @@ window.createLetterLayout = ({pool, visited, post, main, ico, grown, saved=()=>f
   }
   function home(pic) {
     const intro = post
-      ? `<div class="post-intro"><p class="eyebrow"><span class="tiny-star">✳</span> A special delivery of sounds</p><h1>Lucy’s<br>Letter <em>Post.</em></h1><p class="lead">Little letters.<br>Very big adventures.</p><div class="route-card"><span>YOUR LITTLE MISSION</span><p>${ico('sound')} Listen <b>→</b> ${ico('star')} Find <b>→</b> ${ico('check')} Deliver</p></div></div>`
+      ? `<div class="post-intro"><p class="eyebrow"><span class="tiny-star">✳</span> A special delivery of sounds</p><h1>Lucy’s<br>Letter <em>Post.</em></h1><p class="lead">Little letters.<br> Very big adventures.</p><div class="route-card"><span>YOUR LITTLE MISSION</span><p>${ico('sound')} Listen <b>→</b> ${ico('star')} Find <b>→</b> ${ico('check')} Deliver</p></div></div>`
       : `<div class="captain-panel"><p class="eyebrow">Small steps. Cosmic discoveries.</p><h1>Lucy’s<br><em>Moonboat</em></h1><p class="lead">A whole sky of little sounds.</p><div class="captain">${pic('default','Ready, little explorer?')}<span class="captain-label">CAPTAIN LUCY · READY TO GO</span></div></div>`;
     const panel = post
       ? `<div class="post-office"><div class="office-top">${pic('default','A letter for you!')}<span class="office-number" aria-hidden="true">№ 01<br>✳</span></div><div class="sorting-shelf"><div class="shelf-title"><span>Pick a letter to open</span>${ico('back')}</div>${pickers('envelopes')}</div></div>`

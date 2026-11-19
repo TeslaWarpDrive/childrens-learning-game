@@ -38,7 +38,7 @@ async function run(){
       assert.equal(await page.evaluate(()=>localStorage.getItem('little-woof-silk-theme')),'2');
       const rows=await page.evaluate(async()=>{await ACCOUNTS.ready;return new Promise((resolve,reject)=>{const request=indexedDB.open('little-woof-accounts');request.onsuccess=()=>{const db=request.result;const read=db.transaction('operations').objectStore('operations').getAll();read.onsuccess=()=>{db.close();resolve(read.result);};read.onerror=()=>reject(read.error);};});});
       assert.deepEqual(rows,[],'No guest operations enter IndexedDB');
-      await page.waitForFunction(()=>Boolean(navigator.serviceWorker.controller));await context.setOffline(true);
+      assert.equal(await page.evaluate(async()=>(await navigator.serviceWorker.getRegistrations()).length),0,'Online-only pages install no cache worker');
       await page.reload();await settle(page);
       assert.equal(await page.locator('#theme').inputValue(),'0','Guest choices do not survive reload');
       assert.equal(await page.evaluate(()=>ACCOUNTS.snapshot.count),0);
@@ -59,7 +59,7 @@ async function run(){
         await page.getByRole('link',{name:'Choose a world'}).click();await page.waitForFunction(()=>document.body.dataset.homeStep==='layouts');
       }
       assert.deepEqual(errors,[]);
-      await context.close();console.log(`PASS ${viewport.width}: login-first, default Ribbon Road, unsaved warning, no persisted play/preferences, cached offline reload, branding and fit`);
+      await context.close();console.log(`PASS ${viewport.width}: login-first, default Ribbon Road, unsaved warning, no persisted play/preferences, online reload, branding and fit`);
     }
     const context=await browser.newContext({reducedMotion:'reduce'});await context.route('https://*.supabase.co/**',fixture.route);
     const page=await context.newPage(),errors=[];page.on('pageerror',error=>errors.push(error.message));
@@ -67,7 +67,7 @@ async function run(){
     fixture.seed('grown_demo','7234ab','A grown-up');
     await page.evaluate(async()=>{await ACCOUNTS.signIn('grown_demo','7234ab');await ACCOUNTS.manage('create-child',{handle:'kid_demo',password:'7234ab',display_name:'A child'});await ACCOUNTS.signOut();});
     await page.goto(url+'/');
-    await page.locator('#child-signin-form [name=handle]').fill('grown_demo');await page.locator('#child-signin-form [name=password]').fill('7234ab');await page.locator('#child-signin-form button').click();
+    await page.locator('#child-signin-form [name=handle]').fill('grown_demo');await page.locator('#child-signin-form [name=password]').fill('7234ab');await page.locator('#child-signin-form button[type=submit]').click();
     await page.waitForFunction(()=>document.body.dataset.homeStep==='layouts');
     assert.equal(await page.evaluate(()=>ACCOUNTS.profile.role),'grownup','One login works for play and administration');
     await page.locator('#change-player').click();
@@ -97,7 +97,7 @@ async function run(){
     const local=await browser.newContext({reducedMotion:'reduce'}),filePage=await local.newPage();
     await local.route(/^https?:/,route=>route.abort());
     await filePage.goto(require('node:url').pathToFileURL(require('node:path').resolve(__dirname,'../index.html')).href);
-    await filePage.locator('#child-signin-form [name=handle]').fill('kid_demo');await filePage.locator('#child-signin-form [name=password]').fill('7234ab');await filePage.locator('#child-signin-form button').click();
+    await filePage.locator('#child-signin-form [name=handle]').fill('kid_demo');await filePage.locator('#child-signin-form [name=password]').fill('7234ab');await filePage.locator('#child-signin-form button[type=submit]').click();
     await filePage.waitForFunction(()=>document.querySelector('#login-status').textContent.includes('web address'));
     assert.match(await filePage.evaluate(async()=>{try{await ACCOUNTS.manage('create-grownup',{handle:'local_signup',password:'7234ab',display_name:'Local'});return 'unexpected account';}catch(error){return error.message;}}),/web address/);
     await filePage.locator('#play-unsaved').click();await filePage.locator('[data-world=silk]').click();await settle(filePage);

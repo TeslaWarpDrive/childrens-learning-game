@@ -161,7 +161,7 @@ function renderRoster() {
     const copy = element('div');
     copy.append(element('strong', child.display_name), element('small', `Login: ${child.handle}`));
     if(A.profile.is_master)copy.append(element('p','Linked to: '+assignment(child.grownups||[]),'assignments'));
-    copy.append(element('small', child.progress ? `${child.progress.snapshot.count} rounds · ${new Set(child.progress.snapshot.rounds.map(r=>r.letter)).size} letters · ${freshness === 'live' ? 'Last activity synced at '+new Date(child.progress.checkedAt).toLocaleString() : 'Last known · offline or connection unavailable'}` : 'Progress unavailable · connection needed'));
+    copy.append(element('small', child.progress ? `${child.progress.snapshot.count} rounds · ${new Set(child.progress.snapshot.rounds.map(r=>r.letter)).size} letters · ${freshness === 'live' ? 'Last activity synced at '+new Date(child.progress.checkedAt).toLocaleString() : 'Last known · connection unavailable'}` : 'Progress unavailable · connection needed'));
     const open = element('button', 'Open progress page', 'quiet-button');
     open.type = 'button'; open.setAttribute('aria-label', `Open ${child.display_name}'s progress page`);
     open.addEventListener('click', async () => {
@@ -216,7 +216,7 @@ async function fetchRoster() {
       freshness = 'offline';
       if(!roster.length)try {roster=JSON.parse(localStorage.getItem(cacheKey(profile.id)))||[];} catch {}
       renderRoster(); render();
-      $('roster-status').textContent = `Last-known data · offline or connection unavailable. ${errorText(error)}`;
+      $('roster-status').textContent = `Last-known data · connection unavailable. ${errorText(error)}`;
     }
   }
 }
@@ -232,7 +232,7 @@ function render() {
     selectedKids.clear();selectedGrownups.clear();
     rosterFor = null; profileFor = null; pictureFor = null; roster = []; rosterVersion++; freshness='checking';
     document.querySelector('.title').textContent = 'Grown-up portal';
-    notice('Sign in to manage your kids.');
+    notice('');
     return;
   }
   const owner = A.owner || profile;

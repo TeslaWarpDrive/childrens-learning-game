@@ -11,8 +11,10 @@
 <script src="../accounts/config.js" defer></script><script src="../accounts/client.js" defer></script><script src="../accounts/navigation.js" defer></script><script src="settings.js" defer></script>
 <script src="../audio-map.js" defer></script>
 <script src="editor.js" defer></script>
+<link rel="stylesheet" href="../accounts/navigation.css">
 </head>
 <body>
+<a class="skip" href="#sheet">Skip to settings</a>
 <div class="page">
   <header class="masthead">
     <div>
@@ -23,6 +25,7 @@
     <a class="quiet-button" id="portal-link" href="../accounts/index.html">Grown-up portal</a>
   </header>
 
+  <p id="settings-loading" class="notice" role="status">Opening game settings…</p>
   <div id="settings" class="settings" hidden>
     <nav class="index" aria-label="Settings sections">
       <ol>
@@ -40,7 +43,6 @@
         <label class="row"><span class="row-text"><strong>Choose children</strong><small>Choose one child or apply a change to several at once.</small></span><input type="radio" name="scope" value="children"></label>
         <fieldset id="settings-children" hidden><legend>Selected children</legend><div id="settings-child-list"></div></fieldset>
         <p id="scope-state" role="status"></p><p id="mixed-summary"></p>
-        <div class="scope-actions"><button id="apply-children" class="solid-button" type="button" hidden>Review changes</button><button id="discard-settings" class="quiet-button" type="button" hidden>Discard changes</button></div>
       </section>
       <p class="intro">Game defaults save as you change them. For children, review and apply your changes below. Settings apply the next time a world opens.</p>
 
@@ -118,6 +120,7 @@
       </section>
 
       <div class="sheet-end">
+        <div class="scope-actions"><button id="apply-children" class="solid-button" type="button" hidden>Review changes</button><button id="discard-settings" class="quiet-button" type="button" hidden>Discard changes</button></div>
         <button type="button" class="quiet-button danger" id="reset">Reset all settings</button>
         <p class="save-status" id="save-status" role="status" aria-live="polite"></p>
       </div>

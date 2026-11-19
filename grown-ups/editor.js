@@ -12,6 +12,7 @@ const G = window.GROWN_UPS, $ = s => document.querySelector(s), $$ = s => [...do
 let sample=null;
 const PRESETS = {all: G.ALL, starter: [...'SATPIN'], vowels: [...'AEIOU']};
 function unlock() {
+  $('#settings-loading').hidden=true;
   $('#settings').hidden=false;
   requestAnimationFrame(()=>{$('#settings').dataset.open='true';});
   document.body.dataset.view='settings';

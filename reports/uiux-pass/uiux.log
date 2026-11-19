@@ -1,0 +1,6 @@
+PASS 320x568: sign-in, errors, guest play, 9 world/theme journeys, accounts, dialogs, settings, role separation
+PASS 390x844: sign-in, errors, guest play, 9 world/theme journeys, accounts, dialogs, settings, role separation
+PASS 768x1024: sign-in, errors, guest play, 9 world/theme journeys, accounts, dialogs, settings, role separation
+PASS 1024x600: sign-in, errors, guest play, 9 world/theme journeys, accounts, dialogs, settings, role separation
+PASS 1366x768: sign-in, errors, guest play, 9 world/theme journeys, accounts, dialogs, settings, role separation
+PASS 1920x1080: sign-in, errors, guest play, 9 world/theme journeys, accounts, dialogs, settings, role separation

@@ -282,3 +282,19 @@ html[data-calm] .lucy-hint,html[data-calm] .lucy-hint-arrow{animation:none!impor
   :root .brand-mark{width:42px;height:42px}
   :root .home .eyebrow{padding:2px 12px;margin-bottom:6px}
 }
+
+/* Touch navigation and readable phone introductions across all worlds. */
+:root body[data-screen] #footer a{display:inline-flex;align-items:center;min-height:44px;padding-block:10px}
+:root #account-strip .account-menu{max-width:calc(100vw - 32px);overflow-wrap:anywhere}
+:root #account-strip .account-menu strong{padding:6px 10px}
+@media(max-width:550px){
+  :root .layout-built[data-screen=home] .post-intro .lead{position:static;font-size:16px;margin:12px 0;max-width:none}
+  :root .layout-built[data-screen=home] .post-intro .lead br{display:none}
+  :root .layout-built[data-screen=home] .post-intro h1{font-size:40px;margin-bottom:0}
+  :root .layout-built[data-screen=home] .route-card p{gap:12px}
+}
+@media(prefers-reduced-motion:reduce){:root button.collection-slot.collected:hover{translate:none}}
+html[data-calm] button.collection-slot.collected:hover{translate:none}
+@media(max-width:360px){
+  :root .layout-built[data-screen=home] .envelopes .pick-caption{font-size:9px;white-space:nowrap}
+}

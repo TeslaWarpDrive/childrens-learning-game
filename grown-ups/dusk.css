@@ -90,3 +90,73 @@ a.solid-button,a.quiet-button,.fill-button{color:inherit}
 @keyframes dusk-sway{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
 @media (prefers-reduced-motion:reduce){body::before{animation:none}.quiet-button:hover,.pill:hover,.auth-signout:hover,.solid-button:hover,.fill-button:hover{translate:none}}
 html[data-calm] body::before{animation:none}
+
+/* Shared spacing and navigation for account pages and game settings. */
+body:has(.auth-signout:not([hidden])) .masthead{padding-top:24px}
+.auth-signout{position:static;flex:none;box-shadow:none}
+.masthead{padding-top:24px;align-items:center;gap:16px}
+.masthead>div:first-child{flex:1 1 320px}
+.masthead .title{font-size:clamp(2rem,4vw,3.4rem);line-height:1.15}
+.masthead .quiet-button{text-decoration:none}
+.sheet{padding:clamp(20px,3vw,36px);min-width:0}
+.sheet>#settings-scope{padding-top:0}
+.sheet .intro{margin-block:24px 0}
+.sheet .group{padding:18px}
+.sheet .notes{padding:16px}
+.sheet .row-text{min-width:0}
+.sheet .range{min-width:0}
+.sheet input[type=range]{min-width:0;width:100%}
+.sheet .sheet-end{margin-top:32px}
+.skip{position:absolute;left:16px;top:-100px;z-index:50;padding:16px;background:var(--sheet);color:var(--ink)}
+.skip:focus{top:16px}
+.portal-views [aria-pressed=true]{background:var(--gold)!important;color:var(--on-accent)!important;border-color:transparent}
+.quiet-button:disabled,button:disabled{cursor:default}
+button:disabled:hover{translate:none}
+#signed-out{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,480px);align-items:center;gap:clamp(28px,6vw,80px);max-width:1100px;margin:24px auto}
+#signed-out .welcome{margin:0;max-width:42ch}
+#signed-out .welcome h2{font-size:clamp(1.8rem,3vw,2.6rem);line-height:1.2}
+#signed-out .welcome p{line-height:1.6}
+#signed-out .welcome .label{color:var(--accent);margin-block:24px 12px}
+.welcome-lucy{display:block;width:144px;height:144px;object-fit:cover;border-radius:50%;border:5px solid #fff7ea;box-shadow:0 0 0 6px rgb(255 211 110/.4)}
+#signed-out .progress-grid{display:block}
+#signed-out .panel{margin:0}
+#signin-form button[type=submit]{width:100%;justify-self:stretch}
+#signin-form .form-result:empty{min-height:0}
+.signin-support{border-top:1px solid var(--line);padding-top:20px;margin:20px 0 0;font-size:.9rem;color:var(--muted);line-height:1.6}
+#my-account{max-width:100%;white-space:normal;text-align:left}
+#identity-title{overflow-wrap:anywhere;min-width:0}
+#kid-batch,#grownup-batch{background:#25174f}
+.children-list input[type=checkbox]{outline-offset:8px}
+.danger:hover{border-color:#ffd0d0!important}
+@media(max-width:959px){
+  .settings{gap:20px}
+  .index{display:block}
+  .index ol{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
+  .index a{display:flex;align-items:center;gap:8px;min-height:44px;padding:8px 14px;border:1px solid var(--line-strong);border-radius:999px;text-decoration:none;font-size:.9rem}
+  .index span{display:none}
+}
+@media(max-width:760px){
+  #signed-out{grid-template-columns:1fr;gap:24px;margin:8px auto;max-width:540px}
+  #signed-out .welcome{display:block}
+  #signed-out .welcome-lucy{float:right;width:72px;height:72px;margin:0 8px 16px 20px}
+  #signed-out .welcome .label{display:none}
+  #signed-out .welcome h2{font-size:1.65rem}
+  #signed-out .welcome p{margin-bottom:0;font-size:1rem}
+  .masthead .fill-button{min-height:48px;font-size:16px;--dot:34px}
+  .masthead .quiet-button{min-height:48px;font-size:16px;padding-inline:16px}
+  .sheet .row{gap:16px}
+  .sheet .row-text{flex-basis:auto}
+}
+@media(prefers-reduced-motion:reduce){.password-toggle{transition:none}}
+html[data-calm] .quiet-button:hover,html[data-calm] .solid-button:hover,html[data-calm] .fill-button:hover{translate:none}
+#signed-out{font-size:clamp(17px,1.35vw,20px)}
+#signed-out .panel{padding:28px}
+#signed-out input{font-size:18px}
+.scope-actions{display:flex;flex-wrap:wrap;gap:12px;width:100%}
+.scope-actions:has(#apply-children[hidden]):has(#discard-settings[hidden]){display:none}
+@media(min-width:761px) and (max-height:800px){
+  #signed-out{margin-block:12px;gap:40px}
+  #signed-out .panel{padding:24px}
+  #signin-form{gap:10px;margin-top:16px}
+  #signed-out .signin-support{padding-top:14px;margin-top:14px}
+}

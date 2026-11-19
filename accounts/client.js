@@ -274,7 +274,13 @@ async function signIn(handle, password, {role} = {}) {
   await ready;
   await syncing;
   if (!/^[a-z0-9][a-z0-9_-]{2,31}$/.test(handle.trim().toLowerCase())) throw new Error('Use your username, with 3 to 32 letters, numbers, underscores or hyphens.');
-  const result = await network('/auth/v1/token?grant_type=password',{method:'POST',body:{email:handle.trim().toLowerCase()+'@accounts.littlewoof.invalid',password}});
+  let result;
+  try { result = await network('/auth/v1/token?grant_type=password',{method:'POST',body:{email:handle.trim().toLowerCase()+'@accounts.littlewoof.invalid',password}}); }
+  catch (error) {
+    if (error.status===400 && /invalid.*credentials/i.test(error.message)) throw new Error('Check your username and password, then try again.');
+    if (error instanceof TypeError) throw new Error('Could not connect. Check your internet connection and try again.');
+    throw error;
+  }
   const profiles = await network('/rest/v1/profiles?id=eq.'+result.user.id+'&select=*',{token:result.access_token});
   if (!profiles.length) throw new Error('This account is not ready. Ask your grown-up for help.');
   if (role && profiles[0].role !== role) throw new Error(role === 'child' ? 'This is a grown-up login. Use Are you a grown-up? below.' : 'This is a child login. Sign in from the game home page.');
@@ -351,7 +357,7 @@ async function sync() {
     if (navigator.onLine && records.some(r=>r.pending && r.user_id===owner?.id)) return sync();
     return;
   }
-  if (!navigator.onLine) { message('Offline. Your play is saved here and will sync when connected.'); return; }
+  if (!navigator.onLine) { message('Connection lost. Reconnect to save your progress to your account.'); return; }
   const account = owner.id, actor = self.id;
   syncing = (async()=>{
     try {

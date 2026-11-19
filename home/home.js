@@ -8,6 +8,7 @@ function openLogin(){
   if(!dialog.matches(':modal')){if(dialog.open)dialog.close();dialog.showModal();}
   again.hidden=!A?.profile;
   if(!again.hidden)again.textContent='Continue as '+A.profile.display_name;
+  document.dispatchEvent(new CustomEvent('home:login'));
 }
 function showLayouts(){
   if(!A?.guest && !A?.session)return openLogin();
@@ -34,7 +35,7 @@ function showLayouts(){
 }
 dialog.addEventListener('cancel',event=>event.preventDefault());
 form.addEventListener('submit',async event=>{
-  event.preventDefault();if(form.getAttribute('aria-busy')==='true')return;form.setAttribute('aria-busy','true');const button=form.querySelector('button');button.disabled=true;status.classList.remove('error');status.textContent='Signing in…';
+  event.preventDefault();if(form.getAttribute('aria-busy')==='true')return;form.setAttribute('aria-busy','true');const button=form.querySelector('button[type=submit]');button.disabled=true;status.classList.remove('error');status.textContent='Signing in…';
   try{await A.signIn(form.elements.handle.value,form.elements.password.value);await A.selectOwner(A.profile);showLayouts();}
   catch(error){status.textContent=error.message;status.classList.add('error');}
   finally{button.disabled=false;form.removeAttribute('aria-busy');form.elements.password.value='';}

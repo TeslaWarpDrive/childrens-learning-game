@@ -3,9 +3,7 @@
 if (location.protocol === 'file:') return;
 const base=new URL('../',document.currentScript.src), A=window.ACCOUNTS;
 const isHome=document.body.dataset.page==='home';
-let offline=document.getElementById('offline-status');
 const isAdmin=location.pathname.includes('/accounts/')||location.pathname.includes('/grown-ups/');
-if(!offline&&isAdmin){offline=document.createElement('p');offline.id='offline-status';offline.setAttribute('role','status');document.querySelector('main')?.append(offline);}
 if(isAdmin){
   const existing=document.getElementById('sign-out');
   const button=existing||document.createElement('button');
@@ -19,9 +17,6 @@ if(isAdmin){
   }
 }
 if(!isHome&&!isAdmin){
-  const style=document.createElement('style');
-  style.textContent=`#account-strip{display:flex;align-items:center;gap:8px;margin-left:auto;font:700 14px/1.3 system-ui,sans-serif}#account-strip summary,#account-strip a,#account-strip button{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:6px 10px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);text-decoration:none;font:inherit;cursor:pointer}#account-strip details{position:relative}#account-strip .account-menu{position:absolute;right:0;top:100%;z-index:20;display:grid;gap:8px;padding:12px;min-width:190px;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px #0003}#account-strip img{width:42px;height:42px;object-fit:cover;border-radius:50%}#account-strip summary{font-size:26px;list-style:none;padding:3px;min-width:50px;min-height:50px}#account-strip [hidden]{display:none!important}#account-strip :focus-visible{outline:3px solid var(--focus);outline-offset:3px}.controls{gap:8px!important}.player-controls{display:flex;align-items:center;gap:8px}`;
-  document.head.append(style);
   const strip=document.createElement('aside');strip.id='account-strip';strip.setAttribute('aria-label','Your account');
   const menu=document.createElement('details'),avatar=document.createElement('summary'),items=document.createElement('div');items.className='account-menu';
   avatar.setAttribute('aria-label','Open your profile');
@@ -32,7 +27,6 @@ if(!isHome&&!isAdmin){
   items.append(name,link,settings,done);menu.append(avatar,items);
   const guestLink=document.createElement('a');guestLink.href=new URL('index.html',base).href;guestLink.textContent='Sign in to save';
   strip.append(menu,guestLink);
-  offline=document.createElement('span');offline.id='offline-status';offline.hidden=true;document.body.append(offline);
   function render(){
     menu.hidden=!A.profile;guestLink.hidden=Boolean(A.profile);
     name.textContent=A.profile?.display_name||'';
@@ -52,29 +46,21 @@ if(!isHome&&!isAdmin){
   done.addEventListener('click',async()=>{done.disabled=true;await A.signOutFrom('game-menu');});
   A.subscribe(render);A.ready.then(render).catch(()=>{});render();
 }
-async function offlineInstalled(registration){
-  // An existing registration can resolve before its update check finishes.
-  if(!registration.installing&&!registration.waiting){
-    try{await registration.update();}
-    catch(error){if(registration.active?.state!=='activated')throw error;}
-  }
-  const worker=registration.installing||registration.waiting||registration.active;
-  await new Promise((resolve,reject)=>{
-    if(!worker){reject(new Error('No offline worker.'));return;}
-    const check=()=>{
-      if(['installed','activating','activated'].includes(worker.state)){
-        worker.removeEventListener('statechange',check);resolve();
-      }else if(worker.state==='redundant'){
-        worker.removeEventListener('statechange',check);reject(new Error('Offline install failed.'));
-      }
-    };
-    worker.addEventListener('statechange',check);check();
-  });
-}
+const connection=document.createElement('p');
+connection.className='connection-notice';connection.setAttribute('role','status');
+connection.textContent='Connection lost. Letters with Lucy needs the internet. Reconnect to continue and save your progress.';
+(isHome?document.querySelector('#login-dialog .panel'):document.querySelector('.app, .page'))?.prepend(connection);
+const showConnection=()=>{
+  if(isHome)(document.body.dataset.homeStep==='layouts'?document.querySelector('main'):document.querySelector('#login-dialog .panel'))?.prepend(connection);
+  connection.hidden=navigator.onLine;
+};
+document.addEventListener('home:layouts',showConnection);
+document.addEventListener('home:login',showConnection);
+window.addEventListener('online',showConnection);window.addEventListener('offline',showConnection);showConnection();
+// Update only this game's old registration so existing devices retire its cache too.
 if('serviceWorker' in navigator){
-  offline.textContent='Saving the games for offline play…';
-  navigator.serviceWorker.register(new URL('sw.js',base),{scope:base.pathname,updateViaCache:'none'})
-    .then(offlineInstalled).then(()=>{offline.textContent='Games ready for offline play.';navigator.storage?.persist?.().catch(()=>{});})
-    .catch(()=>{offline.textContent='Offline copy is not ready. Keep this page online and reload to try again.';});
-}else offline.textContent='This browser needs an internet connection to reopen the games.';
+  navigator.serviceWorker.getRegistration(base.href).then(registration=>{
+    if(registration?.scope===base.href)return registration.update();
+  }).catch(()=>{});
+}
 })();

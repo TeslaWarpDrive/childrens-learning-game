@@ -233,8 +233,6 @@ nav{display:grid;grid-template-columns:repeat(var(--worlds,3),minmax(0,370px));j
 footer{display:flex;justify-content:center;margin-top:24px}
 #change-player{min-height:64px;padding:10px 30px;font-size:20px;color:var(--cream);background:var(--glass);border:1.5px solid rgb(255 255 255/.28);box-shadow:0 16px 34px -18px rgb(0 0 0/.7),inset 0 1px 0 rgb(255 255 255/.14)}
 #change-player:hover{transform:translateY(-2px);border-color:var(--gold);box-shadow:0 0 30px -8px rgb(255 211 110/.55)}
-.offline-status{font-size:14px;line-height:1.5;text-align:center;color:var(--muted);margin:12px 0 0;min-height:1.5em}
-body[data-home-step=login] .offline-status{position:fixed;left:0;right:0;bottom:8px;margin:0;padding:0 16px;font-size:13px}
 noscript{position:relative;z-index:3;display:block;margin:24px auto;max-width:520px;padding:18px 22px;border-radius:20px;background:#2a1655;text-align:center}
 
 /* ---------- Motion ---------- */
@@ -304,7 +302,6 @@ noscript{position:relative;z-index:3;display:block;margin:24px auto;max-width:52
   label{gap:4px}
   .unsaved-choice{gap:6px}
   .unsaved-choice p{font-size:14px}
-  body[data-home-step=login] .offline-status{display:none}
   .welcome h1{font-size:31px}
   #login-help{font-size:17px}
   .panel{border-radius:28px;padding:18px}
@@ -334,7 +331,6 @@ noscript{position:relative;z-index:3;display:block;margin:24px auto;max-width:52
   .go{min-height:46px;padding-block:8px}
   footer{margin-top:18px}
   #change-player{min-height:64px;font-size:20px}
-  .offline-status{margin-top:10px}
   main{padding-bottom:12px}
 }
 @media (max-height:820px) and (orientation:landscape) and (max-width:899px){
@@ -352,3 +348,17 @@ noscript{position:relative;z-index:3;display:block;margin:24px auto;max-width:52
 }
 html[data-calm] *,html[data-calm] *::before,html[data-calm] *::after{animation:none!important;transition:none!important}
 html[data-calm] .world{--lift:0px!important}
+
+/* Keep sign-in choices within reach on phones and short classroom screens. */
+#login-title:focus{outline:none}
+.form-result:empty{min-height:0}
+@media(max-width:600px){
+  dialog:modal{inset:78px 0 12px;max-height:calc(100dvh - 90px)}
+  .welcome{gap:10px}
+  .lucy{--size:78px}
+  .welcome h1{font-size:clamp(25px,7vw,34px)}
+  .panel{padding:18px}
+}
+@media(forced-colors:active){
+  button,.grown,.world,.panel{border:2px solid ButtonText}
+}

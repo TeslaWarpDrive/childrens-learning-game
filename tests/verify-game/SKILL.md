@@ -1,39 +1,28 @@
 ---
 name: verify-game
-description: Drive the Letters with Lucy child-facing Letter Post, Moonboat, and Ribbon Road browser games and verify learning journeys, motion, reduced motion, and offline assets. Use after changes to the games.
+description: Verify the online Letters with Lucy sign-in, accounts, settings, three game worlds, and motion behavior.
 ---
 
 ## Launch
 
-From the repository root, run `NO_SCREENSHOTS=1 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/motion_smoke.cjs`. The harness launches isolated headless Chrome contexts and opens each game's `index.html` with `file://`; no server, package install, seed data, or credentials are needed. The first `PASS v1-letter-post-390-motion` line proves the first complete journey reached a usable reward. Use `PLAYWRIGHT_MODULE` for an existing Playwright install if necessary; the helper also checks the local pnpm installation.
+From the repository root, run `python3 tests/run_tests.py`, then `node tests/uiux_pass.cjs`. The browser helper serves the real site locally and uses an isolated Supabase protocol fixture. It does not contact the live database. Use `PLAYWRIGHT_MODULE` and `CHROMIUM_EXECUTABLE` for an existing Playwright installation and Chromium binary.
 
-## Doctor
-
-Run `python3 tests/run_tests.py` first. This read-only gate checks game assets, content, and existing invariants. If Chrome cannot launch, check `/usr/bin/google-chrome --version` and the harness's Playwright lookup before changing app code.
+Letters with Lucy is online-only. Do not treat offline caching or local-file play as product requirements. Historical reports and offline tests describe the retired implementation.
 
 ## Drive
 
-The feature map is [features/README.md](features/README.md). The motion helper drives both games at phone, tablet, and whiteboard sizes, with normal and reduced motion, through actual letter, replay, choice, reward, next, and Escape interactions. It toggles the real mute button for fast journeys; it does not stub learning state or audio. Run the broader existing journey too: `NO_SCREENSHOTS=1 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/browser_smoke.cjs`.
+`tests/uiux_pass.cjs` checks 320×568, 390×844, 768×1024, 1024×600, 1366×768, and 1920×1080. It drives both sign-in forms, errors, password visibility, the world picker, all three worlds in all three themes, hints, rewards, next and Escape, kids, grown-ups, profiles, destructive-action cancellation, settings review and saving, and role restrictions. Screenshots and `results.json` go to `/tmp/lwl-uiux-review`, or `UIUX_REPORT_DIR`. Set `NO_SCREENSHOTS=1` to omit screenshots.
 
-For focused investigation, reuse the helper's Playwright setup and `pathToFileURL` entry points. Use `[data-letter="B"]`, `.listen-letter`, `[data-action="match"]`, `[data-answer="B"]`, `[data-action="reward-replay"]`, and `[data-action="next"]`; await `document.body.dataset.screen` rather than a fixed delay. Do not call internal route or reward setters to claim a passing user journey.
+Run `node tests/home_flow.cjs` for the focused home and guest-isolation journey. Run `node tests/online_retirement.cjs` to install the actual old worker from commit `114906d` and verify its removal at `/letterswithlucy/`. It checks that an active round stays open, unrelated caches remain, and account storage is preserved.
+
+For detailed motion checks, run `NO_SCREENSHOTS=1 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/motion_smoke.cjs`. This isolates rendering with file URLs and checks real button interactions, normal motion, reduced motion, and live preference changes. File URLs here are a test mechanism, not an offline feature. `node tests/runtime_smoke.cjs` covers 234 letter/theme rounds with browser APIs stubbed. Neither test establishes live backend correctness.
 
 ## Evidence
 
-Set `NO_SCREENSHOTS=1` for every existing browser helper when screenshots are prohibited. The same interactions and assertions still run. Screenshot paths below apply only to runs that permit capture.
+Read the feature map in [features/README.md](features/README.md). Use the actual buttons and resulting screens. Do not call internal route or reward setters as evidence of a passing journey.
 
-Motion screenshots survive in `/tmp/lpmb-motion-shots/`, with game, viewport, preference, and screen in the filename. Broader screenshots survive in `/tmp/lpmb-shots/`. Keep the command's exit code and PASS output with the screenshots. A proof covers the actual actions and resulting state: collection count, wrong-choice feedback, route cancellation, animation keyframes, reduced-motion cancellation, page errors, and horizontal overflow. Both helpers reject HTTP(S); the motion helper also fails if any such request was attempted. This proves local runtime assets work without network access; it does not claim service-worker installation on a hosted origin.
+The UI check asserts viewport fit, loaded pictures, password state, error recovery, touch targets, hint behavior, settings saved through the account fixture, and page errors. Inspect the screenshots as well as the exit status. `tests/accounts_sync.cjs --live` changes real accounts and is a separate backend verification task. Do not run it merely to check appearance.
 
 ## Cleanup
 
-Both helpers close their own contexts and browser in `finally`, including failed iterations. No persistent profile or server is created. If manually driving, close the browser instance you launched. Never kill processes by name. Keep screenshots and failure reports after cleanup; verify `test -f /tmp/lpmb-motion-shots/v1-letter-post-390-motion-home.png`.
-
-## Helpers
-
-Invoke the JavaScript helpers with `node` using the commands above; they do not require executable permissions. Maintain this feature map alongside UI changes; `/maintain-verification-skill` provides the maintenance workflow. This skill lives under `tests/verify-game/` and is loaded by its explicit path.
-
-For Ribbon Road, run `NO_SCREENSHOTS=1 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/silk_smoke.cjs`. For continuous confetti in all worlds, run `NO_SCREENSHOTS=1 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/confetti_smoke.cjs`. Check paper remains visible across multiple fall cycles and replay, then disappears on navigation or a live reduced-motion change.
-
-
-## Accounts
-
-Read [accounts](features/accounts.md) for hosted login, linked-child settings, lasting progress, offline reload and two-profile sync. `accounts_sync.cjs --live` is required to claim real Supabase verification. The default transport is a local fixture and its output is labelled accordingly.
+The browser helpers close their contexts, browser, and HTTP server in `finally`. Keep screenshots and failure reports for review. Stop only servers or tunnels started for this task.
